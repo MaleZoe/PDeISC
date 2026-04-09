@@ -8,10 +8,18 @@ const server = http.createServer((req, res) => {
     <html>
         <head>
             <style>
-                table { border-collapse: collapse; width: 50%; margin: 20px auto; font-family: Arial; }
-                th, td { border: 1px solid #333; padding: 12px; text-align: center; }
-                th { background-color: #f4f4f4; }
-                h1 { text-align: center; color: #2c3e50; }
+                table { 
+                border-collapse: collapse; width: 50%; margin: 20px auto; font-family: Arial;
+                }
+                th, td {
+                border: 1px solid #333; padding: 12px; text-align: center; 
+                }
+                th { 
+                background-color: #f4f4f4; 
+                }
+                h1 { 
+                text-align: center; color: #2c3e50;
+                }
             </style>
         </head>
         <body>
