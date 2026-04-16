@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telefe Clima - Inicio</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Estilos Personalizados Telefe -->
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <menu-placeholder></menu-placeholder>
+
+  <header class="hero-section text-center">
+    <div class="container">
+      <div class="d-flex justify-content-center mb-3">
+        <div style="width: 25px; height: 25px; background: #005595; border-radius: 50%; margin: 0 5px;"></div>
+        <div style="width: 25px; height: 25px; background: #00A650; border-radius: 50%; margin: 0 5px;"></div>
+        <div style="width: 25px; height: 25px; background: #ED1C24; border-radius: 50%; margin: 0 5px;"></div>
+      </div>
+      <h1 class="display-4 fw-bold text-dark mb-3">TELEFE CLIMA</h1>
+      <p class="lead text-muted">La información meteorológica más precisa de la Argentina.</p>
+      <div class="alert alert-info d-inline-block mt-3" role="alert">
+        <strong>Cálculo del Sistema:</strong> {{MATH_CALCULATION}}
+      </div>
+    </div>
+  </header>
+
+  <main class="container my-5">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card telefe-card p-4 text-center h-100">
+          <div class="card-body">
+            <h5 class="fw-bold text-blue mb-3">TEMPERATURA</h5>
+            <p class="display-5 fw-bold mb-0">{{CURRENT_TEMP}}</p>
+            <p class="text-muted">CABA y Alrededores</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card telefe-card p-4 text-center h-100">
+          <div class="card-body">
+            <h5 class="fw-bold text-success mb-3">HUMEDAD</h5>
+            <p class="display-5 fw-bold mb-0">{{CURRENT_HUMIDITY}}</p>
+            <p class="text-muted">Viento del {{WIND_DIRECTION}} a {{WIND_SPEED}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card telefe-card p-4 text-center h-100">
+          <div class="card-body">
+            <h5 class="fw-bold text-danger mb-3">PRESIÓN</h5>
+            <p class="display-5 fw-bold mb-0">{{CURRENT_PRESSURE}}</p>
+            <p class="text-muted">En continuo ascenso</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="py-4 text-center border-top bg-white">
+    <div class="container">
+      <p class="mb-0 text-muted">&copy; 2026 Telefe Noticias - Todos los derechos reservados.</p>
+      <p class="small text-secondary" id="server-time-footer">{{SERVER_TIME}}</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
