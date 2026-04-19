@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicio 3 - NodeJS Practico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="/Styles/style.css">
+</head>
+<body>
+  <div class="grid-overlay"></div>
+
+  
+    <header class="site-header">
+      <nav class="navbar navbar-expand-lg navbar-custom container">
+        <div class="container-fluid px-0">
+          <a class="navbar-brand brand-custom" href="/">NJS<span class="brand-dot">.</span></a>
+          <button class="navbar-toggler toggler-custom" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false" aria-label="Abrir menu">
+            <i class="bi bi-list"></i>
+          </button>
+          <div class="collapse navbar-collapse mt-3 mt-lg-0" id="menuPrincipal">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+              
+      <li class="nav-item">
+        <a class="nav-link nav-link-custom" href="/">
+          <i class="bi bi-house-fill me-1"></i>
+          <span>Inicio</span>
+        </a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link nav-link-custom" href="/calculo">
+          <i class="bi bi-calculator-fill me-1"></i>
+          <span>Ejercicio 1</span>
+        </a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link nav-link-custom" href="/archivos">
+          <i class="bi bi-folder-fill me-1"></i>
+          <span>Ejercicio 2</span>
+        </a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link nav-link-custom nav-link-activo" href="/url">
+          <i class="bi bi-link-45deg me-1"></i>
+          <span>Ejercicio 3</span>
+        </a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link nav-link-custom" href="/npm">
+          <i class="bi bi-box-fill me-1"></i>
+          <span>Ejercicio 4</span>
+        </a>
+      </li>
+    
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+  
+
+  <main class="pagina container py-5 mt-5">
+    
+    <div class="page-header mb-5">
+      <span class="tag-chip">Ejercicio 3</span>
+      <h1 class="page-title mt-2">Modulo <em>URL</em></h1>
+      <p class="page-sub">
+        El modulo analiza la URL con <code>new URL()</code> y muestra todos sus componentes en pagina y en consola.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-12 col-lg-8">
+        <div class="bloque-panel">
+          <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+            <div>
+              <span class="tag-chip">url.js</span>
+              <h2 class="bloque-titulo mt-2">Desglose completo</h2>
+            </div>
+          </div>
+          <div class="url-pill mb-4">https://www.nike.com.ar/mas-vendidos?gad_campaignid=19954478100&initialMap=productClusterIds&initialQuery=139&map=productClusterIds,tipo-de-producto,productclusternames&query=/139/botines/mas-vendidos&searchState</div>
+          <div class="table-responsive">
+            <table class="table tabla-ui align-middle mb-0">
+              <tbody>
+                
+    <tr>
+      <td><code>href</code></td>
+      <td class="text-break">https://www.nike.com.ar/mas-vendidos?gad_campaignid=19954478100&initialMap=productClusterIds&initialQuery=139&map=productClusterIds,tipo-de-producto,productclusternames&query=/139/botines/mas-vendidos&searchState</td>
+    </tr>
+  
+    <tr>
+      <td><code>protocol</code></td>
+      <td class="text-break">https:</td>
+    </tr>
+  
+    <tr>
+      <td><code>host</code></td>
+      <td class="text-break">www.nike.com.ar</td>
+    </tr>
+  
+    <tr>
+      <td><code>hostname</code></td>
+      <td class="text-break">www.nike.com.ar</td>
+    </tr>
+  
+    <tr>
+      <td><code>port</code></td>
+      <td class="text-break">(por defecto)</td>
+    </tr>
+  
+    <tr>
+      <td><code>pathname</code></td>
+      <td class="text-break">/mas-vendidos</td>
+    </tr>
+  
+    <tr>
+      <td><code>search</code></td>
+      <td class="text-break">?gad_campaignid=19954478100&initialMap=productClusterIds&initialQuery=139&map=productClusterIds,tipo-de-producto,productclusternames&query=/139/botines/mas-vendidos&searchState</td>
+    </tr>
+  
+    <tr>
+      <td><code>hash</code></td>
+      <td class="text-break">(sin hash)</td>
+    </tr>
+  
+    <tr>
+      <td><code>origin</code></td>
+      <td class="text-break">https://www.nike.com.ar</td>
+    </tr>
+  
+                
+      <tr>
+        <td><code class="text-warning">param: gad_campaignid</code></td>
+        <td class="text-break">19954478100</td>
+      </tr>
+    
+      <tr>
+        <td><code class="text-warning">param: initialMap</code></td>
+        <td class="text-break">productClusterIds</td>
+      </tr>
+    
+      <tr>
+        <td><code class="text-warning">param: initialQuery</code></td>
+        <td class="text-break">139</td>
+      </tr>
+    
+      <tr>
+        <td><code class="text-warning">param: map</code></td>
+        <td class="text-break">productClusterIds,tipo-de-producto,productclusternames</td>
+      </tr>
+    
+      <tr>
+        <td><code class="text-warning">param: query</code></td>
+        <td class="text-break">/139/botines/mas-vendidos</td>
+      </tr>
+    
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-4">
+        <div class="op-card op-card--azul h-100">
+          <div class="op-card__top mb-3">
+            <span class="op-label">Consola</span>
+            <i class="bi bi-terminal-fill op-icon"></i>
+          </div>
+          <h2 class="bloque-titulo mb-3">Salida de terminal</h2>
+          <p class="bloque-texto mb-4">Al arrancar el servidor, <code>analizarURL()</code> imprime host, pathname, protocolo y parametros via <code>console.log()</code>.</p>
+          <div class="dato-lista">
+            <div class="dato-fila"><span>API usada</span><strong>new URL()</strong></div>
+            <div class="dato-fila"><span>Salida</span><strong>console.log()</strong></div>
+            <div class="dato-fila"><span>Modulo</span><strong>Modules/ejercicio3/url.js</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </main>
+
+  <footer class="footer-wrap container pb-4">
+    <div class="footer-inner">
+      <div class="footer-logo">NJS<span>.</span></div>
+      <p class="footer-sub">Proyecto Node.js — Modulos nativos y NPM en accion.</p>
+      <div class="footer-meta">Estructura: Pages / Styles / Modules</div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
