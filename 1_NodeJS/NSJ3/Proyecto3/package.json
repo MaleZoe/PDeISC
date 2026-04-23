@@ -1,0 +1,20 @@
+{
+  "name": "proyecto-3",
+  "version": "1.0.0",
+  "description": "NJS3 - Proyecto 3: Inspector de Nodos DOM",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "dom",
+    "inspector"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

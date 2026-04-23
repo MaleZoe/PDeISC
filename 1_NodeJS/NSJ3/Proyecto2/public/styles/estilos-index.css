@@ -1,0 +1,23 @@
+/* Estilos exclusivos del dashboard y grid de tarjetas */
+.card-navegacion {
+  border-radius: var(--radio-borde);
+  will-change: transform, box-shadow;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+}
+
+.card-navegacion:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.4) !important;
+}
+
+.card-navegacion .display-1 {
+  margin-bottom: 20px;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+}
+
+@media (max-width: 576px) {
+  header.container {
+    margin-top: 2rem !important;
+  }
+}

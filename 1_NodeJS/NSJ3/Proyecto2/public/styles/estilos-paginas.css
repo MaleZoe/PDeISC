@@ -1,0 +1,99 @@
+/* Panel del Terminal de Registro */
+.panel-consola {
+  background-color: #121212;
+  font-family: var(--fuente-mono);
+  font-size: 0.9rem;
+  max-height: 220px;
+  overflow-y: auto;
+  border-radius: 0 0 var(--radio-borde) var(--radio-borde);
+  border-top: 1px solid var(--color-borde);
+}
+
+/* Área interactiva general y en especial mouse */
+#areaDemo {
+  min-height: 280px;
+  transition: background-color 0.3s ease, border-color 0.3s, transform 0.2s ease;
+}
+
+.area-mouse {
+  background-color: var(--color-superficie);
+  border: 2px dashed var(--color-secundario);
+  cursor: crosshair;
+}
+
+/* Badge de mouse en vivo */
+#coordsBadge { pointer-events: none; }
+
+/* Punto al hacer doble click */
+.punto-click {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background-color: var(--color-primario);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: pulse 0.8s ease-out;
+}
+
+/* Formulario: utilidades de validación */
+.form-title { transition: color 0.3s; }
+.campo-valido { border-color: var(--color-exito) !important; box-shadow: 0 0 0 .25rem rgba(0, 230, 118, .25); }
+.campo-error { border-color: var(--color-error) !important; animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+.foco-activo { color: var(--color-secundario) !important; font-weight: bold; }
+
+/* Ventana */
+.barra-scroll {
+  height: 4px;
+  background-color: var(--color-primario);
+  width: 0%;
+  transition: width 0.1s ease-out;
+  z-index: 1050;
+}
+
+#fabBtn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1040;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+/* Tiempo: Anillo de visualización simulado con borde */
+.cuenta-anillo {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 8px solid var(--color-secundario);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: border-color 0.5s ease;
+}
+
+.flash-tiempo {
+  animation: errorPulse 0.5s ease 3 repeated;
+  border-color: var(--color-error) !important;
+}
+
+/* Listas del cronómetro */
+#listaVueltas li { background-color: var(--color-fondo); color: var(--texto-mutado); border-color: var(--color-borde); }
+
+/* Animaciones reusadas */
+@keyframes shake {
+  10%, 90% { transform: translate3d(-2px, 0, 0); }
+  20%, 80% { transform: translate3d(4px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+  40%, 60% { transform: translate3d(6px, 0, 0); }
+}
+
+@keyframes pulse {
+  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
+}
+
+@keyframes errorPulse {
+  0% { background-color: rgba(255, 23, 68, 0.2); }
+  50% { background-color: rgba(255, 23, 68, 0.6); }
+  100% { background-color: transparent; }
+}

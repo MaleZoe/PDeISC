@@ -1,0 +1,20 @@
+{
+  "name": "proyecto-4",
+  "version": "1.0.0",
+  "description": "NJS3 - Proyecto 4: Creación Dinámica y Auditoría",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "dom",
+    "mutation"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

@@ -1,0 +1,77 @@
+:root {
+  /* Paleta */
+  --color-fondo: #f8f7f4;
+  --color-superficie: #ffffff;
+  --color-superficie-oscura: #1e1e2e;
+  --color-borde: #e2ddd8;
+  --color-texto-primario: #1a1a2e;
+  --color-texto-muted: #8b8590;
+
+  /* Acentos */
+  --color-acumulacion: #16a34a;
+  --color-reemplazo: #d97706;
+  --color-acento: #6366f1;
+  --color-peligro: #dc2626;
+
+  /* Syntax highlight */
+  --hl-tag: #3b82f6;
+  --hl-atributo: #16a34a;
+  --hl-valor: #d97706;
+  --hl-texto: #cbd5e1;
+
+  /* Tipografía */
+  --fuente-display: 'Outfit', sans-serif;
+  --fuente-mono: 'Fira Code', 'Courier New', monospace;
+
+  /* Espaciado y radios */
+  --radio-sm: 4px;
+  --radio-md: 8px;
+  --radio-lg: 14px;
+  --radio-xl: 20px;
+}
+
+body {
+  background-color: var(--color-fondo);
+  color: var(--color-texto-primario);
+  font-family: var(--fuente-display);
+}
+
+.oculto {
+  display: none !important;
+}
+
+.btn-confirmando {
+  background-color: var(--color-reemplazo) !important;
+  border-color: var(--color-reemplazo) !important;
+  color: white !important;
+}
+
+.chip-historial {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  animation: entradaChip 0.25s ease;
+}
+
+.chip-acumulacion {
+  background: color-mix(in srgb, var(--color-acumulacion) 15%, transparent);
+  color: var(--color-acumulacion);
+}
+
+.chip-reemplazo {
+  background: color-mix(in srgb, var(--color-reemplazo) 15%, transparent);
+  color: var(--color-reemplazo);
+}
+
+@keyframes entradaChip {
+  from { opacity: 0; transform: translateX(12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.navbar {
+  font-family: var(--fuente-display);
+}

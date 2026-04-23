@@ -1,0 +1,46 @@
+/* public/styles/estilos-globales.css */
+:root {
+    --color-fondo: #0f1117;
+    --color-superficie: #1a1d2e;
+    --color-borde: #2e3250;
+    --color-texto-primario: #e2e8f0;
+    --color-texto-muted: #64748b;
+    --color-buscador: #3b82f6;
+    --color-enciclopedia: #8b5cf6;
+    --color-codigo: #22c55e;
+    --color-video: #ef4444;
+    --color-noticia: #f59e0b;
+    --color-creacion: #22c55e;
+    --color-mutacion: #f59e0b;
+    --color-advertencia: #ef4444;
+    --fuente-display: 'Space Grotesk', sans-serif;
+    --fuente-mono: 'Fira Code', monospace;
+    --radio-sm: 4px;
+    --radio-md: 8px;
+    --radio-lg: 12px;
+}
+
+body {
+    background-color: var(--color-fondo);
+    color: var(--color-texto-primario);
+    font-family: var(--fuente-display);
+    min-height: 100vh;
+}
+
+.brand-display {
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-family: var(--fuente-display);
+}
+
+.btn-volver {
+    text-decoration: none;
+    color: var(--color-buscador);
+    font-weight: 500;
+    transition: transform 0.2s;
+    display: inline-block;
+}
+
+.btn-volver:hover {
+    transform: translateX(-5px);
+}

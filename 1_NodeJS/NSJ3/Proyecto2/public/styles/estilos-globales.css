@@ -1,0 +1,58 @@
+:root {
+  --fuente-principal: 'Outfit', sans-serif;
+  --fuente-mono: 'Fira Code', 'Courier New', monospace;
+  --color-fondo: #1a1a1a;
+  --color-superficie: #2d2d2d;
+  --color-primario: #bb86fc;
+  --color-secundario: #03dac6;
+  --color-exito: #00e676;
+  --color-advertencia: #ffea00;
+  --color-error: #ff1744;
+  --texto-primario: #ffffff;
+  --texto-mutado: #e0e0e0;
+  --color-borde: #444444;
+  --radio-borde: 8px;
+}
+
+body {
+  background-color: var(--color-fondo);
+  color: var(--texto-primario);
+  font-family: var(--fuente-principal);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  font-weight: 600;
+}
+
+.font-mono { font-family: var(--fuente-mono) !important; }
+.bg-superficie { background-color: var(--color-superficie) !important; }
+.texto-primario { color: var(--color-primario) !important; }
+.texto-secundario { color: var(--color-secundario) !important; }
+.bg-primario { background-color: var(--color-primario) !important; }
+.bg-secundario { background-color: var(--color-secundario) !important; }
+.text-muted { color: var(--texto-mutado) !important; }
+.btn-primario { background-color: var(--color-primario); color: #000; border: none; }
+.btn-primario:hover { background-color: #d1b3ff; }
+.btn-acento { background-color: var(--color-secundario); color: #000; font-weight: bold; }
+.btn-acento:hover { background-color: #3bfaf0; color: #000; }
+.btn-volver { background-color: transparent; color: var(--texto-mutado); border: 1px solid var(--color-borde); }
+.btn-volver:hover { background-color: var(--color-superficie); color: var(--texto-primario); }
+.border-secondary { border-color: var(--color-borde) !important; }
+
+
+.fadeIn {
+  animation: fadeInBase 0.5s ease forwards;
+}
+
+@keyframes fadeInBase {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+.toast-personalizado {
+  background-color: var(--color-superficie);
+  color: var(--texto-primario);
+  border-left: 5px solid var(--color-primario);
+}

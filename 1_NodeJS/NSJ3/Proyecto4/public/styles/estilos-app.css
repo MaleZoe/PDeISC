@@ -1,0 +1,131 @@
+/* public/styles/estilos-app.css */
+.layout-tres-columnas {
+    display: grid;
+    grid-template-columns: 260px 1fr 320px;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+@media (max-width: 1200px) {
+    .layout-tres-columnas { grid-template-columns: 1fr 320px; }
+}
+
+@media (max-width: 992px) {
+    .layout-tres-columnas { grid-template-columns: 1fr; }
+}
+
+.titulo-seccion {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--color-texto-muted);
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--color-borde);
+    padding-bottom: 0.5rem;
+}
+
+/* Cards de Nodos */
+.grid-nodos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.tarjeta-nodo {
+    background: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-lg);
+    padding: 1.25rem;
+    position: relative;
+    border-left: 5px solid var(--color-texto-muted);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tarjeta-nodo.entrada-nodo { animation: aparecerNodo 0.4s ease; }
+@keyframes aparecerNodo {
+    from { opacity: 0; transform: translateY(16px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.tarjeta-nodo.ya-existe { animation: sacudir 0.5s ease; }
+@keyframes sacudir {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.nodo-buscador { border-left-color: var(--color-buscador); }
+.nodo-enciclopedia { border-left-color: var(--color-enciclopedia); }
+.nodo-codigo { border-left-color: var(--color-codigo); }
+.nodo-video { border-left-color: var(--color-video); }
+.nodo-noticia { border-left-color: var(--color-noticia); }
+.nodo-destacado { box-shadow: 0 0 15px var(--color-video); border-width: 2px; }
+
+.enlace-vivo {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+.enlace-vivo:hover { text-decoration: underline; }
+
+.tabla-atributos {
+    width: 100%;
+    font-family: var(--fuente-mono);
+    font-size: 0.75rem;
+    color: var(--color-texto-muted);
+}
+
+.attr-badge {
+    background: #000;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--color-texto-primario);
+}
+
+.badge-actualizado { animation: flashBadge 0.8s ease; }
+@keyframes flashBadge {
+    0% { background-color: var(--color-mutacion); color: #000; }
+    100% { background-color: #000; }
+}
+
+/* Auditoría */
+.log-container {
+    background: #000;
+    border-radius: var(--radio-md);
+    padding: 1rem;
+    height: 600px;
+    overflow-y: auto;
+    font-family: var(--fuente-mono);
+}
+
+.entrada-log {
+    border-left: 3px solid transparent;
+    padding: 0.5rem;
+    margin-bottom: 0.75rem;
+    background: #111;
+    font-size: 0.75rem;
+    animation: entradaLog 0.3s ease;
+}
+
+@keyframes entradaLog {
+    from { opacity: 0; transform: translateX(10px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.entrada-log.creacion { border-color: var(--color-creacion); }
+.entrada-log.mutacion { border-color: var(--color-mutacion); }
+.entrada-log.advertencia { border-color: var(--color-advertencia); }
+
+.valor-anterior { text-decoration: line-through; color: var(--color-advertencia); }
+.valor-nuevo { color: var(--color-creacion); font-weight: bold; }
+
+.badge-atributo {
+    display: block;
+    font-size: 0.65rem;
+    color: var(--color-texto-muted);
+    font-family: var(--fuente-mono);
+}

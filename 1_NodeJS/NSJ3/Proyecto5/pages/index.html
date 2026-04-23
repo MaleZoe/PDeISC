@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NJS3 — Proyecto 5</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/public/styles/estilos-globales.css">
+  <link rel="stylesheet" href="/public/styles/estilos-app.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">NJS3 — Proyecto 5</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+     
+    </div>
+  </nav>
+
+  <main class="container-fluid px-4 layout-principal">
+    
+
+    <aside class="panel-objetos">
+      <div class="seccion-panel">
+        <h6>Objetos HTML</h6>
+        <div class="d-grid gap-2">
+          <button class="btn btn-outline-secondary text-start" onclick="window.Inyector.inyectar('tarjeta')">
+            👤 Agregar Tarjeta
+          </button>
+          <button class="btn btn-outline-secondary text-start" onclick="window.Inyector.inyectar('tabla')">
+            📊 Agregar Tabla
+          </button>
+          <button class="btn btn-outline-secondary text-start" onclick="window.Inyector.inyectar('formulario')">
+            📋 Agregar Formulario
+          </button>
+          <button class="btn btn-outline-secondary text-start" onclick="window.Inyector.inyectar('galeria')">
+            🖼️ Agregar Galería
+          </button>
+          <button class="btn btn-outline-secondary text-start" onclick="window.Inyector.inyectar('lista')">
+            ✅ Agregar Lista
+          </button>
+          <button class="btn btn-outline-secondary text-start" onclick="window.Inyector.inyectar('articulo')">
+            📰 Agregar Artículo
+          </button>
+          <button class="btn btn-outline-secondary text-start" onclick="window.Inyector.inyectar('estadisticas')">
+            📈 Agregar Estadísticas
+          </button>
+        </div>
+      </div>
+
+      <div class="seccion-panel">
+        <h6>Alertas</h6>
+        <div class="d-grid gap-2">
+          <button class="btn btn-outline-info text-start" onclick="window.Inyector.inyectar('alerta', {tipo: 'info'})">🔵 Alerta Informativa</button>
+          <button class="btn btn-outline-success text-start" onclick="window.Inyector.inyectar('alerta', {tipo: 'exito'})">✅ Alerta de Éxito</button>
+          <button class="btn btn-outline-warning text-start" onclick="window.Inyector.inyectar('alerta', {tipo: 'advertencia'})">⚠️ Alerta de Advertencia</button>
+          <button class="btn btn-outline-danger text-start" onclick="window.Inyector.inyectar('alerta', {tipo: 'error'})">❌ Alerta de Error</button>
+        </div>
+      </div>
+
+      <div class="seccion-panel">
+        <h6>Acciones</h6>
+        <div class="d-grid gap-2">
+          <button id="btnLimpiarCanvas" class="btn btn-outline-dark">Limpiar canvas</button>
+        </div>
+      </div>
+    </aside>
+
+
+    <section class="d-flex flex-column gap-3">
+      <div id="canvasInyeccion" class="canvas-inyeccion">
+        <div id="placeholderCanvas" class="placeholder-canvas">
+          <span class="placeholder-icono">🎨</span>
+          <p>El canvas está vacío.</p>
+          <p>Seleccioná un objeto del panel izquierdo para inyectarlo vía <code>innerHTML</code>.</p>
+        </div>
+      </div>
+      <div class="fila-contador d-flex justify-content-between align-items-center px-2">
+        <span>Objetos inyectados: <strong id="contadorInyecciones">0</strong></span>
+      </div>
+    </section>
+
+ 
+    <aside class="panel-visor">
+      <div class="visor-header">
+        <span class="visor-titulo">innerHTML en vivo</span>
+        <button id="btnCopiar">[ Copiar ]</button>
+      </div>
+      <div id="visorCodigo" class="visor-codigo">
+        <span class="visor-vacio">// El canvas está vacío...</span>
+      </div>
+    </aside>
+
+  </main>
+
+  <script src="/scripts/navbar.js" defer></script>
+  <script src="/scripts/plantillas.js" defer></script>
+  <script src="/scripts/visor.js" defer></script>
+  <script src="/scripts/inyector.js" defer></script>
+</body>
+</html>

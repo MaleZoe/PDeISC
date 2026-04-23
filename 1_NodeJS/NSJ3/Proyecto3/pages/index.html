@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NJS3 — Proyecto 3 | Dashboard</title>
+
+    <link rel="stylesheet" href="/public/styles/estilos-globales.css">
+    <link rel="stylesheet" href="/public/styles/estilos-index.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="brand">NJS3 — Proyecto 3</a>
+            <nav id="menu">
+                <a href="/" class="nav-link active">Inicio</a>
+                <a href="/mouse" class="nav-link">Mouse</a>
+                <a href="/teclado" class="nav-link">Teclado</a>
+                <a href="/formulario" class="nav-link">Formulario</a>
+                <a href="/ventana" class="nav-link">Ventana</a>
+                <a href="/tiempo" class="nav-link">Tiempo</a>
+            </nav>
+            <button id="hamburger" class="hamburger-btn">☰</button>
+        </div>
+    </header>
+
+    <main class="hero">
+        <div class="hero-content">
+            <h1>Explorador de Eventos y Contador de Hijos</h1>
+            <p class="subtitle">Este proyecto extiende las demostraciones de eventos permitiendo contar los hijos directos de cualquier elemento mediante un clic.</p>
+        </div>
+
+        <section class="cards-grid">
+
+            <a href="/mouse" class="card">
+                <div class="card-icon">🖱️</div>
+                <h3>Eventos de Mouse</h3>
+                <p>Monitorea clics, movimientos y coordenadas en pantalla.</p>
+                <div class="badges">
+                    <span class="badge">Eventos</span>
+                    <span class="badge badge-plus">+ Contador de Hijos</span>
+                </div>
+            </a>
+
+
+            <a href="/teclado" class="card">
+                <div class="card-icon">⌨️</div>
+                <h3>Eventos de Teclado</h3>
+                <p>Captura pulsaciones de teclas y códigos de caracteres.</p>
+                <div class="badges">
+                    <span class="badge">Eventos</span>
+                    <span class="badge badge-plus">+ Contador de Hijos</span>
+                </div>
+            </a>
+
+
+            <a href="/formulario" class="card">
+                <div class="card-icon">📝</div>
+                <h3>Eventos de Formulario</h3>
+                <p>Validación y seguimiento de cambios en inputs.</p>
+                <div class="badges">
+                    <span class="badge">Eventos</span>
+                    <span class="badge badge-plus">+ Contador de Hijos</span>
+                </div>
+            </a>
+
+
+            <a href="/ventana" class="card">
+                <div class="card-icon">🪟</div>
+                <h3>Eventos de Ventana</h3>
+                <p>Detección de redimensionamiento y desplazamiento.</p>
+                <div class="badges">
+                    <span class="badge">Eventos</span>
+                    <span class="badge badge-plus">+ Contador de Hijos</span>
+                </div>
+            </a>
+
+
+            <a href="/tiempo" class="card">
+                <div class="card-icon">⏱️</div>
+                <h3>Eventos de Tiempo</h3>
+                <p>Control de intervalos, retardos y temporizadores.</p>
+                <div class="badges">
+                    <span class="badge">Eventos</span>
+                    <span class="badge badge-plus">+ Contador de Hijos</span>
+                </div>
+            </a>
+        </section>
+    </main>
+
+
+    <script src="/scripts/navbar.js" defer></script>
+</body>
+</html>

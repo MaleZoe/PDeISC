@@ -1,0 +1,158 @@
+/* Layout de dos columnas */
+.layout-formulario-perfil {
+  display: grid;
+  grid-template-columns: 58% 42%;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 992px) {
+  .layout-formulario-perfil { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  .layout-formulario-perfil { grid-template-columns: 1fr; }
+}
+
+/* Columna del perfil pegajosa */
+.columna-perfil {
+  position: sticky;
+  top: 1rem;
+}
+
+/* Estado vacío */
+.estado-vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  text-align: center;
+  color: var(--color-texto-muted);
+  gap: 0.75rem;
+  background: var(--color-superficie);
+  border: 1px dashed var(--color-borde);
+  border-radius: var(--radio-xl);
+  padding: 2rem;
+}
+.estado-vacio-icono { font-size: 3.5rem; opacity: 0.3; }
+
+/* Tarjeta de perfil */
+.tarjeta-perfil {
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-xl);
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  animation: subirFadeIn 0.45s ease;
+}
+
+/* Encabezado de la tarjeta */
+.perfil-header {
+  background: linear-gradient(135deg, var(--color-acento), var(--color-acento-hover));
+  padding: 2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  color: #fff;
+}
+
+/* Avatar */
+.perfil-avatar {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+}
+
+.perfil-avatar img,
+.avatar-iniciales {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.5);
+  object-fit: cover;
+}
+
+.avatar-iniciales {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+  font-family: var(--fuente-mono);
+}
+
+/* Info principal */
+.perfil-info-basica {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.perfil-nombre { font-size: 1.3rem; font-weight: 700; margin: 0; }
+.perfil-usuario { font-size: 0.9rem; opacity: 0.85; margin: 0; font-family: var(--fuente-mono); }
+.perfil-rol     { font-size: 0.85rem; opacity: 0.75; margin: 0; }
+.perfil-estrellas { letter-spacing: 2px; font-size: 1rem; margin-top: 4px; }
+
+/* Secciones del cuerpo */
+.perfil-seccion { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--color-borde); }
+.perfil-seccion:last-child { border-bottom: none; }
+.perfil-seccion-titulo { 
+  font-size: 0.75rem; 
+  text-transform: uppercase; 
+  letter-spacing: 0.1em; 
+  color: var(--color-texto-muted); 
+  margin-bottom: 1rem; 
+  font-weight: 600; 
+}
+
+/* Filas de datos */
+.perfil-fila { display: flex; justify-content: space-between; padding: 0.35rem 0; font-size: 0.9rem; }
+.perfil-fila .etiqueta { color: var(--color-texto-muted); }
+.perfil-fila .valor    { font-weight: 500; color: var(--color-texto-primario); text-align: right; max-width: 60%; word-break: break-word;}
+.perfil-fila .valor-vacio { color: var(--color-texto-muted); font-style: italic; }
+
+/* Chips de intereses */
+.chips-intereses { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.chip-interes {
+  background: color-mix(in srgb, var(--color-acento) 12%, transparent);
+  color: var(--color-acento);
+  border: 1px solid color-mix(in srgb, var(--color-acento) 30%, transparent);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+/* Bio */
+.perfil-bio {
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--color-texto-primario);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Footer de la tarjeta */
+.perfil-footer {
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-fondo);
+}
+
+.perfil-timestamp { font-size: 0.75rem; color: var(--color-texto-muted); }
+
+.btn-editar {
+  background: none;
+  border: 1.5px solid var(--color-acento);
+  color: var(--color-acento);
+  padding: 0.4rem 1rem;
+  border-radius: var(--radio-md);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+.btn-editar:hover { background: var(--color-acento); color: #fff; }

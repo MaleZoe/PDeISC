@@ -1,0 +1,12 @@
+{
+  "name": "proyecto-5-dynamic-html",
+  "version": "1.0.0",
+  "description": "Aplicación web de inyección dinámica de HTML",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

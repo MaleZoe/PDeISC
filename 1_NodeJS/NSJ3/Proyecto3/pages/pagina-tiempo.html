@@ -1,0 +1,73 @@
+<!-- pages/pagina-tiempo.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos de Tiempo | Proyecto 3</title>
+    <link rel="stylesheet" href="/public/styles/estilos-globales.css">
+    <link rel="stylesheet" href="/public/styles/estilos-paginas.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="brand">NJS3 — Proyecto 3</a>
+            <nav id="menu">
+                <a href="/" class="nav-link">Inicio</a>
+                <a href="/mouse" class="nav-link">Mouse</a>
+                <a href="/teclado" class="nav-link">Teclado</a>
+                <a href="/formulario" class="nav-link">Formulario</a>
+                <a href="/ventana" class="nav-link">Ventana</a>
+                <a href="/tiempo" class="nav-link active">Tiempo</a>
+            </nav>
+            <button id="hamburger" class="hamburger-btn">☰</button>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <a href="/" class="back-link">← Volver al inicio</a>
+        
+        <header class="page-header">
+            <span class="header-emoji">⏱️</span>
+            <div>
+                <h1>Eventos de Tiempo</h1>
+                <p>Haz clic en cualquier elemento para contar sus hijos directos.</p>
+            </div>
+        </header>
+
+        <div class="contenedor-pagina">
+            <!-- Área de Demo (Izquierda) -->
+            <section id="areaDemo" class="demo-box">
+                <div class="timer-controls">
+                    <button id="btnAlerta" class="btn-timer">Inyectar mensaje en 3s</button>
+                    <button id="btnIntervalo" class="btn-timer">Iniciar Contador</button>
+                    <button id="btnDetener" class="btn-timer btn-danger">Detener Contador</button>
+                </div>
+                <div id="timerDisplay" class="timer-display">00:00</div>
+                <div id="notificacionArea" class="notificacion-area"></div>
+            </section>
+
+            <!-- Panel Informativo (Derecha) -->
+            <aside id="panelInspector" class="inspector-panel">
+                <div class="estado-vacio">
+                    <p>Haz clic en cualquier elemento de la página para ver cuántos hijos tiene.</p>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Log de Eventos -->
+        <section class="log-container">
+            <div class="log-header">
+                <h2>Registro de Eventos</h2>
+                <button id="btnLimpiar" class="btn-limpiar">Limpiar registro</button>
+            </div>
+            <div id="panelLog" class="log-content"></div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="/scripts/navbar.js" defer></script>
+    <script src="/scripts/inspector.js" defer></script>
+    <script src="/scripts/pagina-tiempo.js" defer></script>
+</body>
+</html>
