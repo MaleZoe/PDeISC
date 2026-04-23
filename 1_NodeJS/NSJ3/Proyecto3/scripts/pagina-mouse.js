@@ -28,24 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const area = document.getElementById('areaDemo');
     const badge = document.getElementById('coordsBadge');
-    const panelLog = document.getElementById('panelLog');
-    const btnLimpiar = document.getElementById('btnLimpiar');
-
-    /**
-     * Registra un mensaje en el panel de log
-     */
     function registrarEvento(mensaje) {
-        const entrada = document.createElement('div');
-        entrada.style.marginBottom = '4px';
-        const hora = new Date().toLocaleTimeString('es-ES', { hour12: false });
-        entrada.innerHTML = `<span style="color: #64748b; margin-right: 8px;">[${hora}]</span> <span>${mensaje}</span>`;
-        panelLog.prepend(entrada);
-    }
-
-    if (btnLimpiar) {
-        btnLimpiar.addEventListener('click', () => {
-            panelLog.innerHTML = '';
-        });
+        console.log(mensaje);
     }
 
     if (area) {
