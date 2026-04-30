@@ -25,7 +25,7 @@ foreach ($dir in $dirs) {
     $port = $ports[$dir]
     $basePath = "c:\Users\salvi\Documents\GitHub\PDeISC\2_JS\JS0\$dir"
     
-    # Update server.js - Using literal heredoc for the template
+    # Template strings in JS use backticks, so we use literal heredoc in PS to avoid expansion
     $template = @'
 import express from 'express';
 import path from 'path';
@@ -69,7 +69,11 @@ server.on('error', (err) => {
     $pjPath = "$basePath\package.json"
     if (Test-Path $pjPath) {
         $pj = Get-Content $pjPath | ConvertFrom-Json
-        $pj | Add-Member -Name "type" -Value "module" -Force
+        if (-not ($pj.PSObject.Properties['type'])) {
+            $pj | Add-Member -Name "type" -Value "module"
+        } else {
+            $pj.type = "module"
+        }
         $pj | ConvertTo-Json | Set-Content $pjPath
     }
 
@@ -77,11 +81,12 @@ server.on('error', (err) => {
     $htmlPath = "$basePath\pages\index.html"
     if (Test-Path $htmlPath) {
         $html = Get-Content $htmlPath -Raw
-        $html = $html -replace 'display-6', 'h5'
-        $html = $html -replace 'display-5', 'h4'
-        $html = $html -replace 'display-4', 'h3'
-        # Restore h1 display-4
+        $html = $html -replace 'class="display-6', 'class="h5'
+        $html = $html -replace 'class="display-5', 'class="h4'
+        $html = $html -replace 'class="display-4', 'class="h3'
         $html = $html -replace '<h1 class="h3', '<h1 class="display-4'
+        $html = $html -replace 'id="resPanel1" class="fw-bold', 'id="resPanel1" class="h5 fw-bold'
+        $html = $html -replace 'id="resPanel3" class="fw-bold', 'id="resPanel3" class="h5 fw-bold'
         Set-Content -Path $htmlPath -Value $html
     }
 }
