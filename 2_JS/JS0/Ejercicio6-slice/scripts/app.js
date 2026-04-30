@@ -1,6 +1,12 @@
+/**
+ * Ejercicio 6: Método slice()
+ * Este script demuestra cómo extraer una COPIA de una parte de un array
+ * sin modificar el array original.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // ESTADOS INMUTABLES (BASE)
+    // Datos de ejemplo para las demostraciones
     // ==========================================
     const BASES = {
         demo1: [10, 20, 30, 40, 50, 60, 70],
@@ -12,6 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // FUNCIONES ATÓMICAS (LOGIC & UI)
     // ==========================================
 
+    /**
+     * Dibuja el array original (el que no va a cambiar)
+     */
     function renderOriginal(demoNum) {
         const container = document.getElementById(`trackerOriginal${demoNum}`);
         if (!container) return;
@@ -27,6 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    /**
+     * Dibuja el nuevo array resultante de la operación .slice()
+     */
     function renderResultado(demoNum, array) {
         const container = document.getElementById(`trackerResultado${demoNum}`);
         if (!container) return;
@@ -47,6 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
         vincularEfectosVisuales();
     }
 
+    /**
+     * Resalta visualmente los elementos que van a ser copiados
+     */
     function highlightPreview(demoNum, start, end) {
         const data = BASES[`demo${demoNum}`];
         data.forEach((_, i) => {
@@ -55,20 +70,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    /**
+     * Lógica central de .slice(inicio, fin)
+     * Crea un nuevo array con los elementos indicados
+     */
     function ejecutarSlice(demoNum, start, end) {
+        // EL MÉTODO CLAVE: .slice() no altera el array original
         const array = BASES[`demo${demoNum}`].slice(start, end);
         renderResultado(demoNum, array);
         
         const status = document.querySelector(`#demo${demoNum} .estado-operacion`);
-        if (status) status.textContent = `Operación exitosa: slice(${start}, ${end})`;
+        if (status) status.textContent = `Operación exitosa: slice(${start}, ${end === undefined ? '' : end})`;
     }
 
+    // Manejador Demo 1: Copiar los primeros 3
     function handleDemo1(e) {
         if (e) e.preventDefault();
         highlightPreview(1, 0, 3);
         ejecutarSlice(1, 0, 3);
     }
 
+    // Manejador Demo 2: Copiar un rango personalizado
     function handleDemo2(e) {
         if (e) e.preventDefault();
         const desde = parseInt(document.getElementById('inputDesde').value, 10);
@@ -83,19 +105,22 @@ document.addEventListener('DOMContentLoaded', () => {
         ejecutarSlice(2, desde, hasta);
     }
 
+    // Manejador Demo 3: Copiar los últimos 3 (usando índice negativo)
     function handleDemo3(e) {
         if (e) e.preventDefault();
         const len = BASES.demo3.length;
         highlightPreview(3, len - 3, len);
-        ejecutarSlice(3, -3);
+        ejecutarSlice(3, -3); // .slice(-3) significa "los últimos 3"
     }
 
+    // Animación de error
     function animateError(el) {
         el.classList.remove('shake-animation');
         void el.offsetWidth;
         el.classList.add('shake-animation');
     }
 
+    // Validación de los inputs de rango
     function validateRango() {
         const desde = parseInt(document.getElementById('inputDesde').value, 10);
         const hasta = parseInt(document.getElementById('inputHasta').value, 10);
@@ -115,7 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const btnSubmit = document.getElementById(`${prefix}Submit`);
 
             if (btnClick) btnClick.addEventListener('click', action);
-            if (btnSubmit) btnSubmit.addEventListener('click', action); // Form handles its own submit below
+            if (btnSubmit) btnSubmit.addEventListener('click', action);
+            // Click derecho
             if (btnContext) btnContext.addEventListener('contextmenu', (e) => {
                 e.preventDefault();
                 action();
@@ -136,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         bindEvents(3, 'btnCopiarUltimos', handleDemo3);
 
-        // Reinicio
+        // Botones de Reiniciar
         document.querySelectorAll('.btn-reiniciar').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const demo = e.target.getAttribute('data-demo');
@@ -147,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Navbar
+        // Autocierre del menú navegación
         document.querySelectorAll('.nav-link-auto-close').forEach(link => {
             link.addEventListener('click', () => {
                 const menu = document.getElementById('navbarNav');
@@ -156,6 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Efectos visuales de hover
     function vincularEfectosVisuales() {
         document.querySelectorAll('.btn, .elemento-array').forEach(el => {
             el.addEventListener('mouseenter', () => {
@@ -168,7 +195,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Inicialización de la aplicación
     setupEvents();
     [1, 2, 3].forEach(renderOriginal);
     vincularEfectosVisuales();
 });
+

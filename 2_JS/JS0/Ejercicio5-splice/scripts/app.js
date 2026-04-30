@@ -1,3 +1,8 @@
+/**
+ * Ejercicio 5: Método splice()
+ * Este script demuestra el método más versátil de los arrays: .splice(),
+ * que sirve para eliminar, insertar o reemplazar elementos en cualquier posición.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // ESTADO DE LA APLICACIÓN
@@ -18,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const capitalize = s => s.charAt(0).toUpperCase() + s.slice(1);
 
+    // Determina el color y estilo de cada elemento en la interfaz
     function getBadgeClass(key, idx, highlights) {
         if (key === 'letras') return 'bg-primary';
         if (key === 'ordinales') return 'bg-info text-dark' + (highlights.includes(idx) ? ' anim-pulse-green' : '');
@@ -25,6 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return '';
     }
 
+    /**
+     * Renderiza el array en pantalla con posibilidad de resaltar elementos nuevos
+     */
     function renderArray(key, highlightedIndices = []) {
         const container = document.getElementById(`tracker${capitalize(key === 'letras' ? 'Letras' : key === 'ordinales' ? 'Ordinales' : 'Reemplazo')}`);
         if (!container) return;
@@ -47,20 +56,29 @@ document.addEventListener('DOMContentLoaded', () => {
         vincularEfectosVisuales();
     }
 
+    /**
+     * Demo 1: ELIMINAR con .splice(inicio, cantidad)
+     */
     async function spliceEliminar() {
         if (state.letras.length <= 1) return;
-        const inicio = 1, cantidad = 2;
+        const inicio = 1, cantidad = 2; // Eliminar 2 elementos desde la posición 1
         
+        // Animamos los elementos que van a desaparecer
         for (let i = inicio; i < inicio + cantidad && i < state.letras.length; i++) {
             const el = document.getElementById(`letras-${i}`);
             if (el) el.classList.add('anim-fade-out-red');
         }
 
         await new Promise(r => setTimeout(r, 400));
+        
+        // EL MÉTODO CLAVE: .splice(posicion, cuantos)
         state.letras.splice(inicio, cantidad);
         renderArray('letras');
     }
 
+    /**
+     * Demo 2: INSERTAR con .splice(inicio, 0, nuevoElemento)
+     */
     function spliceInsertar() {
         const input = document.getElementById('inputInsertar');
         const val = input.value.trim();
@@ -68,13 +86,18 @@ document.addEventListener('DOMContentLoaded', () => {
             animateError(input);
             return;
         }
-        const pos = 1;
+        const pos = 1; // Insertar siempre en la posición 1
+        
+        // EL MÉTODO CLAVE: .splice(posicion, 0, item) -> El '0' significa no borrar nada
         state.ordinales.splice(pos, 0, val);
         input.value = '';
         renderArray('ordinales', [pos]);
-        validateInputInsertar();
+        validateInputs();
     }
 
+    /**
+     * Demo 3: REEMPLAZAR con .splice(inicio, cantidad, ...nuevosElementos)
+     */
     async function spliceReemplazar() {
         if (state.viejos.length <= 1) return;
         const inputA = document.getElementById('inputReemplazoA');
@@ -83,12 +106,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const valB = inputB.value.trim() || 'NuevoB';
         const inicio = 1, cantidad = 2;
 
+        // Animación de los que se van
         for (let i = inicio; i < inicio + cantidad && i < state.viejos.length; i++) {
             const el = document.getElementById(`viejos-${i}`);
             if (el) el.classList.add('anim-fade-out-red');
         }
 
         await new Promise(r => setTimeout(r, 400));
+        
+        // EL MÉTODO CLAVE: .splice(pos, cuantos, item1, item2...) reemplaza 'cuantos' por los nuevos items
         state.viejos.splice(inicio, cantidad, valA, valB);
         inputA.value = '';
         inputB.value = '';
@@ -96,12 +122,14 @@ document.addEventListener('DOMContentLoaded', () => {
         updatePreviewReemplazo();
     }
 
+    // Efecto de error visual
     function animateError(el) {
         el.classList.remove('shake-animation');
         void el.offsetWidth;
         el.classList.add('shake-animation');
     }
 
+    // Valida estados de botones y muestra vistas previas
     function validateInputs() {
         // Demo 1
         ['Down', 'Context'].forEach(s => {
@@ -126,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Muestra cómo quedaría la llamada al método en el código
     function updatePreviewReemplazo() {
         const valA = document.getElementById('inputReemplazoA').value || 'A';
         const valB = document.getElementById('inputReemplazoB').value || 'B';
@@ -159,6 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
             input.addEventListener('input', updatePreviewReemplazo);
         });
 
+        // Botones de Reiniciar
         document.querySelectorAll('.btn-reiniciar').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const demo = e.target.getAttribute('data-demo');
@@ -173,6 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
+        // Autocierre del menú móvil
         document.querySelectorAll('.nav-link-auto-close').forEach(link => {
             link.addEventListener('click', () => {
                 const menu = document.getElementById('navbarNav');
@@ -181,6 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Efectos visuales de hover
     function vincularEfectosVisuales() {
         document.querySelectorAll('.btn, .elemento-array').forEach(el => {
             el.addEventListener('mouseenter', () => {
@@ -193,9 +225,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Inicialización
     setupEvents();
     renderArray('letras');
     renderArray('ordinales');
     renderArray('viejos');
     validateInputs();
 });
+

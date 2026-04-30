@@ -1,3 +1,8 @@
+/**
+ * Ejercicio 10: Método map()
+ * Este script demuestra cómo TRANSFORMAR un array en uno nuevo,
+ * aplicando una función a cada elemento (sin modificar el original).
+ */
 document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // ESTADOS INMUTABLES (BASE)
@@ -12,6 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // FUNCIONES ATÓMICAS (LOGIC & UI)
     // ==========================================
 
+    /**
+     * Dibuja los arrays (Base o Resultado) en la interfaz
+     */
     function renderArray(demoNum, array, containerSuffix = 'Base', prefix = '') {
         const containerId = containerSuffix === 'Base' ? `trackerBase${demoNum}` : `trackerResultado${demoNum}`;
         const container = document.getElementById(containerId);
@@ -29,14 +37,22 @@ document.addEventListener('DOMContentLoaded', () => {
         vincularEfectosVisuales();
     }
 
+    /**
+     * Demo 1: Multiplicar números usando .map()
+     */
     function runDemo1() {
         const m = parseInt(document.getElementById('selectMultiplicador').value, 10);
+        // EL MÉTODO CLAVE: .map() crea un NUEVO array con los resultados de la operación
         const nuevoArray = BASES.demo1.map(n => n * m);
         renderArray(1, nuevoArray, 'Resultado');
         toggleButtons('btnMultiplicar', true);
     }
 
+    /**
+     * Demo 2: Transformar textos a mayúsculas usando .map()
+     */
     function runDemo2(upper = true) {
+        // Transformamos cada string del array original
         const nuevoArray = BASES.demo2.map(str => upper ? str.toUpperCase() : str.toLowerCase());
         renderArray(2, nuevoArray, 'Resultado');
         const container = document.getElementById('trackerResultado2').parentElement;
@@ -45,14 +61,19 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleButtons('btnMayusculas', true);
     }
 
+    /**
+     * Demo 3: Calcular precios con IVA usando .map()
+     */
     function runDemo3() {
         const iva = parseFloat(document.getElementById('inputIVA').value) || 0;
         const factor = 1 + (iva / 100);
+        // Aplicamos el cálculo del IVA a cada precio del array original
         const nuevoArray = BASES.demo3.map(precio => (precio * factor).toFixed(2));
         renderArray(3, nuevoArray, 'Resultado', '$');
         toggleButtons('btnAplicarIVA', true);
     }
 
+    // Utilidad para habilitar/deshabilitar botones
     function toggleButtons(prefix, disabled) {
         ['Dbl', 'Down'].forEach(s => {
             const btn = document.getElementById(`${prefix}${s}`);
@@ -70,6 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (el) el.addEventListener(type, action);
         };
 
+        // Eventos de Doble Click (Dbl) y Mantener Presionado (Down)
+        
         // Demo 1
         bind('btnMultiplicarDbl', runDemo1, 'dblclick');
         bind('btnMultiplicarDown', runDemo1, 'mousedown');
@@ -82,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         bind('btnAplicarIVADbl', runDemo3, 'dblclick');
         bind('btnAplicarIVADown', runDemo3, 'mousedown');
 
-        // Reinicio
+        // Botones de Reiniciar
         document.querySelectorAll('.btn-reiniciar').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const demo = e.target.getAttribute('data-demo');
@@ -92,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Navbar
+        // Autocierre del menú navegación
         document.querySelectorAll('.nav-link-auto-close').forEach(link => {
             link.addEventListener('click', () => {
                 const menu = document.getElementById('navbarNav');
@@ -101,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Efectos visuales de hover
     function vincularEfectosVisuales() {
         document.querySelectorAll('.btn, .elemento-array').forEach(el => {
             el.addEventListener('mouseenter', () => {
@@ -113,9 +137,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Inicialización
     setupEvents();
     renderArray(1, BASES.demo1);
     renderArray(2, BASES.demo2);
     renderArray(3, BASES.demo3, 'Base', '$');
     vincularEfectosVisuales();
 });
+

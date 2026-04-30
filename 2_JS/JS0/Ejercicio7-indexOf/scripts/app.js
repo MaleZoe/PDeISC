@@ -1,6 +1,12 @@
+/**
+ * Ejercicio 7: Método indexOf()
+ * Este script demuestra cómo buscar la POSICIÓN (índice) de un elemento
+ * dentro de un array. Si no lo encuentra, devuelve -1.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // ESTADOS INMUTABLES (BASE)
+    // Datos de ejemplo para las búsquedas
     // ==========================================
     const BASES = {
         demo1: ['gato', 'perro', 'pájaro', 'conejo', 'pez', 'hamster'],
@@ -12,6 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // FUNCIONES ATÓMICAS (LOGIC & UI)
     // ==========================================
 
+    /**
+     * Dibuja los elementos originales con sus índices visibles
+     */
     function renderOriginal(demoNum) {
         const container = document.getElementById(`trackerBase${demoNum}`);
         if (!container) return;
@@ -21,12 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
         data.forEach((item, idx) => {
             const span = document.createElement('span');
             span.className = 'badge bg-secondary opacity-75 elemento-array';
+            // Mostramos el índice en pequeño arriba del elemento
             span.innerHTML = `<sub class="opacity-50" style="font-size:0.6rem; vertical-align:super;">${idx}</sub> ${item}`;
             span.id = `d${demoNum}-${idx}`;
             container.appendChild(span);
         });
     }
 
+    // Quita los colores de resaltado
     function resetHighlights(demoNum) {
         const data = BASES[`demo${demoNum}`];
         data.forEach((_, i) => {
@@ -38,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Aplica color al elemento encontrado
     function highlightMatch(demoNum, index, colorClass) {
         const el = document.getElementById(`d${demoNum}-${index}`);
         if (el) {
@@ -48,8 +60,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    /**
+     * Demo 1: Búsqueda simple de un string
+     */
     function buscarDemo1() {
         resetHighlights(1);
+        // EL MÉTODO CLAVE: .indexOf() devuelve la posición del primer match
         const index = BASES.demo1.indexOf('perro');
         if (index !== -1) {
             highlightMatch(1, index, 'bg-primary');
@@ -58,9 +74,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    /**
+     * Demo 2: Diferencia entre indexOf() y lastIndexOf()
+     */
     function buscarDemo2() {
         resetHighlights(2);
+        // .indexOf() busca desde el inicio
         const idxFirst = BASES.demo2.indexOf(50);
+        // .lastIndexOf() busca desde el final
         const idxLast = BASES.demo2.lastIndexOf(50);
         
         if (idxFirst !== -1) highlightMatch(2, idxFirst, 'bg-info');
@@ -71,6 +92,9 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleFixedButtons(2, true);
     }
 
+    /**
+     * Demo 3: Búsqueda dinámica con input de usuario
+     */
     function buscarDemo3() {
         const busqueda = document.getElementById('inputCiudad').value.trim();
         if (!busqueda) return;
@@ -80,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const resPanel = document.getElementById('resPanel3');
         
         if (index === -1) {
+            // Caso donde NO existe el elemento
             resPanel.textContent = `indexOf('${busqueda}') = -1 (No encontrado)`;
             resPanel.classList.add('text-danger');
         } else {
@@ -89,6 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Deshabilita botones una vez realizada la búsqueda
     function toggleFixedButtons(demoNum, disabled) {
         const prefix = demoNum === 1 ? 'btnBuscarPerro' : 'btnBuscar50';
         ['Hover', 'Dbl'].forEach(s => {
@@ -97,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Validador para el input de ciudad
     function validateDemo3() {
         const val = document.getElementById('inputCiudad').value.trim();
         ['Hover', 'Dbl'].forEach(s => {
@@ -117,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         };
 
+        // Eventos configurados: Al pasar el mouse (Hover) y al hacer Doble Click
         const events = [{id: 'Hover', type: 'mouseenter'}, {id: 'Dbl', type: 'dblclick'}];
 
         bind('btnBuscarPerro', buscarDemo1, events);
@@ -129,6 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
             validateDemo3();
         }
 
+        // Botones de Reiniciar
         document.querySelectorAll('.btn-reiniciar').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const demo = e.target.getAttribute('data-demo');
@@ -150,6 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
+        // Autocierre del menú navegación
         document.querySelectorAll('.nav-link-auto-close').forEach(link => {
             link.addEventListener('click', () => {
                 const menu = document.getElementById('navbarNav');
@@ -158,6 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Efectos visuales de hover
     function vincularEfectosVisuales() {
         document.querySelectorAll('.btn, .elemento-array').forEach(el => {
             el.addEventListener('mouseenter', () => {
@@ -170,7 +201,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Inicialización
     setupEvents();
     [1, 2, 3].forEach(renderOriginal);
     vincularEfectosVisuales();
 });
+

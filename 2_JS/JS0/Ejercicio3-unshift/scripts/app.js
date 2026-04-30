@@ -1,3 +1,7 @@
+/**
+ * Ejercicio 3: Método unshift()
+ * Este script demuestra cómo agregar elementos al INICIO de un array.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // ESTADO DE LA APLICACIÓN
@@ -16,17 +20,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // FUNCIONES ATÓMICAS (LOGIC & UI)
     // ==========================================
 
+    /**
+     * Dibuja los elementos del array en la interfaz
+     */
     function renderArray(key) {
         const container = document.getElementById(`tracker${capitalize(key)}`);
         if (!container) return;
         container.innerHTML = '';
         const data = state[key];
 
+        // Mensaje si el array está vacío
         if (data.length === 0) {
             container.innerHTML = '<span class="badge bg-secondary opacity-50">Array vacío [ ]</span>';
             return;
         }
 
+        // Creamos los elementos visuales
         data.forEach((item, i) => {
             const span = document.createElement('span');
             span.className = `badge elemento-array ${getBadgeClass(key, i)}`;
@@ -36,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 span.textContent = item.nombre;
                 span.classList.add('text-white', 'border', 'border-light', 'border-opacity-25', 'fw-bolder');
             } else if (key === 'tareas') {
+                // El primer elemento (índice 0) es el que acabamos de agregar al inicio
                 span.textContent = i === 0 ? ` URGENTE - ${item}` : item;
             } else if (key === 'usuarios') {
                 const color = getColorForName(item);
@@ -47,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         vincularEfectosVisuales();
     }
 
+    // Funciones auxiliares para formato
     const capitalize = s => s.charAt(0).toUpperCase() + s.slice(1);
     const getBadgeClass = (key, i) => {
         if (key === 'tareas') return 'bg-warning text-dark' + (i === 0 ? ' anim-pulse-urgent' : '');
@@ -54,11 +65,17 @@ document.addEventListener('DOMContentLoaded', () => {
         return '';
     };
 
+    /**
+     * Agrega un color al inicio usando .unshift()
+     */
     function unshiftColor() {
         state.colores.unshift({...state.colorSeleccionado});
         renderArray('colores');
     }
 
+    /**
+     * Agrega una tarea al inicio usando .unshift()
+     */
     function unshiftTarea(e) {
         if (e) e.preventDefault();
         const input = document.getElementById('inputTarea');
@@ -67,11 +84,15 @@ document.addEventListener('DOMContentLoaded', () => {
             animateError(input);
             return;
         }
+        // El método .unshift() inserta al principio del array
         state.tareas.unshift(val);
         input.value = '';
         renderArray('tareas');
     }
 
+    /**
+     * Agrega un usuario al inicio validando que no sea duplicado
+     */
     function unshiftUsuario(e) {
         if (e) e.preventDefault();
         const input = document.getElementById('inputUsuario');
@@ -81,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
             animateError(input);
             return;
         }
+        // Agregamos con .unshift()
         state.usuarios.unshift(val);
         input.value = '';
         validateUsuario();
@@ -88,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         input.focus();
     }
 
-    // --- Helpers ---
+    // --- Helpers de Validación y Estética ---
 
     const isDuplicate = (val, arr) => arr.some(u => u.toLowerCase() === val.toLowerCase());
 
@@ -98,6 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         el.classList.add('shake-animation');
     }
 
+    // Validación en tiempo real del input de usuario
     function validateUsuario() {
         const input = document.getElementById('inputUsuario');
         if (!input) return;
@@ -115,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (alert) alert.classList.toggle('d-none', !duplicate);
     }
 
+    // Validación del input de tarea
     function validateTarea() {
         const input = document.getElementById('inputTarea');
         if (!input) return;
@@ -125,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Genera un color basado en el nombre (hash)
     function getColorForName(name) {
         let hash = 0;
         for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
@@ -136,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
 
     function setupEvents() {
-        // Demo 1: Colores
+        // Demo 1: Selector de Colores
         document.querySelectorAll('.btn-color-picker').forEach(btn => {
             btn.addEventListener('click', () => {
                 state.colorSeleccionado = {
@@ -144,11 +169,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     nombre: btn.getAttribute('title')
                 };
                 
-                // Resaltar picker activo
+                // Resaltar el color elegido
                 document.querySelectorAll('.btn-color-picker').forEach(b => b.style.border = 'none');
                 btn.style.border = '3px solid white';
 
-                // Colorear los botones de acción
+                // Cambiar el color de los botones de acción dinámicamente
                 const actionBtns = [document.getElementById('btnUnshiftSubmit'), document.getElementById('btnUnshiftContext')];
                 actionBtns.forEach(ab => {
                     if (ab) {
@@ -160,12 +185,13 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
+        // Eventos para agregar color (Barra Espaciadora y Click Derecho)
         const btnUnshiftKey = document.getElementById('btnUnshiftSubmit');
         const btnUnshiftContext = document.getElementById('btnUnshiftContext');
         if (btnUnshiftKey) btnUnshiftKey.addEventListener('keydown', (e) => { if (e.key === ' ') { e.preventDefault(); unshiftColor(); } });
         if (btnUnshiftContext) btnUnshiftContext.addEventListener('contextmenu', (e) => { e.preventDefault(); unshiftColor(); });
 
-        // Demo 2: Tareas (Submit, Context)
+        // Demo 2: Formulario de Tareas
         const formTarea = document.getElementById('formTarea');
         if (formTarea) formTarea.addEventListener('submit', unshiftTarea);
         const btnTareaContext = document.getElementById('btnAgregarTareaContext');
@@ -176,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
             validateTarea();
         }
 
-        // Demo 3: Usuarios (Submit, Context)
+        // Demo 3: Formulario de Usuarios
         const formUsuario = document.getElementById('formUsuario');
         if (formUsuario) formUsuario.addEventListener('submit', unshiftUsuario);
         const btnUserContext = document.getElementById('btnConectarContext');
@@ -186,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
             inputUser.addEventListener('input', validateUsuario);
         }
 
-        // Reinicio
+        // Botones de Reiniciar
         document.querySelectorAll('.btn-reiniciar').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const demo = e.target.getAttribute('data-demo');
@@ -200,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Navbar auto-close
+        // Autocierre de menú móvil
         document.querySelectorAll('.nav-link-auto-close').forEach(link => {
             link.addEventListener('click', () => {
                 const menu = document.getElementById('navbarNav');
@@ -212,6 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Efectos visuales de hover
     function vincularEfectosVisuales() {
         document.querySelectorAll('.btn, .elemento-array').forEach(el => {
             el.addEventListener('mouseenter', () => {
@@ -224,9 +251,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Inicialización de la App
     setupEvents();
     renderArray('colores');
     renderArray('tareas');
     renderArray('usuarios');
 
 });
+

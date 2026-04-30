@@ -1,3 +1,8 @@
+/**
+ * Ejercicio 14: Método reverse()
+ * Este script demuestra cómo INVERTIR el orden de los elementos de un array.
+ * El primer elemento pasa a ser el último y viceversa.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // ESTADO DE LA APLICACIÓN
@@ -7,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         demo2: [10, 20, 30, 40, 50, 60, 70, 80]
     };
     
+    // Copias de trabajo para manipular el orden
     let trabajo = {
         demo1: [...BASES.demo1],
         demo2: [...BASES.demo2]
@@ -16,6 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // FUNCIONES ATÓMICAS (LOGIC & UI)
     // ==========================================
 
+    /**
+     * Dibuja el array en la interfaz
+     */
     function renderArray(demoNum, array, containerSuffix = 'Base') {
         const containerId = containerSuffix === 'Base' ? `trackerBase${demoNum}` : `trackerResultado${demoNum}`;
         const container = document.getElementById(containerId);
@@ -31,26 +40,38 @@ document.addEventListener('DOMContentLoaded', () => {
         vincularEfectosVisuales();
     }
 
+    /**
+     * Demo 1: Invertir letras
+     */
     function runReverseLetras() {
+        // EL MÉTODO CLAVE: .reverse() invierte el array original
         trabajo.demo1.reverse();
         renderArray(1, trabajo.demo1);
         toggleButtons('btnReverseLetras', true);
     }
 
+    /**
+     * Demo 2: Invertir números
+     */
     function runReverseNum() {
         trabajo.demo2.reverse();
         renderArray(2, trabajo.demo2);
         toggleButtons('btnReverseNum', true);
     }
 
+    /**
+     * Demo 3: Invertir un string (usando split + reverse + join)
+     */
     function runReverseStr() {
         const str = document.getElementById('inputString').value;
+        // Técnica común: convertir string a array, invertir, y volver a unir
         const reversed = str.split('').reverse().join('');
         const display = document.getElementById('trackerResultado3');
         display.textContent = reversed;
         validateDemo3();
     }
 
+    // Utilidad de UI
     function toggleButtons(prefix, disabled) {
         ['Dbl', 'Down'].forEach(s => {
             const btn = document.getElementById(`${prefix}${s}`);
@@ -58,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Validación del input de texto
     function validateDemo3() {
         const val = document.getElementById('inputString').value.trim();
         toggleButtons('btnReverseStr', val === '');
@@ -73,6 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (el) el.addEventListener(type, action);
         };
 
+        // Eventos: Doble Click y Mantener Presionado
+        
         // Demo 1
         bind('btnReverseLetrasDbl', runReverseLetras, 'dblclick');
         bind('btnReverseLetrasDown', runReverseLetras, 'mousedown');
@@ -94,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             validateDemo3();
         }
 
-        // Reinicio
+        // Botones de Reiniciar
         document.querySelectorAll('.btn-reiniciar').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const demoNum = e.target.getAttribute('data-demo');
@@ -116,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Navbar
+        // Autocierre del menú navegación
         document.querySelectorAll('.nav-link-auto-close').forEach(link => {
             link.addEventListener('click', () => {
                 const menu = document.getElementById('navbarNav');
@@ -125,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Efectos visuales de hover
     function vincularEfectosVisuales() {
         document.querySelectorAll('.btn, .elemento-array').forEach(el => {
             el.addEventListener('mouseenter', () => {
@@ -137,8 +162,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Inicialización
     setupEvents();
     renderArray(1, trabajo.demo1);
     renderArray(2, trabajo.demo2);
     vincularEfectosVisuales();
 });
+

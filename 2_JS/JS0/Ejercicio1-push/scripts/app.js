@@ -1,6 +1,11 @@
+/**
+ * Ejercicio 1: Método push()
+ * Este script demuestra cómo agregar elementos al final de un array.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // ESTADO DE LA APLICACIÓN (STATE)
+    // Definimos los datos iniciales que se mostrarán en la interfaz
     // ==========================================
     const INITIAL_AMIGOS = ['Carlos', 'Lucía', 'Martín'];
     const INITIAL_NUMEROS = [3, 7, 12];
@@ -13,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ==========================================
     // CONFIGURACIÓN DE UI
+    // Identificadores de los contenedores donde se mostrarán los arrays
     // ==========================================
     const trackers = {
         frutas: { id: 'trackerFrutas', color: 'bg-primary' },
@@ -25,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
 
     /**
-     * Renderiza un array en un contenedor específico
+     * Dibuja el contenido de los arrays en el HTML
      */
     function renderArray(key) {
         const { id, color } = trackers[key];
@@ -34,11 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         container.innerHTML = '';
 
+        // Si el array está vacío, mostramos un mensaje
         if (data.length === 0) {
             container.innerHTML = '<span class="badge bg-secondary opacity-50">Array vacío [ ]</span>';
             return;
         }
 
+        // Creamos un elemento visual (badge) por cada item en el array
         data.forEach(item => {
             const span = document.createElement('span');
             span.className = `badge ${color} elemento-array`;
@@ -51,29 +59,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Valida y agrega una fruta
+     * Agrega una fruta al final del array usando .push()
      */
     function pushFruta() {
         const select = document.getElementById('selectFruta');
         const icono = select.value;
         const nombre = select.options[select.selectedIndex].text.split(' ')[1];
         
+        // El método .push() añade el elemento al final
         state.frutas.push(`${icono} ${nombre}`);
         renderArray('frutas');
     }
 
     /**
-     * Valida y agrega un amigo
+     * Agrega un amigo al final del array validando duplicados
      */
     function pushAmigo() {
         const input = document.getElementById('inputAmigo');
         const nombre = input.value.trim();
         
+        // Validamos que no esté vacío y no sea duplicado
         if (!nombre || isDuplicate(nombre, state.amigos)) {
             animateError(input);
             return;
         }
 
+        // Agregamos con .push()
         state.amigos.push(nombre);
         input.value = '';
         validateAmigoInput();
@@ -82,34 +93,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Valida y agrega un número
+     * Agrega un número al final si es mayor al último elemento
      */
     function pushNumero() {
         const input = document.getElementById('inputNumero');
         const val = parseInt(input.value, 10);
         const ultimo = state.numeros[state.numeros.length - 1] || 0;
 
+        // Regla: solo números mayores al último
         if (isNaN(val) || val <= ultimo) {
             animateError(input);
             return;
         }
 
+        // Agregamos con .push()
         state.numeros.push(val);
         input.value = '';
         updateNumeroPreview();
         renderArray('numeros');
     }
 
-    // --- Helpers ---
+    // --- Funciones de apoyo (Helpers) ---
 
+    // Comprueba si un valor ya existe en el array
     const isDuplicate = (val, arr) => arr.some(item => item.toLowerCase() === val.toLowerCase());
 
+    // Animación visual de error (sacudida)
     function animateError(el) {
         el.classList.remove('shake-animation');
-        void el.offsetWidth; // Force reflow
+        void el.offsetWidth; // Forzar reinicio de animación
         el.classList.add('shake-animation');
     }
 
+    // Controla si los botones de agregar amigo deben estar habilitados
     function validateAmigoInput() {
         const input = document.getElementById('inputAmigo');
         const val = input.value.trim();
@@ -126,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
         alert.classList.toggle('d-none', !duplicate);
     }
 
+    // Muestra una vista previa de si el número ingresado es válido
     function updateNumeroPreview() {
         const input = document.getElementById('inputNumero');
         const preview = document.getElementById('previaCondicion');
@@ -151,15 +168,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ==========================================
     // ASIGNACIÓN DE EVENTOS (HANDLERS)
+    // Configuramos los clics, menús contextuales e inputs
     // ==========================================
 
     function setupEvents() {
-        // --- Demo 1: Frutas ---
         const setupDemo = (btnClick, btnContext, action) => {
             const bc = document.getElementById(btnClick);
             const ctx = document.getElementById(btnContext);
 
+            // Evento Click normal
             bc.addEventListener('click', action);
+            // Evento Context Menu (Click derecho)
             ctx.addEventListener('contextmenu', (e) => {
                 e.preventDefault();
                 action();
@@ -170,11 +189,11 @@ document.addEventListener('DOMContentLoaded', () => {
         setupDemo('btnAgregarAmigoClick', 'btnAgregarAmigoContext', pushAmigo);
         setupDemo('btnAgregarNumeroClick', 'btnAgregarNumeroContext', pushNumero);
 
-        // Inputs
+        // Eventos de entrada de texto
         document.getElementById('inputAmigo').addEventListener('input', validateAmigoInput);
         document.getElementById('inputNumero').addEventListener('input', updateNumeroPreview);
 
-        // Reinicio
+        // Botones de Reiniciar para volver al estado inicial
         document.querySelectorAll('.btn-reiniciar').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const demo = e.target.getAttribute('data-demo');
@@ -189,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Navbar auto-close
+        // Cierre automático del menú en móviles
         document.querySelectorAll('.nav-link-auto-close').forEach(link => {
             link.addEventListener('click', () => {
                 const menu = document.getElementById('navbarNav');
@@ -202,6 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ==========================================
     // ESTÉTICA Y MICRO-INTERACCIONES
+    // Efectos de escala al pasar el mouse
     // ==========================================
     function vincularEfectosVisuales() {
         document.querySelectorAll('.btn, .elemento-array').forEach(el => {
@@ -215,9 +235,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Inicialización ---
+    // --- Inicialización de la Aplicación ---
     setupEvents();
     renderArray('frutas');
     renderArray('amigos');
     renderArray('numeros');
 });
+

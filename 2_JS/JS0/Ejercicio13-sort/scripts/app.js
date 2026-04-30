@@ -1,3 +1,8 @@
+/**
+ * Ejercicio 13: Método sort()
+ * Este script demuestra cómo ORDENAR los elementos de un array
+ * alfabéticamente o mediante una función de comparación personalizada.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // ESTADO DE LA APLICACIÓN
@@ -15,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
     };
     
+    // Copias de trabajo para no perder el orden original al reiniciar
     let trabajo = {
         demo1: [...BASES.demo1],
         demo2: [...BASES.demo2],
@@ -25,6 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // FUNCIONES ATÓMICAS (LOGIC & UI)
     // ==========================================
 
+    /**
+     * Dibuja el array en pantalla
+     */
     function renderArray(demoNum, array) {
         const container = document.getElementById(`trackerBase${demoNum}`);
         if (!container) return;
@@ -39,26 +48,43 @@ document.addEventListener('DOMContentLoaded', () => {
         vincularEfectosVisuales();
     }
 
+    /**
+     * Demo 1: Ordenar números
+     */
     function sortNumeros() {
+        // EL MÉTODO CLAVE: .sort() con función de comparación (a-b) para orden numérico ascendente
         trabajo.demo1.sort((a, b) => a - b);
         renderArray(1, trabajo.demo1);
         disableButtons('btnSort');
     }
 
+    /**
+     * Demo 2: Ordenar palabras alfabéticamente
+     */
     function sortPalabras() {
+        // .sort() por defecto ordena como texto, pero usamos localeCompare para manejar caracteres especiales (tildes)
         trabajo.demo2.sort((a, b) => a.localeCompare(b, 'es'));
         renderArray(2, trabajo.demo2);
         disableButtons('btnSortAZ');
     }
 
+    /**
+     * Demo 3: Ordenar objetos por distintas propiedades
+     */
     function sortObjetos() {
         const key = document.getElementById('selectSortKey').value;
-        if (key === 'edad') trabajo.demo3.sort((a, b) => a.edad - b.edad);
-        else trabajo.demo3.sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+        if (key === 'edad') {
+            // Ordenamos por la propiedad numérica 'edad'
+            trabajo.demo3.sort((a, b) => a.edad - b.edad);
+        } else {
+            // Ordenamos por la propiedad de texto 'nombre'
+            trabajo.demo3.sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+        }
         renderArray(3, trabajo.demo3);
         disableButtons('btnSortObj');
     }
 
+    // Gestion de estado de botones
     function disableButtons(prefix) {
         ['Click', 'Key'].forEach(s => {
             const btn = document.getElementById(`${prefix}${s}`);
@@ -83,6 +109,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (el) el.addEventListener(type, action);
         };
 
+        // Eventos: Click y Tecla Enter
+        
         // Demo 1
         const btn1C = document.getElementById('btnSortClick');
         const btn1K = document.getElementById('btnSortKey');
@@ -101,11 +129,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (btn3C) btn3C.addEventListener('click', sortObjetos);
         if (btn3K) btn3K.addEventListener('keydown', (e) => { if (e.key === 'Enter') sortObjetos(); });
 
-        // Re-habilitar botones al cambiar el filtro de ordenamiento
+        // Re-habilitar botones al cambiar el criterio de ordenamiento
         const selectKey = document.getElementById('selectSortKey');
         if (selectKey) selectKey.addEventListener('change', () => enableButtons('btnSortObj'));
 
-        // Reinicio
+        // Botones de Reiniciar
         document.querySelectorAll('.btn-reiniciar').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const demoNum = e.target.getAttribute('data-demo');
@@ -118,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Navbar
+        // Autocierre de menú móvil
         document.querySelectorAll('.nav-link-auto-close').forEach(link => {
             link.addEventListener('click', () => {
                 const menu = document.getElementById('navbarNav');
@@ -127,6 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Efectos visuales de hover
     function vincularEfectosVisuales() {
         document.querySelectorAll('.btn, .elemento-array').forEach(el => {
             el.addEventListener('mouseenter', () => {
@@ -139,9 +168,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Inicialización
     setupEvents();
     renderArray(1, trabajo.demo1);
     renderArray(2, trabajo.demo2);
     renderArray(3, trabajo.demo3);
     vincularEfectosVisuales();
 });
+

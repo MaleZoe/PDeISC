@@ -1,6 +1,12 @@
+/**
+ * Ejercicio 9: Método forEach()
+ * Este script demuestra cómo RECORRER un array y ejecutar una función
+ * por cada uno de sus elementos.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // ESTADOS INMUTABLES (BASE)
+    // Datos de ejemplo para las demostraciones
     // ==========================================
     const BASES = {
         demo1: ['Ana', 'Carlos', 'Lucía', 'Pedro', 'Sofía'],
@@ -13,16 +19,21 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
     };
 
+    // Control para evitar ejecuciones simultáneas de animaciones
     let isAnimating = { 1: false, 2: false, 3: false };
 
     // ==========================================
     // FUNCIONES ATÓMICAS (LOGIC & UI)
     // ==========================================
 
+    /**
+     * Dibuja los elementos del array en pantalla
+     */
     function renderArray(demoNum, array) {
         const container = document.getElementById(`trackerBase${demoNum}`);
         if (!container) return;
         container.innerHTML = '';
+        // EL MÉTODO CLAVE: .forEach() recorre cada item
         array.forEach((item, idx) => {
             const span = document.createElement('span');
             span.className = 'badge bg-secondary opacity-75 elemento-array';
@@ -33,8 +44,12 @@ document.addEventListener('DOMContentLoaded', () => {
         vincularEfectosVisuales();
     }
 
+    // Utilidad para esperar tiempo (pausa)
     const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
+    /**
+     * Demo 1: Generar saludos recorriendo el array de nombres
+     */
     async function runDemo1() {
         if (isAnimating[1]) return;
         isAnimating[1] = true;
@@ -42,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const panel = document.getElementById('resPanel1');
         panel.innerHTML = '';
 
+        // Simulamos un forEach asíncrono para ver el recorrido paso a paso
         for (let i = 0; i < BASES.demo1.length; i++) {
             if (!isAnimating[1]) break;
             const trackerEl = document.getElementById(`d1-${i}`);
@@ -58,9 +74,11 @@ document.addEventListener('DOMContentLoaded', () => {
             trackerEl.classList.replace('opacity-100', 'opacity-75');
         }
         isAnimating[1] = false;
-        // Keep disabled to show it finished
     }
 
+    /**
+     * Demo 2: Realizar cálculos matemáticos por cada elemento
+     */
     async function runDemo2(mult = 2) {
         if (isAnimating[2]) return;
         isAnimating[2] = true;
@@ -86,6 +104,9 @@ document.addEventListener('DOMContentLoaded', () => {
         isAnimating[2] = false;
     }
 
+    /**
+     * Demo 3: Mostrar tarjetas de información de objetos
+     */
     async function runDemo3() {
         if (isAnimating[3]) return;
         isAnimating[3] = true;
@@ -117,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isAnimating[3] = false;
     }
 
+    // Utilidad para habilitar/deshabilitar botones
     function toggleButtons(prefix, disabled) {
         ['Click', 'Key'].forEach(s => {
             const btn = document.getElementById(`${prefix}${s}`);
@@ -137,22 +159,22 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         };
 
-        // Demo 1
+        // Demo 1: Eventos de Click y Tecla Enter
         bind('btnSaludarClick', runDemo1, 'click');
         const btnSaludarKey = document.getElementById('btnSaludarKey');
         if (btnSaludarKey) btnSaludarKey.addEventListener('keydown', (e) => { if (e.key === 'Enter') runDemo1(); });
 
-        // Demo 2
+        // Demo 2: Eventos de Click y Barra Espaciadora
         bind('btnCalcularClick', () => runDemo2(2), 'click');
         const btnCalcularKey = document.getElementById('btnCalcularKey');
         if (btnCalcularKey) btnCalcularKey.addEventListener('keydown', (e) => { if (e.key === ' ') { e.preventDefault(); runDemo2(3); } });
 
-        // Demo 3
+        // Demo 3: Eventos de Click y Tecla 'F'
         bind('btnMostrarPersonasClick', runDemo3, 'click');
         const btnMostrarKey = document.getElementById('btnMostrarPersonasKey');
         if (btnMostrarKey) btnMostrarKey.addEventListener('keydown', (e) => { if (e.key.toLowerCase() === 'f') runDemo3(); });
 
-        // Reinicio
+        // Botones de Reiniciar
         document.querySelectorAll('.btn-reiniciar').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const demo = e.target.getAttribute('data-demo');
@@ -171,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Navbar
+        // Autocierre de menú móvil
         document.querySelectorAll('.nav-link-auto-close').forEach(link => {
             link.addEventListener('click', () => {
                 const menu = document.getElementById('navbarNav');
@@ -180,6 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Efectos visuales de hover
     function vincularEfectosVisuales() {
         document.querySelectorAll('.btn, .elemento-array').forEach(el => {
             el.addEventListener('mouseenter', () => {
@@ -192,9 +215,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Inicialización de la aplicación
     setupEvents();
     renderArray(1, BASES.demo1);
     renderArray(2, BASES.demo2);
     renderArray(3, BASES.demo3);
     vincularEfectosVisuales();
 });
+

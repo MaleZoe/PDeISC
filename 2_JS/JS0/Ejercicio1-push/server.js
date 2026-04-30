@@ -1,39 +1,34 @@
-const express = require('express');
-const path = require('path');
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-// Inicialización de la aplicación Express
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const app = express();
 const PORT = 3001;
 
-// Middleware para servir archivos estáticos (CSS y JS)
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
 
-// Middleware para registrar en consola cada petición entrante
 app.use((req, res, next) => {
     const timestamp = new Date().toISOString();
-    console.log(`[${timestamp}] ${req.method} ${req.url}`);
+    console.log([\] \ \);
     next();
 });
 
-// Ruta principal que sirve el archivo HTML
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'index.html'));
 });
 
-// Inicialización del servidor con manejo elegante del error EADDRINUSE
 const server = app.listen(PORT, () => {
-    console.log(` Servidor iniciado exitosamente.`);
-    console.log(` Visita: http://localhost:${PORT}`);
+    console.log( Servidor iniciado exitosamente en puerto \3001.);
 });
 
 server.on('error', (err) => {
     if (err.code === 'EADDRINUSE') {
-        console.error(`\n ERROR CRÍTICO: El puerto ${PORT} ya está en uso.`);
-        console.error(`Por favor, detén el otro proceso o cambia el puerto en server.js.`);
-        process.exit(1);
-    } else {
-        console.error(`\n Ocurrió un error al iniciar el servidor: ${err.message}`);
+        console.error( ERROR: Puerto \3001 en uso.);
         process.exit(1);
     }
 });

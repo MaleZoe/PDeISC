@@ -1,3 +1,7 @@
+/**
+ * Ejercicio 4: Método shift()
+ * Este script demuestra cómo eliminar el PRIMER elemento de un array.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // ESTADO DE LA APLICACIÓN
@@ -16,12 +20,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // FUNCIONES ATÓMICAS (LOGIC & UI)
     // ==========================================
 
+    /**
+     * Dibuja los elementos del array en pantalla
+     */
     function renderArray(key) {
         const container = document.getElementById(`tracker${capitalize(key)}`);
         if (!container) return;
         container.innerHTML = '';
         const data = state[key];
 
+        // Si no hay datos, deshabilitamos botones y mostramos mensaje
         if (data.length === 0) {
             container.innerHTML = `<span class="badge bg-secondary opacity-50">Array vacío [ ]</span>`;
             toggleDemoButtons(key, true);
@@ -30,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         toggleDemoButtons(key, false);
 
+        // Generamos los elementos visuales uno por uno
         data.forEach((item, idx) => {
             const el = document.createElement(key === 'mensajes' ? 'div' : 'span');
             el.className = getElementClass(key, idx);
@@ -38,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (key === 'mensajes') {
                 el.textContent = item;
             } else if (key === 'cola') {
+                // En la cola, el índice 0 es quien está siendo atendido
                 el.innerHTML = idx === 0 ? `🧑‍💼 <b>${item}</b> (Atendiendo)` : `👤 ${item}`;
             } else {
                 el.textContent = item;
@@ -46,12 +56,12 @@ document.addEventListener('DOMContentLoaded', () => {
             container.appendChild(el);
         });
 
-        updatePreviews(key);
         vincularEfectosVisuales();
     }
 
     const capitalize = s => s.charAt(0).toUpperCase() + s.slice(1);
     
+    // Asigna estilos según el tipo de dato y posición
     function getElementClass(key, idx) {
         if (key === 'numeros') return 'badge bg-primary elemento-array';
         if (key === 'mensajes') return 'p-2 bg-dark rounded border border-secondary text-light w-50 elemento-array';
@@ -59,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return 'elemento-array';
     }
 
+    // Activa o desactiva botones según el estado del array
     function toggleDemoButtons(key, disabled) {
         if (key === 'cola') {
             const btn = document.getElementById('btnAtenderClick');
@@ -72,31 +83,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function updatePreviews(key) {
-        // Previsualizaciones eliminadas por solicitud
-    }
-
     /**
-     * Lógica central de shift con animación
+     * Lógica central de .shift() con animación de salida hacia la izquierda
      */
     async function shiftElement(key, count = 1) {
         if (state[key].length === 0) return;
 
         for (let i = 0; i < count && state[key].length > 0; i++) {
             const firstDOM = document.getElementById(`${key}-0`);
+            // Animamos el primer elemento antes de quitarlo
             if (firstDOM) {
                 firstDOM.classList.add('anim-shift-out-left');
                 await new Promise(r => setTimeout(r, 350));
             }
             
+            // EL MÉTODO CLAVE: .shift() elimina el primer elemento y lo devuelve
             const removed = state[key].shift();
             
             renderArray(key);
         }
     }
 
-
-
+    /**
+     * Agrega un cliente al final de la cola usando .push()
+     */
     function pushCliente(e) {
         if (e) e.preventDefault();
         const input = document.getElementById('inputCliente');
@@ -108,17 +118,20 @@ document.addEventListener('DOMContentLoaded', () => {
         state.cola.push(val);
         input.value = '';
         renderArray('cola');
-        // Animar el último que entró
+        
+        // Animamos la entrada del nuevo elemento
         const last = document.getElementById(`cola-${state.cola.length - 1}`);
         if (last) last.classList.add('anim-push-in-right');
     }
 
+    // Efecto de sacudida para errores
     function animateError(el) {
         el.classList.remove('shake-animation');
         void el.offsetWidth;
         el.classList.add('shake-animation');
     }
 
+    // Validador de entrada para clientes
     function validateCliente() {
         const input = document.getElementById('inputCliente');
         if (!input) return;
@@ -136,14 +149,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const ctx = document.getElementById(`${prefix}Context`);
             const dbl = document.getElementById(`${prefix}Dbl`);
 
+            // Evento de Click Derecho
             if (ctx) ctx.addEventListener('contextmenu', (e) => { e.preventDefault(); shiftElement(key, count); });
+            // Evento de Doble Click
             if (dbl) dbl.addEventListener('dblclick', () => shiftElement(key, count));
         };
 
         bindShift('btnShiftNumero', 'numeros');
         bindShift('btnEliminarMensaje', 'mensajes');
 
-        // Demo 3: Atender (Click) y Agregar (Clic Der)
+        // Demo 3: Botones de Atender y Agregar
         const btnAtender = document.getElementById('btnAtenderClick');
         const btnAddCtx = document.getElementById('btnAgregarClienteContext');
 
@@ -156,20 +171,19 @@ document.addEventListener('DOMContentLoaded', () => {
             validateCliente();
         }
 
-        // Reinicio
+        // Botones de Reiniciar
         document.querySelectorAll('.btn-reiniciar').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const demo = e.target.getAttribute('data-demo');
                 const keys = ['numeros', 'mensajes', 'cola'];
                 const key = keys[demo - 1];
                 state[key] = [...(key === 'numeros' ? INITIAL_ENTEROS : key === 'mensajes' ? INITIAL_MENSAJES : INITIAL_COLA)];
-                if (key === 'mensajes') document.getElementById('bubbleEliminado').classList.add('d-none');
                 renderArray(key);
                 if (key === 'cola') validateCliente();
             });
         });
 
-        // Navbar
+        // Navbar auto-cierre
         document.querySelectorAll('.nav-link-auto-close').forEach(link => {
             link.addEventListener('click', () => {
                 const menu = document.getElementById('navbarNav');
@@ -178,6 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Efectos visuales de hover
     function vincularEfectosVisuales() {
         document.querySelectorAll('.btn, .elemento-array').forEach(el => {
             el.addEventListener('mouseenter', () => {
@@ -190,9 +205,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Inicialización de la aplicación
     setupEvents();
     renderArray('numeros');
     renderArray('mensajes');
     renderArray('cola');
 });
+
 

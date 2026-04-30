@@ -1,3 +1,8 @@
+/**
+ * Ejercicio 8: Método includes()
+ * Este script demuestra cómo comprobar si un array contiene un elemento determinado.
+ * Devuelve true si existe y false si no.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // ESTADO DE LA APLICACIÓN
@@ -13,6 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // FUNCIONES ATÓMICAS (LOGIC & UI)
     // ==========================================
 
+    /**
+     * Dibuja los elementos del array en la interfaz
+     */
     function renderArray(demoNum, array) {
         const container = document.getElementById(`trackerBase${demoNum}`);
         if (!container) return;
@@ -27,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         vincularEfectosVisuales();
     }
 
+    // Resetea los colores de los elementos
     function resetHighlights(demoNum, length) {
         for (let i = 0; i < length; i++) {
             const el = document.getElementById(`d${demoNum}-${i}`);
@@ -37,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Resalta un elemento específico
     function highlightElement(demoNum, index, colorClass) {
         const el = document.getElementById(`d${demoNum}-${index}`);
         if (el) {
@@ -47,10 +57,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    /**
+     * Demo 1: Verificar si el rol 'admin' está en la lista
+     */
     function runDemo1() {
         resetHighlights(1, BASES.demo1.length);
+        // EL MÉTODO CLAVE: .includes() devuelve true o false
         const exists = BASES.demo1.includes('admin');
         const panel = document.getElementById('resPanel1');
+        
         if (exists) {
             highlightElement(1, BASES.demo1.indexOf('admin'), 'bg-primary');
             panel.textContent = 'TRUE';
@@ -62,10 +77,15 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleButtons('btnVerificarAdmin', true);
     }
 
+    /**
+     * Demo 2: Verificar colores específicos
+     */
     function runDemo2(color, resId, colorClass, btnPrefix) {
         resetHighlights(2, BASES.demo2.length);
+        // Verificamos si el color buscado está incluido
         const exists = BASES.demo2.includes(color);
         const resDiv = document.getElementById(resId);
+        
         if (exists) {
             highlightElement(2, BASES.demo2.indexOf(color), colorClass);
             resDiv.textContent = 'TRUE';
@@ -77,12 +97,16 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleButtons(btnPrefix, true);
     }
 
+    /**
+     * Demo 3: Usar .includes() para evitar duplicados en un input
+     */
     function runDemo3(e) {
         if (e) e.preventDefault();
         const input = document.getElementById('inputNumero');
         const val = parseInt(input.value, 10);
         if (isNaN(val)) return;
 
+        // EL MÉTODO CLAVE: Evitamos agregar el número si ya está en el array
         const exists = state3.includes(val);
         const panel = document.getElementById('resPanel3');
 
@@ -100,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Utilidad para habilitar/deshabilitar botones
     function toggleButtons(prefix, disabled) {
         ['Context', 'Hover', 'Submit', 'Input'].forEach(s => {
             const btn = document.getElementById(`${prefix}${s}`);
@@ -107,11 +132,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Validación del input numérico
     function validateDemo3() {
         const val = parseInt(document.getElementById('inputNumero').value, 10);
         toggleButtons('btnValidarAgregar', isNaN(val));
     }
 
+    // Animación de error visual
     function animateError(el) {
         el.classList.remove('shake-animation');
         void el.offsetWidth;
@@ -131,11 +158,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         };
 
-        // Demo 1
+        // Eventos Demo 1: Hover y Click derecho
         bind('btnVerificarAdminContext', runDemo1, 'contextmenu');
         bind('btnVerificarAdminHover', runDemo1, 'mouseenter');
 
-        // Demo 2
+        // Eventos Demo 2
         ['Verde', 'Rosa'].forEach(c => {
             const color = c.toLowerCase();
             const resId = `res${c}`;
@@ -145,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
             bind(`${prefix}Hover`, () => runDemo2(color, resId, cls, prefix), 'mouseenter');
         });
 
-        // Demo 3
+        // Eventos Demo 3
         const form = document.getElementById('formValidar');
         if (form) form.addEventListener('submit', (e) => e.preventDefault());
         
@@ -158,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
         bind('btnValidarAgregarSubmit', runDemo3, 'click');
         bind('btnValidarAgregarInput', runDemo3, 'contextmenu');
 
-        // Reinicio
+        // Botones de Reiniciar
         document.querySelectorAll('.btn-reiniciar').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const demo = e.target.getAttribute('data-demo');
@@ -182,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Navbar
+        // Autocierre de menú móvil
         document.querySelectorAll('.nav-link-auto-close').forEach(link => {
             link.addEventListener('click', () => {
                 const menu = document.getElementById('navbarNav');
@@ -191,6 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Efectos visuales de hover
     function vincularEfectosVisuales() {
         document.querySelectorAll('.btn, .elemento-array').forEach(el => {
             el.addEventListener('mouseenter', () => {
@@ -203,9 +231,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Inicialización
     setupEvents();
     renderArray(1, BASES.demo1);
     renderArray(2, BASES.demo2);
     renderArray(3, state3);
     vincularEfectosVisuales();
 });
+
