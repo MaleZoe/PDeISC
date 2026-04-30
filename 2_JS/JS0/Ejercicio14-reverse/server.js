@@ -1,5 +1,10 @@
-const express = require('express');
-const path = require('path');
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 const PORT = 3014;
@@ -9,7 +14,7 @@ app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
 
 app.use((req, res, next) => {
     const timestamp = new Date().toISOString();
-    console.log(`[${timestamp}] ${req.method} ${req.url}`);
+    console.log([\] \ \);
     next();
 });
 
@@ -18,17 +23,12 @@ app.get('/', (req, res) => {
 });
 
 const server = app.listen(PORT, () => {
-    console.log(`🚀 Servidor iniciado exitosamente.`);
-    console.log(`👉 Visita: http://localhost:${PORT}`);
+    console.log( Servidor iniciado exitosamente en puerto 3014.);
 });
 
 server.on('error', (err) => {
     if (err.code === 'EADDRINUSE') {
-        console.error(`\n❌ ERROR CRÍTICO: El puerto ${PORT} ya está en uso.`);
-        console.error(`Por favor, detén el otro proceso o cambia el puerto en server.js.`);
-        process.exit(1);
-    } else {
-        console.error(`\n❌ Ocurrió un error al iniciar el servidor: ${err.message}`);
+        console.error( ERROR: Puerto 3014 en uso.);
         process.exit(1);
     }
 });

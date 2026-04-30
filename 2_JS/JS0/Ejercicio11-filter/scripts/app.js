@@ -106,9 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ==========================================
-    // ASIGNACIÓN DE EVENTOS (HANDLERS)
-    // ==========================================
 
     function setupEvents() {
         const bind = (id, action, type) => {

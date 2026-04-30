@@ -6,27 +6,22 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Inicialización de la aplicación Express
 const app = express();
 const PORT = 3008;
 
-// Middleware para servir archivos estáticos
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
 
-// Registro de peticiones
 app.use((req, res, next) => {
     const timestamp = new Date().toISOString();
     console.log(`[${timestamp}] ${req.method} ${req.url}`);
     next();
 });
 
-// Ruta principal
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'index.html'));
 });
 
-// Inicialización del servidor
 const server = app.listen(PORT, () => {
     console.log(` Servidor iniciado exitosamente en puerto ${PORT}.`);
 });
