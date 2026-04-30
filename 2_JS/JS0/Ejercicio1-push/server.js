@@ -10,18 +10,19 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
 app.use((req, res, next) => {
     const timestamp = new Date().toISOString();
-    console.log(`[${timestamp}] ${req.method} ${req.url}`);
+    console.log('[ + '' + ]  + '' +   + '' + ');
     next();
 });
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'index.html'));
 });
 const server = app.listen(PORT, () => {
-    console.log(` Servidor iniciado exitosamente en puerto ${PORT}.`);
+    console.log(' Servidor iniciado exitosamente en puerto ' + PORT + '.');
 });
 server.on('error', (err) => {
     if (err.code === 'EADDRINUSE') {
-        console.error(` ERROR: Puerto ${PORT} en uso.`);
+        console.error(' ERROR: Puerto ' + PORT + ' en uso.');
         process.exit(1);
     }
 });
+
