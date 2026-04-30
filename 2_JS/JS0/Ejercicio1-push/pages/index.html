@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 1 - Método push()</title>
+    
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="/public/styles/estilos.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-glass fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#"> Ejercicio 1: push()</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Navegación">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-auto-close" href="#demo1">Demo 1: Frutas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-auto-close" href="#demo2">Demo 2: Amigos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-auto-close" href="#demo3">Demo 3: Condicional</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mt-5 pt-5 pb-5">
+        
+        <!-- Header -->
+        <header class="text-center mb-5 mt-4">
+            <h1 class="display-4 fw-bolder text-gradient">Método push()</h1>
+            <p class="lead text-muted">Agrega uno o más elementos al final de un array y devuelve la nueva longitud.</p>
+        </header>
+
+        <!-- Demo 1: Frutas -->
+        <section id="demo1" class="demo-card card glass-card mb-5">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="card-title h4 m-0">Demo 1: Agregar Frutas</h2>
+                    <button class="btn btn-outline-danger btn-sm btn-reiniciar" data-demo="1">Reiniciar Demo</button>
+                </div>
+                
+                <div class="controles mb-4 d-flex justify-content-start align-items-center gap-3">
+                    <select id="selectFruta" class="form-select glass-input w-auto">
+                        <option value="🍎">🍎 Manzana</option>
+                        <option value="🍌">🍌 Banana</option>
+                        <option value="🍊">🍊 Naranja</option>
+                        <option value="🍇">🍇 Uva</option>
+                    </select>
+                    <div class="btn-group">
+                        <button id="btnPushClick" class="btn btn-primary px-3" title="Clic normal">Click</button>
+                        <button id="btnPushContext" class="btn btn-primary px-3" title="Clic derecho">Clic Der</button>
+                    </div>
+                </div>
+                
+                <div class="area-salida mt-4 p-3 rounded">
+                    <h5 class="text-light mb-3">Estado del Array:</h5>
+                    <div id="trackerFrutas" class="tracker-contenedor d-flex flex-wrap gap-2">
+                        <!-- Badges renderizados dinámicamente -->
+                        <span class="badge bg-secondary opacity-50">Array vacío [ ]</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Demo 2: Amigos -->
+        <section id="demo2" class="demo-card card glass-card mb-5">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="card-title h4 m-0">Demo 2: Lista de Amigos</h2>
+                    <button class="btn btn-outline-danger btn-sm btn-reiniciar" data-demo="2">Reiniciar Demo</button>
+                </div>
+                
+                <div class="row g-3 align-items-center mb-3">
+                    <div class="col-auto">
+                        <input type="text" id="inputAmigo" class="form-control glass-input" placeholder="Nombre del amigo...">
+                    </div>
+                    <div class="col-auto">
+                        <div class="btn-group">
+                            <button id="btnAgregarAmigoClick" class="btn btn-info px-3 disabled" title="Clic normal">Click</button>
+                            <button id="btnAgregarAmigoContext" class="btn btn-info px-3 disabled" title="Clic derecho">Clic Der</button>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <span id="alertaDuplicado" class="text-danger small fw-bold d-none">¡Ya está en la lista!</span>
+                    </div>
+                </div>
+                
+                <div class="area-salida mt-4 p-3 rounded">
+                    <h5 class="text-light mb-3">Estado del Array:</h5>
+                    <div id="trackerAmigos" class="tracker-contenedor d-flex flex-wrap gap-2">
+                        <!-- Badges renderizados dinámicamente -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Demo 3: Números con condición -->
+        <section id="demo3" class="demo-card card glass-card mb-5">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="card-title h4 m-0">Demo 3: Agregar si es mayor</h2>
+                    <button class="btn btn-outline-danger btn-sm btn-reiniciar" data-demo="3">Reiniciar Demo</button>
+                </div>
+                
+                <div class="row g-3 align-items-center mb-3">
+                    <div class="col-auto">
+                        <input type="number" id="inputNumero" class="form-control glass-input" placeholder="Número entero..." min="1">
+                    </div>
+                    <div class="col-auto">
+                        <div class="btn-group">
+                            <button id="btnAgregarNumeroClick" class="btn btn-success px-3" title="Clic normal">Click</button>
+                            <button id="btnAgregarNumeroContext" class="btn btn-success px-3" title="Clic derecho">Clic Der</button>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <span id="previaCondicion" class="text-muted small fw-bold"></span>
+                    </div>
+                </div>
+                
+                <div class="area-salida mt-4 p-3 rounded">
+                    <h5 class="text-light mb-3">Estado del Array:</h5>
+                    <div id="trackerNumeros" class="tracker-contenedor d-flex flex-wrap gap-2">
+                        <!-- Badges renderizados dinámicamente -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+    <!-- Lógica de la aplicación -->
+    <script src="/scripts/app.js"></script>
+</body>
+</html>

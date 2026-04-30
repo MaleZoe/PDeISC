@@ -1,0 +1,16 @@
+{
+  "name": "ejercicio-7-indexof",
+  "version": "1.0.0",
+  "description": "Demostración interactiva del método indexOf() de Arrays en JavaScript",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.22.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

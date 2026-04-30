@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 11 - Método filter()</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="/public/styles/estilos.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-glass fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#"> Ejercicio 11: filter()</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link nav-link-auto-close" href="#demo1">1. Números</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-auto-close" href="#demo2">2. Palabras</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-auto-close" href="#demo3">3. Usuarios</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+ 
+    <!-- Main Content -->
+    <main class="container mt-5 pt-5 pb-5">
+        
+        <!-- Header -->
+        <header class="text-center mb-5 mt-4">
+            <h1 class="display-4 fw-bolder text-gradient">Método filter()</h1>
+            <p class="lead text-muted">Crea un <strong>nuevo array</strong> con todos los elementos que cumplan la condición implementada por la función dada.</p>
+        </header>
+ 
+        <!-- Demo 1: Números -->
+        <section id="demo1" class="demo-card card glass-card mb-5">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="card-title h4 m-0">Demo 1: Umbral Numérico</h2>
+                    <button class="btn btn-outline-danger btn-sm btn-reiniciar" data-demo="1">Reiniciar Demo</button>
+                </div>
+                
+                <div class="row g-3 align-items-center mb-4">
+                    <div class="col-auto">
+                        <input type="number" id="inputUmbral" class="form-control glass-input text-center" value="10" style="width: 80px;">
+                    </div>
+                    <div class="col-auto">
+                        <div class="btn-group">
+                        <button id="btnFiltrarNumerosClick" class="btn btn-primary px-3" title="Click izquierdo">Click</button>
+                        <button id="btnFiltrarNumerosDown" class="btn btn-primary px-3" title="Presiona Enter">Tecla Enter</button>
+                    </div>
+                    </div>
+                </div>
+                
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="area-salida p-3 rounded">
+                            <h6 class="text-secondary mb-3">Array Original</h6>
+                            <div id="trackerBase1" class="tracker-contenedor d-flex flex-wrap gap-2"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="area-salida p-3 rounded border-primary border-opacity-25 bg-primary bg-opacity-10">
+                            <h6 class="text-primary mb-3">Filtrados (Mayores a X)</h6>
+                            <div id="trackerResultado1" class="tracker-contenedor d-flex flex-wrap gap-2">
+                                <span class="opacity-50">Esperando filtro...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+ 
+        <!-- Demo 2: Palabras -->
+        <section id="demo2" class="demo-card card glass-card mb-5">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="card-title h4 m-0">Demo 2: Longitud de Palabras</h2>
+                    <button class="btn btn-outline-danger btn-sm btn-reiniciar" data-demo="2">Reiniciar Demo</button>
+                </div>
+                
+                <div class="row g-3 align-items-center mb-4">
+                    <div class="col-auto">
+                        <select id="selectLongitud" class="form-select glass-input text-info fw-bold">
+                            <option value="3">3</option>
+                            <option value="5" selected>5</option>
+                            <option value="7">7</option>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <div class="btn-group">
+                        <button id="btnFiltrarPalabrasClick" class="btn btn-info px-3" title="Click izquierdo">Click</button>
+                        <button id="btnFiltrarPalabrasDown" class="btn btn-info px-3" title="Presiona Espacio">Tecla Espacio</button>
+                    </div>
+                    </div>
+                </div>
+                
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="area-salida p-3 rounded">
+                            <h6 class="text-secondary mb-3">Array Original</h6>
+                            <div id="trackerBase2" class="tracker-contenedor d-flex flex-wrap gap-2"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="area-salida p-3 rounded border-info border-opacity-25 bg-info bg-opacity-10">
+                            <h6 class="text-info mb-3">Palabras Largas</h6>
+                            <div id="trackerResultado2" class="tracker-contenedor d-flex flex-wrap gap-2">
+                                <span class="opacity-50">Esperando filtro...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+ 
+        <!-- Demo 3: Usuarios -->
+        <section id="demo3" class="demo-card card glass-card mb-5">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="card-title h4 m-0">Demo 3: Objetos Dinámicos</h2>
+                    <button class="btn btn-outline-danger btn-sm btn-reiniciar" data-demo="3">Reiniciar Demo</button>
+                </div>
+                
+                <div class="mb-4 d-flex justify-content-start justify-content-start">
+                            <div class="btn-group">
+                                <button id="btnFiltrarUsuariosClick" class="btn btn-success px-3" title="Click para Activos">Click Activos</button>
+                                <button id="btnFiltrarUsuariosDown" class="btn btn-danger px-3" title="Presiona tecla F para Inactivos">Tecla F</button>
+                            </div>
+                </div>
+                
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="area-salida p-3 rounded">
+                            <h6 class="text-secondary mb-3">Directorio Original (Clic para cambiar estado)</h6>
+                            <div id="trackerBase3" class="tracker-contenedor d-flex flex-wrap gap-2 justify-content-center"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="area-salida p-3 rounded border-success border-opacity-25 bg-success bg-opacity-10">
+                            <h6 class="text-success mb-3">Resultados del Filtro</h6>
+                            <div id="trackerResultado3" class="tracker-contenedor d-flex flex-wrap gap-2 justify-content-center">
+                                <span class="opacity-50">Esperando filtro...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+ 
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="/scripts/app.js"></script>
+</body>
+</html>

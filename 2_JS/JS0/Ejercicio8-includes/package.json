@@ -1,0 +1,16 @@
+{
+  "name": "ejercicio-8-includes",
+  "version": "1.0.0",
+  "description": "Demostración interactiva del método includes() de Arrays en JavaScript",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.22.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
