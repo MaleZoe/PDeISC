@@ -1,7 +1,7 @@
 {
   "name": "ejercicio-11-filter",
   "version": "1.0.0",
-  "description": "Demostración interactiva del método filter() de Arrays en JavaScript",
+  "type": "module",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

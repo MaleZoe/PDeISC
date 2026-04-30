@@ -1,7 +1,7 @@
 {
-  "name": "ejercicio-9-foreach",
+  "name": "ejercicio-9-forEach",
   "version": "1.0.0",
-  "description": "Demostración interactiva del método forEach() de Arrays en JavaScript",
+  "type": "module",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

@@ -1,7 +1,7 @@
 {
   "name": "ejercicio-12-reduce",
   "version": "1.0.0",
-  "description": "Demostración interactiva del método reduce() de Arrays en JavaScript",
+  "type": "module",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

@@ -1,7 +1,7 @@
 {
   "name": "ejercicio-2-pop",
   "version": "1.0.0",
-  "description": "Demostración interactiva del método pop() de Arrays en JavaScript",
+  "type": "module",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
