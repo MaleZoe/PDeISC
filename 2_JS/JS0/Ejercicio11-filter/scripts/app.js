@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Utilidad para gestionar botones
     function toggleButtons(prefix, disabled) {
-        ['Click', 'Down'].forEach(s => {
+        ['Click', 'Hover', 'Dbl'].forEach(s => {
             const btn = document.getElementById(`${prefix}${s}`);
             if (btn) btn.disabled = disabled;
         });
@@ -113,35 +113,20 @@ document.addEventListener('DOMContentLoaded', () => {
             if (el) el.addEventListener(type, action);
         };
 
-        // Eventos Demo 1: Click y Tecla Enter
+        // Demo 1
         bind('btnFiltrarNumerosClick', runDemo1, 'click');
-        const btn1K = document.getElementById('btnFiltrarNumerosDown');
-        if (btn1K) {
-            btn1K.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') runDemo1();
-            });
-        }
+        bind('btnFiltrarNumerosHover', runDemo1, 'mouseenter');
+        bind('btnFiltrarNumerosDbl', runDemo1, 'dblclick');
 
-        // Eventos Demo 2: Click y Barra Espaciadora
+        // Demo 2
         bind('btnFiltrarPalabrasClick', runDemo2, 'click');
-        const btn2K = document.getElementById('btnFiltrarPalabrasDown');
-        if (btn2K) {
-            btn2K.addEventListener('keydown', (e) => {
-                if (e.key === ' ') {
-                    e.preventDefault();
-                    runDemo2();
-                }
-            });
-        }
+        bind('btnFiltrarPalabrasHover', runDemo2, 'mouseenter');
+        bind('btnFiltrarPalabrasDbl', runDemo2, 'dblclick');
 
-        // Eventos Demo 3: Click y Tecla 'F'
+        // Demo 3
         bind('btnFiltrarUsuariosClick', () => runDemo3(true), 'click');
-        const btn3K = document.getElementById('btnFiltrarUsuariosDown');
-        if (btn3K) {
-            btn3K.addEventListener('keydown', (e) => {
-                if (e.key.toLowerCase() === 'f') runDemo3(false);
-            });
-        }
+        bind('btnFiltrarUsuariosHover', () => runDemo3(true), 'mouseenter');
+        bind('btnFiltrarUsuariosDbl', () => runDemo3(true), 'dblclick');
 
         // Botones de Reiniciar
         document.querySelectorAll('.btn-reiniciar').forEach(btn => {

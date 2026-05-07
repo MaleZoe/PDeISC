@@ -1,0 +1,191 @@
+
+
+:root {
+
+    --color-fondo: #0f172a;
+    --color-superficie: #1e293b;
+    --color-borde: #334155;
+    
+    --color-primario: #6366f1;
+    --color-secundario: #8b5cf6;
+    --color-acento: #38bdf8;
+    
+    --color-exito: #10b981;
+    --color-error: #ef4444;
+    --color-advertencia: #f59e0b;
+    
+    --color-texto: #ffffff;
+    --color-texto-suave: #cbd5e1;
+    
+
+    --radio-borde: 12px;
+    --sombra-suave: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+    --sombra-media: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+    
+    --transicion-rapida: 0.15s ease;
+    --transicion-normal: 0.3s ease;
+    
+    --fuente-principal: 'Outfit', system-ui, sans-serif;
+    --fuente-mono: 'Fira Code', monospace;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    font-family: var(--fuente-principal);
+    -webkit-font-smoothing: antialiased;
+}
+
+
+code, .metodo-codigo, #metodoActivo {
+    font-family: var(--fuente-mono);
+}
+
+.form-label {
+    color: var(--color-texto);
+    font-weight: 500;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+
+
+
+.form-control, .form-select {
+    background-color: rgba(15, 23, 42, 0.6) !important;
+    border: 1px solid var(--color-borde) !important;
+    color: #ffffff !important;
+    border-radius: 8px;
+    transition: border-color var(--transicion-normal), box-shadow var(--transicion-normal);
+}
+
+.form-control::placeholder, .form-select::placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: rgba(15, 23, 42, 0.8) !important;
+    border-color: var(--color-primario) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+
+/* Forzar color de las opciones del select */
+select option {
+    background-color: #1e293b;
+    color: #ffffff;
+}
+
+.form-control::placeholder {
+    color: var(--color-texto-suave);
+    opacity: 0.7;
+}
+
+
+.navbar {
+    background-color: rgba(30, 41, 59, 0.85) !important;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-borde);
+}
+
+.navbar-brand {
+    color: var(--color-primario) !important;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.nav-link {
+    color: var(--color-texto-suave) !important;
+    font-weight: 500;
+    transition: color var(--transicion-rapida);
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--color-acento) !important;
+}
+
+
+.text-muted {
+    color: var(--color-texto-suave) !important;
+}
+
+.btn-primario {
+    background: linear-gradient(135deg, var(--color-primario), var(--color-secundario));
+    color: white;
+    border: none;
+    font-weight: 600;
+    transition: transform var(--transicion-rapida), box-shadow var(--transicion-rapida);
+}
+
+.btn-primario:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 12px -2px rgba(99, 102, 241, 0.4);
+    color: white;
+}
+
+.btn-outline-primario {
+    color: var(--color-acento);
+    border-color: var(--color-acento);
+}
+
+.btn-outline-primario:hover {
+    background-color: var(--color-acento);
+    color: var(--color-fondo);
+}
+
+
+.btn-outline-secondary {
+    color: var(--color-texto-suave);
+    border-color: var(--color-texto-suave);
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--color-texto-suave);
+    color: var(--color-fondo);
+}
+
+
+.bg-primario {
+    background-color: var(--color-primario) !important;
+}
+
+
+.card-premium {
+    background: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-borde);
+    box-shadow: var(--sombra-suave);
+}
+
+.border-dashed {
+    border: 2px dashed var(--color-borde);
+}
+
+
+.text-muted {
+    color: #94a3b8 !important;
+}
+
+.small, small {
+    color: #cbd5e1 !important;
+}
+
+.mensaje-error {
+    color: #fb7185 !important;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

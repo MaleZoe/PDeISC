@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Deshabilita botones una vez realizada la búsqueda
     function toggleFixedButtons(demoNum, disabled) {
         const prefix = demoNum === 1 ? 'btnBuscarPerro' : 'btnBuscar50';
-        ['Hover', 'Dbl'].forEach(s => {
+        ['Click', 'Hover', 'Dbl'].forEach(s => {
             const btn = document.getElementById(`${prefix}${s}`);
             if (btn) btn.disabled = disabled;
         });
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Validador para el input de ciudad
     function validateDemo3() {
         const val = document.getElementById('inputCiudad').value.trim();
-        ['Hover', 'Dbl'].forEach(s => {
+        ['Click', 'Hover', 'Dbl'].forEach(s => {
             const btn = document.getElementById(`btnBuscarCiudad${s}`);
             if (btn) btn.disabled = val === '';
         });
@@ -144,8 +144,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         };
 
-        // Eventos configurados: Al pasar el mouse (Hover) y al hacer Doble Click
-        const events = [{id: 'Hover', type: 'mouseenter'}, {id: 'Dbl', type: 'dblclick'}];
+        // Eventos configurados: Click, Hover y Doble Click
+        const events = [{id: 'Click', type: 'click'}, {id: 'Hover', type: 'mouseenter'}, {id: 'Dbl', type: 'dblclick'}];
 
         bind('btnBuscarPerro', buscarDemo1, events);
         bind('btnBuscar50', buscarDemo2, events);

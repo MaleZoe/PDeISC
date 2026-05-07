@@ -86,14 +86,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Gestion de estado de botones
     function disableButtons(prefix) {
-        ['Click', 'Key'].forEach(s => {
+        ['Click', 'Hover', 'Dbl'].forEach(s => {
             const btn = document.getElementById(`${prefix}${s}`);
             if (btn) btn.disabled = true;
         });
     }
 
     function enableButtons(prefix) {
-        ['Click', 'Key'].forEach(s => {
+        ['Click', 'Hover', 'Dbl'].forEach(s => {
             const btn = document.getElementById(`${prefix}${s}`);
             if (btn) btn.disabled = false;
         });
@@ -109,25 +109,22 @@ document.addEventListener('DOMContentLoaded', () => {
             if (el) el.addEventListener(type, action);
         };
 
-        // Eventos: Click y Tecla Enter
+        // Eventos
         
         // Demo 1
-        const btn1C = document.getElementById('btnSortClick');
-        const btn1K = document.getElementById('btnSortKey');
-        if (btn1C) btn1C.addEventListener('click', sortNumeros);
-        if (btn1K) btn1K.addEventListener('keydown', (e) => { if (e.key === 'Enter') sortNumeros(); });
+        bind('btnSortClick', sortNumeros, 'click');
+        bind('btnSortHover', sortNumeros, 'mouseenter');
+        bind('btnSortDbl', sortNumeros, 'dblclick');
 
         // Demo 2
-        const btn2C = document.getElementById('btnSortAZClick');
-        const btn2K = document.getElementById('btnSortAZKey');
-        if (btn2C) btn2C.addEventListener('click', sortPalabras);
-        if (btn2K) btn2K.addEventListener('keydown', (e) => { if (e.key === 'Enter') sortPalabras(); });
+        bind('btnSortAZClick', sortPalabras, 'click');
+        bind('btnSortAZHover', sortPalabras, 'mouseenter');
+        bind('btnSortAZDbl', sortPalabras, 'dblclick');
 
         // Demo 3
-        const btn3C = document.getElementById('btnSortObjClick');
-        const btn3K = document.getElementById('btnSortObjKey');
-        if (btn3C) btn3C.addEventListener('click', sortObjetos);
-        if (btn3K) btn3K.addEventListener('keydown', (e) => { if (e.key === 'Enter') sortObjetos(); });
+        bind('btnSortObjClick', sortObjetos, 'click');
+        bind('btnSortObjHover', sortObjetos, 'mouseenter');
+        bind('btnSortObjDbl', sortObjetos, 'dblclick');
 
         // Re-habilitar botones al cambiar el criterio de ordenamiento
         const selectKey = document.getElementById('selectSortKey');

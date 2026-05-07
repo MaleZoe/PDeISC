@@ -1,0 +1,229 @@
+<!-- NJS4/Proyecto 3/pages/index.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NJS4 — Registro de Personas</title>
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts: Quicksand (warm/approachable) & Fira Code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/styles/estilos-globales.css">
+    <link rel="stylesheet" href="/public/styles/estilos-app.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">Registro de Personas</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-3 align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#seccionFormulario">Nuevo Registro</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2" href="#seccionListado">
+                            Personas Registradas
+                            <span id="badgeContador" class="badge rounded-pill bg-primary shadow-sm">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#seccionEstadisticas">Estadísticas</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container-fluid px-md-5 my-5 gap-5 d-flex flex-column">
+        
+        <!-- Sección A: Formulario -->
+        <section id="seccionFormulario" class="seccion-principal p-4 p-md-5 rounded-4 shadow-sm border">
+            <header class="mb-4">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-2">
+                    <h2 class="h3 fw-bold color-primario m-0">Registrar Nueva Persona</h2>
+                    <span class="badge border px-3 py-2 badge-metodo shadow-sm rounded-pill">
+                        💾 Almacenamiento: localStorage
+                    </span>
+                </div>
+                <p class="text-muted">Completá el formulario — los datos se guardarán en el almacenamiento local del navegador</p>
+            </header>
+
+            <form id="formularioPersona" novalidate>
+                
+                <!-- Fieldset 1: Datos Personales -->
+                <fieldset>
+                    <legend>Datos Personales</legend>
+                    <div class="row g-4">
+                        <div class="col-md-6 position-relative">
+                            <label for="inp-nombre" class="form-label fw-medium">Nombre <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="inp-nombre" placeholder="Ej. Ana" required>
+                            <span class="mensaje-error" id="err-nombre" role="alert"></span>
+                            <span class="mensaje-exito position-absolute top-50 end-0 translate-middle-y me-3 d-none">✓</span>
+                        </div>
+                        <div class="col-md-6 position-relative">
+                            <label for="inp-apellido" class="form-label fw-medium">Apellido <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="inp-apellido" placeholder="Ej. García" required>
+                            <span class="mensaje-error" id="err-apellido" role="alert"></span>
+                            <span class="mensaje-exito position-absolute top-50 end-0 translate-middle-y me-3 d-none">✓</span>
+                        </div>
+                        <div class="col-md-6 position-relative">
+                            <label for="inp-fecha-nac" class="form-label fw-medium">Fecha de nacimiento</label>
+                            <input type="date" class="form-control" id="inp-fecha-nac">
+                            <span class="mensaje-error" id="err-fecha-nac" role="alert"></span>
+                            <span class="mensaje-exito position-absolute top-50 end-0 translate-middle-y me-4 d-none">✓</span>
+                        </div>
+                        <div class="col-md-6 position-relative pt-1">
+                            <label class="form-label fw-medium d-block mb-2">Sexo <span class="text-danger">*</span></label>
+                            <div class="d-flex gap-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sexo" id="sexo-masculino" value="Masculino">
+                                    <label class="form-check-label text-muted" for="sexo-masculino">Masculino</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sexo" id="sexo-femenino" value="Femenino">
+                                    <label class="form-check-label text-muted" for="sexo-femenino">Femenino</label>
+                                </div>
+                            </div>
+                            <input type="text" id="inp-sexo" class="d-none" required>
+                            <span class="mensaje-error" id="err-sexo" role="alert"></span>
+                        </div>
+                        <div class="col-md-6 position-relative">
+                            <label for="inp-documento" class="form-label fw-medium">Documento</label>
+                            <input type="text" class="form-control" id="inp-documento" placeholder="Sin puntos ni espacios">
+                            <span class="mensaje-error" id="err-documento" role="alert"></span>
+                            <span class="mensaje-exito position-absolute top-50 end-0 translate-middle-y me-3 d-none">✓</span>
+                        </div>
+                        <div class="col-md-6 position-relative">
+                            <label for="inp-email" class="form-label fw-medium">Correo electrónico <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="inp-email" placeholder="ejemplo@correo.com" required>
+                            <span class="mensaje-error" id="err-email" role="alert"></span>
+                            <span class="mensaje-exito position-absolute top-50 end-0 translate-middle-y me-3 d-none">✓</span>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Fieldset 2: Datos Adicionales -->
+                <fieldset>
+                    <legend>Datos Adicionales</legend>
+                    <div class="row g-4">
+                        <div class="col-md-6 position-relative">
+                            <label for="inp-estado-civil" class="form-label fw-medium">Estado civil</label>
+                            <select class="form-select" id="inp-estado-civil">
+                                <option value="" selected disabled>Seleccioná...</option>
+                                <option value="Soltero/a">Soltero/a</option>
+                                <option value="Casado/a">Casado/a</option>
+                                <option value="Divorciado/a">Divorciado/a</option>
+                                <option value="Viudo/a">Viudo/a</option>
+                            </select>
+                            <span class="mensaje-error" id="err-estado-civil" role="alert"></span>
+                            <span class="mensaje-exito position-absolute top-50 end-0 translate-middle-y me-4 d-none">✓</span>
+                        </div>
+                        <div class="col-md-6 position-relative">
+                            <label for="inp-nacionalidad" class="form-label fw-medium">Nacionalidad</label>
+                            <input type="text" class="form-control" id="inp-nacionalidad" placeholder="Ej. Argentina">
+                            <span class="mensaje-error" id="err-nacionalidad" role="alert"></span>
+                            <span class="mensaje-exito position-absolute top-50 end-0 translate-middle-y me-3 d-none">✓</span>
+                        </div>
+                        <div class="col-md-6 position-relative">
+                            <label for="inp-direccion" class="form-label fw-medium">Dirección</label>
+                            <input type="text" class="form-control" id="inp-direccion" placeholder="Calle, Número, Localidad">
+                            <span class="mensaje-error" id="err-direccion" role="alert"></span>
+                            <span class="mensaje-exito position-absolute top-50 end-0 translate-middle-y me-3 d-none">✓</span>
+                        </div>
+                        <div class="col-md-6 position-relative">
+                            <label for="inp-telefono" class="form-label fw-medium">Teléfono</label>
+                            <input type="text" class="form-control" id="inp-telefono" placeholder="+54 9 11 ...">
+                            <span class="mensaje-error" id="err-telefono" role="alert"></span>
+                            <span class="mensaje-exito position-absolute top-50 end-0 translate-middle-y me-3 d-none">✓</span>
+                        </div>
+                        
+                        <div class="col-md-6 position-relative">
+                            <label class="form-label fw-medium d-block mb-2">¿Tiene hijos? <span class="text-danger">*</span></label>
+                            <div class="d-flex gap-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="tiene-hijos" id="hijos-si" value="Si">
+                                    <label class="form-check-label text-muted" for="hijos-si">Sí</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="tiene-hijos" id="hijos-no" value="No">
+                                    <label class="form-check-label text-muted" for="hijos-no">No</label>
+                                </div>
+                            </div>
+                            <input type="text" id="inp-tiene-hijos" class="d-none" required>
+                            <span class="mensaje-error" id="err-tiene-hijos" role="alert"></span>
+                        </div>
+                        
+                        <!-- Condicional -->
+                        <div class="col-md-6 position-relative" id="contenedorCantidadHijos">
+                            <label for="inp-cantidad-hijos" class="form-label fw-medium">Cantidad de hijos <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="inp-cantidad-hijos" min="1" max="30">
+                            <span class="mensaje-error" id="err-cantidad-hijos" role="alert"></span>
+                            <span class="mensaje-exito position-absolute top-50 end-0 translate-middle-y me-3 d-none mt-2">✓</span>
+                        </div>
+                    </div>
+                </fieldset>
+
+
+                <!-- Botones y Banner -->
+                <div class="d-flex flex-wrap gap-3 align-items-center mt-3">
+                    <button type="submit" id="btnGuardar" class="btn btn-primary px-4 py-2 fw-bold shadow-sm" disabled>💾 Guardar Persona</button>
+                    <button type="reset" id="btnLimpiar" class="btn btn-light px-4 py-2 text-secondary fw-medium border">↺ Limpiar Formulario</button>
+                </div>
+
+                <div id="bannerFeedback" class="mt-4 shadow-sm border">
+                    <span class="icono-banner fs-4"></span>
+                    <span class="texto-banner fw-medium"></span>
+                </div>
+            </form>
+        </section>
+
+        <!-- Sección B: Listado -->
+        <section id="seccionListado" class="seccion-principal p-4 p-md-5 rounded-4 bg-white shadow-sm border">
+            <header class="mb-4">
+                <h2 class="h3 fw-bold color-primario mb-1">Personas Registradas</h2>
+                <p class="text-muted m-0">Datos persistidos en localStorage — se conservan al recargar la página</p>
+            </header>
+
+
+
+            <!-- Estado Vacío -->
+            <div id="estadoVacio" class="text-center py-5 my-4 bg-white bg-opacity-5 rounded-4 border border-dashed">
+                <h4 class="fw-bold text-white">No hay personas registradas aún</h4>
+                <p class="text-muted m-0">Completá el formulario para agregar la primera.</p>
+            </div>
+
+            <!-- Listado -->
+            <div id="listaPersonas" class="row g-4">
+                <!-- Tarjetas dinámicas aquí -->
+            </div>
+            
+            <div class="text-end mt-4">
+                <p class="text-muted small fw-medium m-0" id="textoContadorListado">Mostrando 0 de 0 personas</p>
+            </div>
+        </section>
+
+        <!-- Sección C: Eliminada -->
+
+    </main>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Scripts en orden estricto -->
+    <script src="/scripts/navbar.js"></script>
+    <script src="/scripts/storage.js"></script>
+    <script src="/scripts/validador.js"></script>
+    <script src="/scripts/formulario.js"></script>
+    <script src="/scripts/listado.js"></script>
+    <script src="/scripts/app.js"></script>
+</body>
+</html>

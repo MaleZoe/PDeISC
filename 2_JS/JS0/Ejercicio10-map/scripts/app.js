@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Utilidad para habilitar/deshabilitar botones
     function toggleButtons(prefix, disabled) {
-        ['Dbl', 'Down'].forEach(s => {
+        ['Click', 'Hover', 'Dbl'].forEach(s => {
             const btn = document.getElementById(`${prefix}${s}`);
             if (btn) btn.disabled = disabled;
         });
@@ -91,19 +91,22 @@ document.addEventListener('DOMContentLoaded', () => {
             if (el) el.addEventListener(type, action);
         };
 
-        // Eventos de Doble Click (Dbl) y Mantener Presionado (Down)
+        // Eventos
         
         // Demo 1
+        bind('btnMultiplicarClick', runDemo1, 'click');
+        bind('btnMultiplicarHover', runDemo1, 'mouseenter');
         bind('btnMultiplicarDbl', runDemo1, 'dblclick');
-        bind('btnMultiplicarDown', runDemo1, 'mousedown');
 
         // Demo 2
+        bind('btnMayusculasClick', () => runDemo2(true), 'click');
+        bind('btnMayusculasHover', () => runDemo2(true), 'mouseenter');
         bind('btnMayusculasDbl', () => runDemo2(true), 'dblclick');
-        bind('btnMayusculasDown', () => runDemo2(true), 'mousedown');
 
         // Demo 3
+        bind('btnAplicarIVAClick', runDemo3, 'click');
+        bind('btnAplicarIVAHover', runDemo3, 'mouseenter');
         bind('btnAplicarIVADbl', runDemo3, 'dblclick');
-        bind('btnAplicarIVADown', runDemo3, 'mousedown');
 
         // Botones de Reiniciar
         document.querySelectorAll('.btn-reiniciar').forEach(btn => {

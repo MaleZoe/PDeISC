@@ -14,7 +14,7 @@ app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
 
 app.use((req, res, next) => {
     const timestamp = new Date().toISOString();
-    console.log([\] \ \);
+    console.log(`[${timestamp}] ${req.method} ${req.url}`);
     next();
 });
 
@@ -23,12 +23,12 @@ app.get('/', (req, res) => {
 });
 
 const server = app.listen(PORT, () => {
-    console.log( Servidor iniciado exitosamente en puerto 3011.);
+    console.log(` Servidor iniciado exitosamente en puerto ${PORT}.`);
 });
 
 server.on('error', (err) => {
     if (err.code === 'EADDRINUSE') {
-        console.error( ERROR: Puerto 3011 en uso.);
+        console.error(` ERROR: Puerto ${PORT} en uso.`);
         process.exit(1);
     }
 });

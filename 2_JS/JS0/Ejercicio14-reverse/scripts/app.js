@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Utilidad de UI
     function toggleButtons(prefix, disabled) {
-        ['Dbl', 'Down'].forEach(s => {
+        ['Click', 'Hover', 'Dbl'].forEach(s => {
             const btn = document.getElementById(`${prefix}${s}`);
             if (btn) btn.disabled = disabled;
         });
@@ -95,19 +95,22 @@ document.addEventListener('DOMContentLoaded', () => {
             if (el) el.addEventListener(type, action);
         };
 
-        // Eventos: Doble Click y Mantener Presionado
+        // Eventos
         
         // Demo 1
+        bind('btnReverseLetrasClick', runReverseLetras, 'click');
+        bind('btnReverseLetrasHover', runReverseLetras, 'mouseenter');
         bind('btnReverseLetrasDbl', runReverseLetras, 'dblclick');
-        bind('btnReverseLetrasDown', runReverseLetras, 'mousedown');
 
         // Demo 2
+        bind('btnReverseNumClick', runReverseNum, 'click');
+        bind('btnReverseNumHover', runReverseNum, 'mouseenter');
         bind('btnReverseNumDbl', runReverseNum, 'dblclick');
-        bind('btnReverseNumDown', runReverseNum, 'mousedown');
 
         // Demo 3
+        bind('btnReverseStrClick', runReverseStr, 'click');
+        bind('btnReverseStrHover', runReverseStr, 'mouseenter');
         bind('btnReverseStrDbl', runReverseStr, 'dblclick');
-        bind('btnReverseStrDown', runReverseStr, 'mousedown');
         
         const inputString = document.getElementById('inputString');
         if (inputString) {

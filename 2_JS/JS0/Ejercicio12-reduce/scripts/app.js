@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Utilidad de UI
     function toggleButtons(prefix, disabled) {
-        ['Dbl', 'Down'].forEach(s => {
+        ['Click', 'Hover', 'Dbl'].forEach(s => {
             const btn = document.getElementById(`${prefix}${s}`);
             if (btn) btn.disabled = disabled;
         });
@@ -157,19 +157,22 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         };
 
-        // Eventos: Doble Click (Dbl) y Mantener Presionado (Down)
+        // Eventos
         
         // Demo 1
+        bind('btnSumarTodoClick', runDemo1, 'click');
+        bind('btnSumarTodoHover', runDemo1, 'mouseenter');
         bind('btnSumarTodoDbl', runDemo1, 'dblclick');
-        bind('btnSumarTodoDown', runDemo1, 'mousedown');
 
         // Demo 2
+        bind('btnMultiplicarTodoClick', runDemo2, 'click');
+        bind('btnMultiplicarTodoHover', runDemo2, 'mouseenter');
         bind('btnMultiplicarTodoDbl', runDemo2, 'dblclick');
-        bind('btnMultiplicarTodoDown', runDemo2, 'mousedown');
 
         // Demo 3
+        bind('btnCalcularTotalClick', runDemo3, 'click');
+        bind('btnCalcularTotalHover', runDemo3, 'mouseenter');
         bind('btnCalcularTotalDbl', runDemo3, 'dblclick');
-        bind('btnCalcularTotalDown', runDemo3, 'mousedown');
 
         // Botones de Reiniciar
         document.querySelectorAll('.btn-reiniciar').forEach(btn => {

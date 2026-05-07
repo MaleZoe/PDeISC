@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Utilidad para habilitar/deshabilitar botones
     function toggleButtons(prefix, disabled) {
-        ['Context', 'Hover', 'Submit', 'Input'].forEach(s => {
+        ['Click', 'Hover', 'Dbl'].forEach(s => {
             const btn = document.getElementById(`${prefix}${s}`);
             if (btn) btn.disabled = disabled;
         });
@@ -158,9 +158,10 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         };
 
-        // Eventos Demo 1: Hover y Click derecho
-        bind('btnVerificarAdminContext', runDemo1, 'contextmenu');
+        // Eventos Demo 1
+        bind('btnVerificarAdminClick', runDemo1, 'click');
         bind('btnVerificarAdminHover', runDemo1, 'mouseenter');
+        bind('btnVerificarAdminDbl', runDemo1, 'dblclick');
 
         // Eventos Demo 2
         ['Verde', 'Rosa'].forEach(c => {
@@ -168,8 +169,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const resId = `res${c}`;
             const cls = color === 'verde' ? 'bg-info' : 'bg-danger';
             const prefix = `btnExiste${c}`;
-            bind(`${prefix}Context`, () => runDemo2(color, resId, cls, prefix), 'contextmenu');
+            bind(`${prefix}Click`, () => runDemo2(color, resId, cls, prefix), 'click');
             bind(`${prefix}Hover`, () => runDemo2(color, resId, cls, prefix), 'mouseenter');
+            bind(`${prefix}Dbl`, () => runDemo2(color, resId, cls, prefix), 'dblclick');
         });
 
         // Eventos Demo 3
@@ -182,8 +184,9 @@ document.addEventListener('DOMContentLoaded', () => {
             validateDemo3();
         }
         
-        bind('btnValidarAgregarSubmit', runDemo3, 'click');
-        bind('btnValidarAgregarInput', runDemo3, 'contextmenu');
+        bind('btnValidarAgregarClick', runDemo3, 'click');
+        bind('btnValidarAgregarHover', runDemo3, 'mouseenter');
+        bind('btnValidarAgregarDbl', runDemo3, 'dblclick');
 
         // Botones de Reiniciar
         document.querySelectorAll('.btn-reiniciar').forEach(btn => {

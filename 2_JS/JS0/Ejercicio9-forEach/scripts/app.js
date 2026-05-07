@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Utilidad para habilitar/deshabilitar botones
     function toggleButtons(prefix, disabled) {
-        ['Click', 'Key'].forEach(s => {
+        ['Click', 'Hover', 'Dbl'].forEach(s => {
             const btn = document.getElementById(`${prefix}${s}`);
             if (btn) btn.disabled = disabled;
         });
@@ -159,20 +159,20 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         };
 
-        // Demo 1: Eventos de Click y Tecla Enter
+        // Demo 1
         bind('btnSaludarClick', runDemo1, 'click');
-        const btnSaludarKey = document.getElementById('btnSaludarKey');
-        if (btnSaludarKey) btnSaludarKey.addEventListener('keydown', (e) => { if (e.key === 'Enter') runDemo1(); });
+        bind('btnSaludarHover', runDemo1, 'mouseenter');
+        bind('btnSaludarDbl', runDemo1, 'dblclick');
 
-        // Demo 2: Eventos de Click y Barra Espaciadora
+        // Demo 2
         bind('btnCalcularClick', () => runDemo2(2), 'click');
-        const btnCalcularKey = document.getElementById('btnCalcularKey');
-        if (btnCalcularKey) btnCalcularKey.addEventListener('keydown', (e) => { if (e.key === ' ') { e.preventDefault(); runDemo2(3); } });
+        bind('btnCalcularHover', () => runDemo2(2), 'mouseenter');
+        bind('btnCalcularDbl', () => runDemo2(2), 'dblclick');
 
-        // Demo 3: Eventos de Click y Tecla 'F'
+        // Demo 3
         bind('btnMostrarPersonasClick', runDemo3, 'click');
-        const btnMostrarKey = document.getElementById('btnMostrarPersonasKey');
-        if (btnMostrarKey) btnMostrarKey.addEventListener('keydown', (e) => { if (e.key.toLowerCase() === 'f') runDemo3(); });
+        bind('btnMostrarPersonasHover', runDemo3, 'mouseenter');
+        bind('btnMostrarPersonasDbl', runDemo3, 'dblclick');
 
         // Botones de Reiniciar
         document.querySelectorAll('.btn-reiniciar').forEach(btn => {

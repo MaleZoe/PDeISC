@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NJS4 — Registro de Automotores</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/public/styles/estilos-globales.css">
+    <link rel="stylesheet" href="/public/styles/estilos-app.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container-fluid px-md-5">
+            <a class="navbar-brand fw-bold" href="#">NJS4 Motors</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-3">
+                    <li class="nav-item"><a class="nav-link" href="#seccionFormulario">Nuevo Ingreso</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#seccionCatalogo">Catálogo de Unidades</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container-fluid px-md-5 my-5">
+        
+        <div class="row g-5">
+            <!-- Columna Izquierda: Formulario -->
+            <div class="col-xl-9 col-lg-12">
+                <section id="seccionFormulario" class="glass-panel p-4 p-md-5 rounded-4 shadow-sm h-100">
+                    <header class="mb-4">
+                        <h2 class="h3 fw-bold color-primario mb-1">Registro de Vehículo</h2>
+                        <p class="text-muted">Ingresá los datos técnicos de la unidad para el sistema de ventas</p>
+                    </header>
+
+                    <form id="formularioProducto" novalidate>
+                        <div class="row g-4">
+                            <!-- Datos del Vehículo -->
+                            <div class="col-md-6 position-relative">
+                                <label for="inp-marca" class="form-label">Marca</label>
+                                <select class="form-select" id="inp-marca" required>
+                                    <option value="" selected disabled>Seleccioná marca...</option>
+                                    <option value="Toyota">Toyota</option>
+                                    <option value="Fiat">Fiat</option>
+                                    <option value="Volkswagen">Volkswagen</option>
+                                    <option value="Renault">Renault</option>
+                                    <option value="Chevrolet">Chevrolet</option>
+                                    <option value="Ford">Ford</option>
+                                    <option value="Peugeot">Peugeot</option>
+                                    <option value="Nissan">Nissan</option>
+                                    <option value="Jeep">Jeep</option>
+                                    <option value="Citroën">Citroën</option>
+                                </select>
+                                <span class="mensaje-error" id="err-marca"></span>
+                                <span class="mensaje-exito d-none">✓</span>
+                            </div>
+                            <div class="col-md-6 position-relative">
+                                <label for="inp-nombre" class="form-label">Modelo</label>
+                                <select class="form-select" id="inp-nombre" required disabled>
+                                    <option value="" selected disabled>Seleccioná modelo...</option>
+                                </select>
+                                <span class="mensaje-error" id="err-nombre"></span>
+                                <span class="mensaje-exito d-none">✓</span>
+                            </div>
+
+                            <div class="col-md-4 position-relative">
+                                <label for="inp-anio" class="form-label">Año</label>
+                                <input type="number" class="form-control" id="inp-anio" placeholder="Ej. 2024" min="1900" max="2026" required>
+                                <span class="mensaje-error" id="err-anio"></span>
+                                <span class="mensaje-exito d-none">✓</span>
+                            </div>
+                            <div class="col-md-4 position-relative">
+                                <label for="inp-color" class="form-label">Color</label>
+                                <input type="text" class="form-control" id="inp-color" placeholder="Ej. Blanco, Gris, Azul" required>
+                                <span class="mensaje-error" id="err-color"></span>
+                                <span class="mensaje-exito d-none">✓</span>
+                            </div>
+                            <div class="col-md-4 position-relative">
+                                <label for="inp-stock" class="form-label">Patente / Dominio</label>
+                                <input type="text" class="form-control" id="inp-stock" placeholder="Ej. AA123BB o ABC123" required>
+                                <span class="mensaje-error" id="err-stock"></span>
+                                <span class="mensaje-exito d-none">✓</span>
+                            </div>
+
+                            <div class="col-md-4 position-relative">
+                                <label for="inp-precio" class="form-label">Kilómetros</label>
+                                <input type="number" class="form-control" id="inp-precio" placeholder="0 para 0km" min="0" required>
+                                <span class="mensaje-error" id="err-precio"></span>
+                                <span class="mensaje-exito d-none">✓</span>
+                            </div>
+                            <div class="col-md-4 position-relative">
+                                <label for="inp-categoria" class="form-label">Combustible</label>
+                                <select class="form-select" id="inp-categoria" required>
+                                    <option value="" selected disabled>Seleccioná...</option>
+                                    <option value="Nafta">Nafta</option>
+                                    <option value="Diesel">Diesel</option>
+                                    <option value="Híbrido">Híbrido</option>
+                                    <option value="Eléctrico">Eléctrico</option>
+                                    <option value="GNC">GNC</option>
+                                </select>
+                                <span class="mensaje-error" id="err-categoria"></span>
+                                <span class="mensaje-exito d-none">✓</span>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label d-block mb-3">Condición</label>
+                                <div class="d-flex gap-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="condicion" id="cond-nuevo" value="Nuevo" checked>
+                                        <label class="form-check-label" for="cond-nuevo">Nuevo</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="condicion" id="cond-usado" value="Usado">
+                                        <label class="form-check-label" for="cond-usado">Usado</label>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="inp-condicion" value="Nuevo">
+                                <span class="mensaje-error" id="err-condicion"></span>
+                            </div>
+
+                            <div class="col-md-12 position-relative">
+                                <label for="inp-imagen" class="form-label">Precio de Venta (USD)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent border-end-0 text-success fw-bold">U$S</span>
+                                    <input type="number" class="form-control border-start-0 ps-0" id="inp-imagen" placeholder="Ej. 15000" required>
+                                </div>
+                                <span class="mensaje-error" id="err-imagen"></span>
+                                <span class="mensaje-exito d-none">✓</span>
+                            </div>
+
+                            <div class="col-12 position-relative">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label for="inp-descripcion" class="form-label">Equipamiento y Observaciones</label>
+                                    <span id="contadorDescripcion" class="small text-muted">0 / 300</span>
+                                </div>
+                                <textarea class="form-control" id="inp-descripcion" rows="3" maxlength="300" placeholder="Ej. Aire, Cierre centralizado, única mano..."></textarea>
+                                <span class="mensaje-error" id="err-descripcion"></span>
+                                <span class="mensaje-exito d-none">✓</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 pt-4 border-top d-flex flex-wrap gap-3 align-items-center justify-content-between">
+                            <div class="d-flex gap-2 align-items-center">
+                                <span id="metodoActivo" class="badge-metodo px-3 py-2 rounded-pill bg-white bg-opacity-10 border text-white small fw-medium">Método: push()</span>
+                            </div>
+                            <div class="d-flex gap-3">
+                                <button type="reset" class="btn btn-outline-secondary px-4">Limpiar</button>
+                                <button type="submit" id="btnAgregar" class="btn btn-primary px-5 fw-bold" disabled>Registrar Unidad</button>
+                            </div>
+                        </div>
+                        
+                        <div id="bannerFeedback" class="mt-4 p-3 rounded-3 d-none">
+                            <span class="icono-banner me-2"></span>
+                            <span class="texto-banner fw-medium"></span>
+                        </div>
+                    </form>
+                </section>
+            </div>
+
+            <!-- Columna Derecha: Métodos y Ayuda -->
+            <div class="col-xl-3 col-lg-12">
+                <div class="d-flex flex-column gap-4 h-100">
+                    
+                    <section class="glass-panel p-4 rounded-4 shadow-sm">
+                        <h3 class="h5 fw-bold mb-3">Método de Inserción</h3>
+                        <p class="small text-muted mb-4">Seleccioná cómo se procesará el registro en el inventario</p>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <div class="tarjeta-metodo p-3 rounded-3 text-center h-100 cursor-pointer" data-metodo="push">
+                                    <div class="fw-bold small">push()</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="tarjeta-metodo p-3 rounded-3 text-center h-100 cursor-pointer" data-metodo="unshift">
+                                    <div class="fw-bold small">unshift()</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="tarjeta-metodo p-3 rounded-3 text-center h-100 cursor-pointer" data-metodo="concat">
+                                    <div class="fw-bold small">concat()</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="tarjeta-metodo p-3 rounded-3 text-center h-100 cursor-pointer" data-metodo="spread">
+                                    <div class="fw-bold small">Spread</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-5 opacity-10">
+
+        <!-- Sección Catálogo -->
+        <section id="seccionCatalogo">
+            <header class="d-flex flex-wrap justify-content-between align-items-center gap-4 mb-5">
+                <div>
+                    <h2 class="h3 fw-bold color-primario mb-1">Unidades Disponibles</h2>
+                    <p class="text-muted m-0" id="textoContador">Mostrando 0 unidades</p>
+                </div>
+            </header>
+
+            <div id="gridProductos" class="row g-4 mb-5">
+                <!-- Tarjetas aquí -->
+            </div>
+
+            <div id="estadoVacio" class="text-center py-5 border border-dashed rounded-4 bg-light bg-opacity-5">
+                <div class="display-1 mb-3 opacity-25">🚗</div>
+                <h4 class="fw-bold">No hay vehículos registrados</h4>
+                <p class="text-muted">Cargá una nueva unidad para que aparezca en el catálogo.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="container-fluid px-md-5 py-4 border-top mt-5 text-center">
+        <p class="text-muted small m-0">&copy; 2026 NJS4 Motors — Sistema de Gestión de Flota</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/scripts/almacenamiento.js"></script>
+    <script src="/scripts/validador.js"></script>
+    <script src="/scripts/catalogo.js"></script>
+    <script src="/scripts/app.js"></script>
+</body>
+</html>
