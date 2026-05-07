@@ -118,7 +118,7 @@ export const Validador = (() => {
             } else if (id === 'inp-documento') {
                 mostrarError(id, MENSAJES.dni);
             } else if (id === 'inp-telefono') {
-                mostrarError(id, MENSAJES.patronNumeros);
+                mostrarError(id, "Ingresá un teléfono válido (8-15 dígitos).");
             }
             return false;
         }

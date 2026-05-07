@@ -1,10 +1,4 @@
-// NJS4/Proyecto 3/scripts/formulario.js
 
-/**
- * Módulo Formulario
- * Responsabilidad: Manejar la lógica de la UI del formulario, específicamente 
- * los campos condicionales y pre-configuraciones de la vista.
- */
 
 window.Formulario = (() => {
 

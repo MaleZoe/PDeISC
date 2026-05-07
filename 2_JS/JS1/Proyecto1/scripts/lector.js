@@ -2,12 +2,6 @@ export const Lector = (() => {
 
     // Opción 1: FormData (Lee todo el formulario automáticamente por 'name')
     function leerConFormData(formulario) {
-        Array.from(formulario.elements).forEach(el => {
-            if (el.id && !el.name) {
-                el.name = el.id.replace('inp-', '');
-            }
-        });
-
         const formData = new FormData(formulario);
         
         return {
@@ -15,8 +9,8 @@ export const Lector = (() => {
             email: formData.get('email') || '',
             fecha: formData.get('fecha') || '',
             plan: formData.get('plan') || '',
-            horario: formData.get('horario') || '',
-            certificado: formData.get('certificado') || '',
+            documento: formData.get('documento') || '',
+            telefono: formData.get('telefono') || '',
             notas: formData.get('notas') || ''
         };
     }
@@ -28,8 +22,8 @@ export const Lector = (() => {
             email: document.getElementById('inp-email').value,
             fecha: document.getElementById('inp-fecha').value,
             plan: document.getElementById('inp-plan').value,
-            horario: document.getElementById('inp-horario').value,
-            certificado: document.getElementById('inp-certificado').value,
+            documento: document.getElementById('inp-documento').value,
+            telefono: document.getElementById('inp-telefono').value,
             notas: document.getElementById('inp-notas').value
         };
     }
@@ -43,16 +37,22 @@ export const Lector = (() => {
             email: elementos['inp-email'].value,
             fecha: elementos['inp-fecha'].value,
             plan: elementos['inp-plan'].value,
-            horario: elementos['inp-horario'].value,
-            certificado: elementos['inp-certificado'].value,
+            documento: elementos['inp-documento'].value,
+            telefono: elementos['inp-telefono'].value,
             notas: elementos['inp-notas'].value
         };
     }
 
     // Función que decide qué método de lectura aplicar
     function leer(formulario, metodoActivo) {
-        let datos;
+        // Aseguramos que los elementos tengan atributo 'name' basado en su ID si no lo tienen
+        Array.from(formulario.elements).forEach(el => {
+            if (el.id && !el.name) {
+                el.name = el.id.replace('inp-', '');
+            }
+        });
 
+        let datos;
         if (metodoActivo === 'formdata') {
             datos = leerConFormData(formulario);
         } else if (metodoActivo === 'getelementbyid') {
@@ -66,4 +66,3 @@ export const Lector = (() => {
 
     return { leer, leerConFormData, leerConGetElementById, leerConFormElements };
 })();
-

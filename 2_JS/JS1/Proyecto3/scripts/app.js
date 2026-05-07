@@ -1,10 +1,4 @@
-// NJS4/Proyecto 3/scripts/app.js
 
-/**
- * Módulo App
- * Responsabilidad: Punto de entrada principal. Orquesta los eventos globales,
- * actualiza las vistas y une los módulos Storage, Validador, Formulario y Listado.
- */
 
 window.App = (() => {
 

@@ -118,8 +118,8 @@ export const App = (() => {
                         <li><strong>Email:</strong> ${datos.email}</li>
                         <li><strong>Nacimiento:</strong> ${datos.fecha}</li>
                         <li><strong>Plan:</strong> ${datos.plan}</li>
-                        <li><strong>Horario:</strong> ${datos.horario}</li>
-                        <li><strong>Certificado:</strong> ${datos.certificado}</li>
+                        <li><strong>Documento:</strong> ${datos.documento}</li>
+                        <li><strong>Teléfono:</strong> ${datos.telefono}</li>
                     </ul>
 
                     ${notasHTML}

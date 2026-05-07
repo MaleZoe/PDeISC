@@ -1,10 +1,4 @@
-// NJS4/Proyecto 3/scripts/listado.js
 
-/**
- * Módulo Listado
- * Responsabilidad: Generar y actualizar el HTML dinámico de las tarjetas 
- * de personas y manejar el filtrado local (sin alterar localStorage).
- */
 
 window.Listado = (() => {
 

@@ -80,6 +80,17 @@ legend {
     gap: 0.6rem 1.2rem;
 }
 
+@media (max-width: 480px) {
+    .grilla-datos {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .tarjeta-persona {
+        padding: 1rem;
+    }
+}
+
 .tarjeta-stat {
     background: var(--color-superficie) !important;
     border: 1px solid var(--color-borde) !important;

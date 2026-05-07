@@ -1,10 +1,3 @@
-// NJS4/Proyecto 3/scripts/validador.js
-
-/**
- * Módulo Validador
- * Responsabilidad: Aplicar las reglas estrictas de validación de formulario,
- * incluyendo comprobación cruzada de fechas y duplicados contra el Storage.
- */
 
 window.Validador = (() => {
 
