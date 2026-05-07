@@ -13,15 +13,7 @@ window.Almacenamiento = (() => {
         catalogoProductos.unshift(producto);
     }
 
-    // Método 3: Crea un nuevo array concatenando el producto al final
-    function agregarConConcat(producto) {
-        catalogoProductos = catalogoProductos.concat([producto]);
-    }
 
-    // Método 4: Crea un nuevo array usando spread operator
-    function agregarConSpread(producto) {
-        catalogoProductos = [...catalogoProductos, producto];
-    }
 
     // Función principal para insertar un producto en el array según el método elegido
     function agregar(producto, metodo, posicion) {
@@ -34,12 +26,6 @@ window.Almacenamiento = (() => {
                 break;
             case 'unshift':
                 agregarConUnshift(producto);
-                break;
-            case 'concat':
-                agregarConConcat(producto);
-                break;
-            case 'spread':
-                agregarConSpread(producto);
                 break;
             default:
                 agregarConPush(producto);
