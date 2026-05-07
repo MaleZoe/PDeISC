@@ -77,8 +77,6 @@ window.Listado = (() => {
                             <span class="badge bg-dark bg-opacity-50 text-secondary border border-secondary border-opacity-25 rounded-pill" style="font-size: 0.65rem;">#${indice + 1}</span>
                         </div>
                     </div>
-                    <button class="btn btn-outline-danger btn-sm px-3 fw-medium bg-danger bg-opacity-10 border-0" 
-                            onclick="window.Listado.confirmarEliminacion('${persona.id}', '${nombreCompl.replace(/'/g, "\\'")}')">Eliminar</button>
                 </div>
 
                 <div class="grilla-datos">
