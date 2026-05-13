@@ -1,0 +1,51 @@
+/* estilos para el auditor de nodos */
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    background: #0f172a;
+    font-family: 'Inter', sans-serif;
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+}
+
+.text-gradient {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.italic { font-style: italic; }
+
+#linkContainer a {
+    color: #22d3ee;
+    text-decoration: none;
+    padding: 8px 12px;
+    background: rgba(34, 211, 238, 0.1);
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+#linkContainer a:hover {
+    background: rgba(34, 211, 238, 0.2);
+    transform: translateX(5px);
+}
+
+.audit-log {
+    color: #10b981;
+}
+
+.log-entry {
+    margin-bottom: 5px;
+    border-left: 2px solid #3b82f6;
+    padding-left: 10px;
+}

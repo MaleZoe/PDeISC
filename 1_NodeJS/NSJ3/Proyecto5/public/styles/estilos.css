@@ -1,0 +1,41 @@
+/* estilos para el inyector html */
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #f43f5e 0%, #fb923c 100%);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    background: #020617;
+    font-family: 'Outfit', sans-serif;
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+}
+
+.text-gradient {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.italic { font-style: italic; }
+
+/* estilos para elementos inyectados */
+.injected-item {
+    animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.table {
+    color: white;
+}

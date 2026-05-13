@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Aplicación web funcional y visualmente pulida con Node.js, Express y Vanilla JS",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js"
   },

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Explorer - Proyecto 2</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/estilos.css">
+</head>
+<body class="bg-dark text-light">
+
+    <div class="d-flex">
+        <!-- sidebar de navegación -->
+        <nav class="sidebar glass-card m-3 p-4 d-flex flex-column gap-3">
+            <h4 class="text-gradient fw-bold mb-4">Eventos JS</h4>
+            <button class="nav-btn active" data-target="mouse">Mouse Tracker</button>
+            <button class="nav-btn" data-target="keyboard">Keyboard Logger</button>
+            <button class="nav-btn" data-target="click">Click Challenge</button>
+            <button class="nav-btn" data-target="focus">Input Focus</button>
+            <button class="nav-btn" data-target="context">Context Menu</button>
+        </nav>
+
+        <!-- zona de contenido -->
+        <main class="flex-grow-1 p-5">
+            <div id="content-area" class="glass-card p-5 h-100">
+                
+                <!-- componente mouse -->
+                <section id="sec-mouse" class="comp-section">
+                    <h2>Mouse Tracker</h2>
+                    <p>Mové el mouse por acá y fijate cómo cambian las coordenadas.</p>
+                    <div id="mouse-box" class="interaction-box d-flex align-items-center justify-content-center border border-secondary rounded mt-4" style="height: 300px;">
+                        <span id="coords">X: 0, Y: 0</span>
+                    </div>
+                </section>
+
+                <!-- componente keyboard -->
+                <section id="sec-keyboard" class="comp-section d-none">
+                    <h2>Keyboard Logger</h2>
+                    <p>Tocá cualquier tecla para ver el código en pantalla.</p>
+                    <div class="interaction-box border border-secondary rounded mt-4 p-4 text-center">
+                        <h1 id="key-display" class="display-1 text-info">?</h1>
+                        <p id="key-details" class="text-muted">Presioná una tecla...</p>
+                    </div>
+                </section>
+
+                <!-- componente click -->
+                <section id="sec-click" class="comp-section d-none">
+                    <h2>Double Click Challenge</h2>
+                    <p>Hacé doble click rápido en el círculo para cambiar su color.</p>
+                    <div id="click-target" class="rounded-circle bg-primary mx-auto mt-4" style="width: 150px; height: 150px; cursor: pointer;"></div>
+                </section>
+
+                <!-- componente focus -->
+                <section id="sec-focus" class="comp-section d-none">
+                    <h2>Input Focus & Blur</h2>
+                    <p>Hacé click en el campo y luego afuera para ver el efecto.</p>
+                    <div class="mt-4">
+                        <label for="magic-input" class="form-label">Escribí algo:</label>
+                        <input type="text" id="magic-input" class="form-control bg-transparent text-light border-secondary" placeholder="Focuseame...">
+                        <p id="focus-msg" class="mt-2 text-warning"></p>
+                    </div>
+                </section>
+
+                <!-- componente context -->
+                <section id="sec-context" class="comp-section d-none">
+                    <h2>Context Menu (Botón Derecho)</h2>
+                    <p>Hacé click derecho dentro de la caja para un menú personalizado.</p>
+                    <div id="context-zone" class="interaction-box border border-dashed border-secondary rounded mt-4 d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <p>Click derecho acá...</p>
+                    </div>
+                    <div id="custom-menu" class="position-absolute d-none glass-card p-2 shadow-lg" style="z-index: 1000;">
+                        <ul class="list-unstyled m-0">
+                            <li class="p-2 hover-bg rounded">Opción 1</li>
+                            <li class="p-2 hover-bg rounded">Opción 2</li>
+                        </ul>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="../scripts/navegacion.js" type="module"></script>
+</body>
+</html>

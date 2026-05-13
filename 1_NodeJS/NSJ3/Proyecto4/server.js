@@ -1,37 +1,20 @@
+// servidor proyecto 4 - nodos y atributos
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-// Importación de módulos
-const express = require('express');
-const path = require('path');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 3004;
+const port = 3004;
 
-// archivos estáticos
-app.use('/public', express.static(path.join(__dirname, 'public')));
-app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Registro de peticiones en consola
-app.use((req, res, next) => {
-    console.log(`[${req.method}] ${req.url} → ${res.statusCode}`);
-    next();
-});
-
-// Rutas principales
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'pages', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'pages', 'index.html'));
 });
 
-app.get('/acerca', (req, res) => {
-    res.sendFile(path.join(__dirname, 'pages', 'acerca.html'));
-});
-
-
-// Iniciar servidor
-app.listen(PORT, () => {
-    console.log(`[SERVIDOR] Proyecto 4 corriendo en http://localhost:${PORT}`);
-}).on('error', (err) => {
-    if (err.code === 'EADDRINUSE') {
-        console.error(`[ERROR] El puerto ${PORT} ya está ocupado.`);
-        process.exit(1);
-    }
+app.listen(port, () => {
+    console.log(`servidor de nodos corriendo en http://localhost:${port}`);
 });

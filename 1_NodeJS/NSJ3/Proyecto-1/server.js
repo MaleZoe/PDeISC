@@ -1,38 +1,25 @@
-// Este es el servidor de la aplicación usando Express.
-// Básicamente se encarga de que cuando entremos a la web, nos muestre el index.html
-// y que el navegador pueda encontrar las carpetas de estilos y scripts.
+// servidor para el proyecto 1 - dom básico
+// acá usamos express para levantar el boliche y servir los archivos
 
-const express = require('express');
-const path = require('path');
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
-const puerto = 3001; // El puerto donde va a correr la web (localhost:3001)
+const port = 3001;
 
-// Esto sirve para ver en la consola qué páginas se van cargando
-app.use((req, res, next) => {
-  console.log(`[Petición] ${req.method} ${req.url}`);
-  next();
-});
-
-// Le decimos a Express dónde están los archivos que no cambian (estáticos)
+// acá le digo que use la carpeta public para todo lo estático
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
 
-// Cuando alguien entra a la raíz "/", le mandamos el archivo index.html
+// ruta principal para mandar el index
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'pages', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'pages', 'index.html'));
 });
 
-// Arrancamos el servidor
-const servidor = app.listen(puerto, () => {
-  console.log(`Proyecto 1 corriendo en http://localhost:${puerto}`);
-});
-
-// Manejo de errores a nivel de servidor, específicamente si el puerto está en uso
-servidor.on('error', (err) => {
-  if (err.code === 'EADDRINUSE') {
-    console.error(`❌ El puerto ${puerto} ya está en uso. Cerrando proceso...`);
-  } else {
-    console.error(`❌ Error del servidor: ${err.message}`);
-  }
-  process.exit(1);
+// prendemos el servidor
+app.listen(port, () => {
+    console.log(`servidor de estanga laburando en http://localhost:${port}`);
 });

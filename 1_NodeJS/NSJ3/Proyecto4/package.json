@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "NJS3 - Proyecto 4: Creación Dinámica y Auditoría",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js"
   },

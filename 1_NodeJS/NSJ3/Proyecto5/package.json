@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Aplicación web de inyección dinámica de HTML",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js"
   },

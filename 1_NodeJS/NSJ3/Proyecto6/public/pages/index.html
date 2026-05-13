@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Pro - Proyecto 6</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/estilos.css">
+</head>
+<body class="bg-dark text-light">
+
+    <div class="container-fluid py-4 px-5">
+        <header class="mb-4">
+            <h1 class="fw-bold text-gradient">Portal de Registro Académico</h1>
+            <p class="text-secondary">Validación estricta en tiempo real - Método Estanga</p>
+        </header>
+
+        <div class="row g-5">
+            <!-- Columna del Formulario -->
+            <div class="col-lg-7">
+                <div class="glass-card p-4">
+                    <form id="regForm" novalidate>
+                        <div class="row g-3">
+                            <!-- Nombre -->
+                            <div class="col-md-6">
+                                <label for="nombre" class="form-label">Nombre Completo</label>
+                                <input type="text" id="nombre" class="form-control" required pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$">
+                                <div class="invalid-feedback">Solo letras y espacios, sin números.</div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Correo Electrónico</label>
+                                <input type="email" id="email" class="form-control" required>
+                                <div class="invalid-feedback">Ingresá un mail válido.</div>
+                            </div>
+
+                            <!-- Fecha de Nacimiento -->
+                            <div class="col-md-6">
+                                <label for="fechaNac" class="form-label">Fecha de Nacimiento</label>
+                                <input type="date" id="fechaNac" class="form-control" required>
+                                <div class="invalid-feedback">Edad máxima 120 años.</div>
+                            </div>
+
+                            <!-- Número (DNI o similar) -->
+                            <div class="col-md-6">
+                                <label for="dni" class="form-label">Número de DNI</label>
+                                <input type="number" id="dni" class="form-control" required min="1000000" max="99999999">
+                                <div class="invalid-feedback">DNI inválido (8 dígitos).</div>
+                            </div>
+
+                            <!-- Select: Carrera -->
+                            <div class="col-md-6">
+                                <label for="carrera" class="form-label">Carrera</label>
+                                <select id="carrera" class="form-select" required>
+                                    <option value="" selected disabled>Elegí una...</option>
+                                    <option value="Sistemas">Sistemas</option>
+                                    <option value="Redes">Redes</option>
+                                    <option value="Diseño">Diseño</option>
+                                </select>
+                                <div class="invalid-feedback">Seleccioná una carrera.</div>
+                            </div>
+
+                            <!-- Radio: Turno -->
+                            <div class="col-md-6">
+                                <label class="form-label d-block">Turno</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="turno" id="turnoM" value="Mañana" required>
+                                    <label class="form-check-label" for="turnoM">Mañana</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="turno" id="turnoT" value="Tarde">
+                                    <label class="form-check-label" for="turnoT">Tarde</label>
+                                </div>
+                            </div>
+
+                            <!-- Checkbox: Términos -->
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="terminos" required>
+                                    <label class="form-check-label" for="terminos">
+                                        Acepto los términos y condiciones del protocolo
+                                    </label>
+                                    <div class="invalid-feedback">Debés aceptar para continuar.</div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-4">
+                                <button type="submit" id="btnSubmit" class="btn btn-primary w-100 py-2 fw-bold">Registrar Persona</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Columna de Previsualización -->
+            <div class="col-lg-5">
+                <div class="sticky-top" style="top: 2rem;">
+                    <h3 class="mb-4 text-info">Previsualización en Vivo</h3>
+                    <div id="previewCard" class="glass-card p-4 d-none">
+                        <div class="text-center mb-4">
+                            <div class="avatar-circle mx-auto mb-3">
+                                <span id="avatarInitial">?</span>
+                            </div>
+                            <h4 id="prevNombre" class="text-gradient">Nombre Apellido</h4>
+                            <span id="prevCarrera" class="badge bg-primary">Carrera</span>
+                        </div>
+                        <hr class="border-secondary">
+                        <div class="small">
+                            <p><strong>Email:</strong> <span id="prevEmail">-</span></p>
+                            <p><strong>Edad:</strong> <span id="prevEdad">-</span> años</p>
+                            <p><strong>DNI:</strong> <span id="prevDni">-</span></p>
+                            <p><strong>Turno:</strong> <span id="prevTurno">-</span></p>
+                            <p class="text-muted mt-3">Fecha de alta: <span id="prevFecha">DD/MM/AA</span></p>
+                        </div>
+                    </div>
+                    <div id="noDataMsg" class="text-center p-5 border border-dashed border-secondary rounded">
+                        <p class="text-muted">Completá el formulario para ver los datos...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../scripts/registro.js" type="module"></script>
+</body>
+</html>

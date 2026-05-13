@@ -1,0 +1,63 @@
+/* estilos para el explorador de eventos */
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    background: #020617;
+    overflow-x: hidden;
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+}
+
+.sidebar {
+    width: 280px;
+    height: calc(100vh - 2rem);
+}
+
+.text-gradient {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    text-align: left;
+    padding: 12px 20px;
+    border-radius: 10px;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.nav-btn:hover, .nav-btn.active {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    padding-left: 25px;
+}
+
+.interaction-box {
+    background: rgba(0,0,0,0.2);
+    transition: background 0.3s;
+}
+
+.hover-bg:hover {
+    background: rgba(255,255,255,0.1);
+    cursor: pointer;
+}
+
+#custom-menu {
+    min-width: 150px;
+}

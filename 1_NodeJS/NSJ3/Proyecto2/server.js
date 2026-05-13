@@ -1,32 +1,20 @@
-// Este servidor maneja el Proyecto 2 (Explorador de Eventos).
-// Sirve diferentes páginas para probar eventos de mouse, teclado, formulario, etc.
+// servidor proyecto 2 - eventos y navegación
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const express = require('express');
-const path = require('path');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
-const puerto = 3002; // Corre en el puerto 3002
+const port = 3002;
 
-// Log de consola para saber qué está pasando
-app.use((req, res, next) => {
-  console.log(`[Petición P2] ${req.method} ${req.url}`);
-  next();
-});
-
-// Carpetas de archivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
 
-// Rutas para cada una de las páginas de eventos
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'pages', 'index.html')));
-app.get('/eventos-mouse', (req, res) => res.sendFile(path.join(__dirname, 'pages', 'eventos-mouse.html')));
-app.get('/eventos-teclado', (req, res) => res.sendFile(path.join(__dirname, 'pages', 'eventos-teclado.html')));
-app.get('/eventos-formulario', (req, res) => res.sendFile(path.join(__dirname, 'pages', 'eventos-formulario.html')));
-app.get('/eventos-ventana', (req, res) => res.sendFile(path.join(__dirname, 'pages', 'eventos-ventana.html')));
-app.get('/eventos-tiempo', (req, res) => res.sendFile(path.join(__dirname, 'pages', 'eventos-tiempo.html')));
-
-// Ponemos el servidor a escuchar
-app.listen(puerto, () => {
-  console.log(`Proyecto 2 corriendo en http://localhost:${puerto}`);
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'pages', 'index.html'));
 });
 
-
+app.listen(port, () => {
+    console.log(`servidor de eventos corriendo en http://localhost:${port}`);
+});
