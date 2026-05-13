@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora Estanga</title>
+  <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header-section text-center">
+      <h1>Calculadora <span class="highlight">Estanga</span></h1>
+    </header>
+
+    <!-- Articulos / Resultados -->
+    <main class="grid-container" id="resultados-container">
+      <!-- Inyectado por JS/Server dinamicamente -->
+    </main>
+
+    <!-- Menu Hamburgesa para subir arriba si hiciera falta -->
+    <button id="btn-up" class="btn-up hidden" title="Ir arriba">↑</button>
+  </div>
+  
+  <script>
+    // Manejo del boton ir arriba
+    const btnUp = document.getElementById('btn-up');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 200) {
+        btnUp.classList.remove('hidden');
+      } else {
+        btnUp.classList.add('hidden');
+      }
+    });
+    btnUp.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

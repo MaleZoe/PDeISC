@@ -1,0 +1,12 @@
+{
+  "name": "njs5-proyecto-filtro",
+  "version": "1.0.0",
+  "description": "Filtro de numeros por digitos iniciales y finales",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ejercicio 2 - NodeJS Practico</title>
+  <title>Ejercicio 2 - nodejs práctico</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -19,7 +19,7 @@
       <nav class="navbar navbar-expand-lg navbar-custom container">
         <div class="container-fluid px-0">
           <a class="navbar-brand brand-custom" href="/">NJS<span class="brand-dot">.</span></a>
-          <button class="navbar-toggler toggler-custom" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false" aria-label="Abrir menu">
+          <button class="navbar-toggler toggler-custom" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false" aria-label="abrir menú">
             <i class="bi bi-list"></i>
           </button>
           <div class="collapse navbar-collapse mt-3 mt-lg-0" id="menuPrincipal">
@@ -28,35 +28,35 @@
       <li class="nav-item">
         <a class="nav-link nav-link-custom" href="/">
           <i class="bi bi-house-fill me-1"></i>
-          <span>Inicio</span>
+          <span>inicio</span>
         </a>
       </li>
     
       <li class="nav-item">
         <a class="nav-link nav-link-custom" href="/calculo">
           <i class="bi bi-calculator-fill me-1"></i>
-          <span>Ejercicio 1</span>
+          <span>ejercicio 1</span>
         </a>
       </li>
     
       <li class="nav-item">
         <a class="nav-link nav-link-custom nav-link-activo" href="/archivos">
           <i class="bi bi-folder-fill me-1"></i>
-          <span>Ejercicio 2</span>
+          <span>ejercicio 2</span>
         </a>
       </li>
     
       <li class="nav-item">
         <a class="nav-link nav-link-custom" href="/url">
           <i class="bi bi-link-45deg me-1"></i>
-          <span>Ejercicio 3</span>
+          <span>ejercicio 3</span>
         </a>
       </li>
     
       <li class="nav-item">
         <a class="nav-link nav-link-custom" href="/npm">
           <i class="bi bi-box-fill me-1"></i>
-          <span>Ejercicio 4</span>
+          <span>ejercicio 4</span>
         </a>
       </li>
     
@@ -70,10 +70,10 @@
   <main class="pagina container py-5 mt-5">
     
     <div class="page-header mb-5">
-      <span class="tag-chip">Ejercicio 2</span>
-      <h1 class="page-title mt-2">HTTP + File System</h1>
+      <span class="tag-chip">ejercicio 2 - 13/05/26</span>
+      <h1 class="page-title mt-2">http + file system</h1>
       <p class="page-sub">
-        El modulo genera un archivo HTML real en disco y el mismo servidor principal lo entrega al navegador.
+        acá generamos un archivo de verdad y lo servimos como si nada.
       </p>
     </div>
 
@@ -83,19 +83,18 @@
           <div class="d-flex align-items-start justify-content-between gap-3 mb-4">
             <div>
               <span class="tag-chip">node:fs</span>
-              <h2 class="bloque-titulo mt-2">Archivo generado en disco</h2>
+              <h2 class="bloque-titulo mt-2">archivo en el disco</h2>
               <p class="bloque-texto">
-                <code>crearGaleria()</code> escribe <code>Pages/ejercicio2/galeria.html</code>
-                usando el modulo <code>Modules/ejercicio2/archivos.js</code>.
+                usamos <code>crearGaleria()</code> para mandar el html a <code>Pages/ejercicio2/galeria.html</code>.
               </p>
             </div>
             <i class="bi bi-file-earmark-code-fill fs-2 text-warning"></i>
           </div>
           <div class="dato-lista mb-4">
-            <div class="dato-fila"><span>Modulo</span><strong>Modules/ejercicio2/consigna2.js</strong></div>
-            <div class="dato-fila"><span>Salida</span><strong>Pages/ejercicio2/galeria.html</strong></div>
+            <div class="dato-fila"><span>módulo</span><strong>Modules/ejercicio2/archivos.js</strong></div>
+            <div class="dato-fila"><span>fecha</span><strong>13/05/26</strong></div>
           </div>
-          <div class="aviso-strip">El HTML se regenera cada vez que se inicia el servidor.</div>
+          <div class="aviso-strip">cada vez que levantas el server se pisa el archivo.</div>
         </div>
       </div>
 
@@ -104,18 +103,17 @@
           <div class="bloque-clima__header">
             <div>
               <span class="tag-chip tag-chip--blanco">node:http</span>
-              <h2 class="bloque-titulo mt-2 text-white">Mismo server.js</h2>
+              <h2 class="bloque-titulo mt-2 text-white">todo en el mismo server</h2>
             </div>
             <i class="bi bi-hdd-network-fill bloque-clima__icon"></i>
           </div>
-          <p class="bloque-clima__cond">La ruta <code>/vista.html</code> es atendida por el mismo servidor principal sin necesidad de un segundo proceso.</p>
+          <p class="bloque-clima__cond">la ruta <code>/vista.html</code> la maneja el servidor principal, nada de cosas raras.</p>
           <div class="dato-lista">
-            <div class="dato-fila"><span>Ruta publica</span><strong>/vista.html</strong></div>
-            <div class="dato-fila"><span>Modulo</span><strong>node:http</strong></div>
-            <div class="dato-fila"><span>Ventaja</span><strong>Un solo servidor</strong></div>
+            <div class="dato-fila"><span>ruta</span><strong>/vista.html</strong></div>
+            <div class="dato-fila"><span>módulo</span><strong>node:http</strong></div>
           </div>
           <a class="btn btn-light btn-sm mt-4" href="/vista.html" target="_blank">
-            <i class="bi bi-box-arrow-up-right me-1"></i> Abrir HTML generado
+            <i class="bi bi-box-arrow-up-right me-1"></i> abrir html generado
           </a>
         </div>
       </div>
@@ -126,8 +124,8 @@
   <footer class="footer-wrap container pb-4">
     <div class="footer-inner">
       <div class="footer-logo">NJS<span>.</span></div>
-      <p class="footer-sub">Proyecto Node.js — Modulos nativos y NPM en accion.</p>
-      <div class="footer-meta">Estructura: Pages / Styles / Modules</div>
+      <p class="footer-sub">proyecto node.js — módulos nativos y npm en acción.</p>
+      <div class="footer-meta">estructura: pages / styles / modules</div>
     </div>
   </footer>
 

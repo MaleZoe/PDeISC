@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexTrack - Dashboard de Productividad</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <!-- Script -->
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fa-solid fa-bolt logo-icon"></i>
+                    <h2>NexTrack</h2>
+                </div>
+                <button class="close-sidebar" id="close-sidebar"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="user-profile">
+                <div class="avatar">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix&backgroundColor=b6e3f4" alt="User Avatar">
+                </div>
+                <h3 class="user-name">Usuario</h3>
+                <div class="level-badge">Nivel <span id="user-level">1</span></div>
+                <div class="xp-bar-container">
+                    <div class="xp-bar" id="xp-bar"></div>
+                </div>
+                <p class="xp-text"><span id="user-xp">0</span> / <span id="next-level-xp">100</span> XP</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-item active">
+                    <i class="fa-solid fa-chart-pie"></i> Dashboard
+                </a>
+                <a href="#tasks" class="nav-item">
+                    <i class="fa-solid fa-list-check"></i> Tareas
+                </a>
+                <a href="#habits" class="nav-item">
+                    <i class="fa-solid fa-calendar-check"></i> Hábitos
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="motivation-quote" id="motivation-quote">
+                    "El éxito es la suma de pequeños esfuerzos repetidos día tras día."
+                </div>
+                <button class="theme-toggle" id="theme-toggle">
+                    <i class="fa-solid fa-sun"></i> Modo Claro
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menu-toggle"><i class="fa-solid fa-bars"></i></button>
+                    <div>
+                        <h1 class="page-title">Dashboard</h1>
+                        <p class="current-date" id="current-date">Cargando fecha...</p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard-grid">
+                <!-- Stats Cards -->
+                <div class="stats-container">
+                    <div class="stat-card green-glow">
+                        <div class="stat-icon"><i class="fa-solid fa-check-double"></i></div>
+                        <div class="stat-info">
+                            <h3>Tareas Hoy</h3>
+                            <p class="stat-value" id="stat-tasks">0/0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card blue-glow">
+                        <div class="stat-icon"><i class="fa-solid fa-droplet"></i></div>
+                        <div class="stat-info">
+                            <h3>Hábitos Hoy</h3>
+                            <p class="stat-value" id="stat-habits">0/0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card purple-glow">
+                        <div class="stat-icon"><i class="fa-solid fa-fire"></i></div>
+                        <div class="stat-info">
+                            <h3>Racha Actual</h3>
+                            <p class="stat-value" id="stat-streak">0 Días</p>
+                        </div>
+                    </div>
+                    <div class="stat-card orange-glow">
+                        <div class="stat-icon"><i class="fa-solid fa-chart-line"></i></div>
+                        <div class="stat-info">
+                            <h3>Productividad</h3>
+                            <p class="stat-value" id="stat-productivity">0%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <section class="charts-section" id="dashboard">
+                    <div class="chart-card">
+                        <h3>Cumplimiento General</h3>
+                        <div class="chart-container pie-container">
+                            <canvas id="complianceChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Actividad Semanal</h3>
+                        <div class="chart-container bar-container">
+                            <canvas id="weeklyChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tasks Section -->
+                <section class="tasks-section" id="tasks">
+                    <div class="section-header">
+                        <h2>Tareas Diarias</h2>
+                        <div class="task-filters">
+                            <div class="search-box">
+                                <i class="fa-solid fa-search"></i>
+                                <input type="text" id="task-search" placeholder="Buscar tarea...">
+                            </div>
+                            <select id="task-filter">
+                                <option value="all">Todas</option>
+                                <option value="pending">Pendientes</option>
+                                <option value="completed">Completadas</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="task-creator">
+                        <form id="task-form">
+                            <input type="text" id="task-title" placeholder="¿Qué necesitas hacer?" required>
+                            <div class="task-options">
+                                <select id="task-category">
+                                    <option value="Trabajo">Trabajo</option>
+                                    <option value="Estudio">Estudio</option>
+                                    <option value="Personal">Personal</option>
+                                    <option value="Salud">Salud</option>
+                                </select>
+                                <select id="task-priority">
+                                    <option value="alta">Prioridad Alta</option>
+                                    <option value="media" selected>Prioridad Media</option>
+                                    <option value="baja">Prioridad Baja</option>
+                                </select>
+                                <input type="time" id="task-time">
+                                <button type="submit" class="btn-primary">Agregar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="task-list" id="task-list">
+                        <!-- Las tareas se inyectarán aquí vía JS -->
+                    </div>
+                </section>
+
+                <!-- Habits Section -->
+                <section class="habits-section" id="habits">
+                    <div class="section-header">
+                        <h2>Tracker de Hábitos</h2>
+                        <button class="btn-outline" id="btn-add-habit"><i class="fa-solid fa-plus"></i> Nuevo Hábito</button>
+                    </div>
+
+                    <!-- Modal / Formulario simple para nuevo hábito -->
+                    <div class="habit-creator hidden" id="habit-creator">
+                        <form id="habit-form">
+                            <input type="text" id="habit-name" placeholder="Nombre del hábito (ej. Leer 20 min)" required>
+                            <button type="submit" class="btn-primary">Guardar</button>
+                            <button type="button" class="btn-secondary" id="btn-cancel-habit">Cancelar</button>
+                        </form>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="habit-table">
+                            <thead>
+                                <tr id="habit-table-header">
+                                    <th>Hábito</th>
+                                    <!-- Columnas de días se inyectan acá -->
+                                </tr>
+                            </thead>
+                            <tbody id="habit-table-body">
+                                <!-- Filas de hábitos se inyectan acá -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notificaciones (Toasts) -->
+    <div class="toast-container" id="toast-container"></div>
+</body>
+</html>

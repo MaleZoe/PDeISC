@@ -1,5 +1,5 @@
-// Modulo del ejercicio 4.
-// Usa el paquete upper-case instalado con NPM y arma el contenido de la pagina.
+// acá usamos un paquete de npm para no escribir todo a mano
+// upper-case sirve para pasar a mayúsculas, nada del otro mundo
 
 import { upperCase } from 'upper-case';
 
@@ -17,7 +17,7 @@ export function renderContenidoNPM() {
     transformado: upperCase(texto),
   }));
 
-  console.log('\n[NPM] upper-case en accion:');
+  console.log('\n[npm] gritando con upper-case:');
   transformados.forEach(({ original, transformado }) => {
     console.log(`  "${original}" -> "${transformado}"`);
   });
@@ -26,7 +26,7 @@ export function renderContenidoNPM() {
     <div class="col-12 col-md-6 col-xl-4">
       <div class="op-card op-card--violeta h-100">
         <div class="op-card__top mb-3">
-          <span class="op-label">Ejemplo ${index + 1}</span>
+          <span class="op-label">ejemplo ${index + 1}</span>
           <i class="bi bi-type op-icon"></i>
         </div>
         <p class="bloque-texto mb-3">${original}</p>
@@ -37,25 +37,25 @@ export function renderContenidoNPM() {
 
   return `
     <div class="page-header mb-5">
-      <span class="tag-chip">Ejercicio 4</span>
-      <h1 class="page-title mt-2">Paquete <em>NPM</em></h1>
+      <span class="tag-chip">ejercicio 4</span>
+      <h1 class="page-title mt-2">paquete <em>npm</em></h1>
       <p class="page-sub">
-        <code>upper-case</code> fue instalado con <code>npm install upper-case</code> y transforma textos a mayusculas.
+        <code>upper-case</code> lo bajamos con <code>npm install</code> y hace esto.
       </p>
     </div>
 
     <div class="bloque-panel mb-4">
       <div class="row g-4 align-items-center">
         <div class="col-12 col-lg-7">
-          <span class="tag-chip">Instalacion</span>
-          <h2 class="bloque-titulo mt-2">Un paquete, multiples transformaciones</h2>
-          <p class="bloque-texto mb-0">El paquete convierte cualquier texto a mayusculas con <code>upperCase(texto)</code>. Fue gestionado con el gestor de paquetes NPM.</p>
+          <span class="tag-chip">instalación</span>
+          <h2 class="bloque-titulo mt-2">un paquete, varias transformaciones</h2>
+          <p class="bloque-texto mb-0">el paquete convierte cualquier cosa a mayúsculas con la función <code>upperCase()</code>.</p>
         </div>
         <div class="col-12 col-lg-5">
           <div class="dato-lista">
-            <div class="dato-fila"><span>Paquete</span><strong>upper-case</strong></div>
-            <div class="dato-fila"><span>Comando</span><strong>npm install upper-case</strong></div>
-            <div class="dato-fila"><span>Funcion</span><strong>upperCase(texto)</strong></div>
+            <div class="dato-fila"><span>paquete</span><strong>upper-case</strong></div>
+            <div class="dato-fila"><span>comando</span><strong>npm i upper-case</strong></div>
+            <div class="dato-fila"><span>función</span><strong>upperCase()</strong></div>
           </div>
         </div>
       </div>

@@ -1,0 +1,12 @@
+{
+  "name": "nj1",
+  "version": "1.0.0",
+  "description": "Trabajos Prácticos Node.js - Protocolo Estanga",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Renzo",
+  "license": "ISC"
+}

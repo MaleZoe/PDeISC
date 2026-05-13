@@ -1,4 +1,4 @@
-
+// acá arranco el servidor de una
 import { createServer } from 'node:http';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -9,6 +9,7 @@ import { generarSitio } from './Modules/sitio/sitio.js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 
+// este objeto tiene las rutas para que no sea un quilombo de ifs
 const RUTAS = {
   '/': 'Pages/inicio.html',
   '/calculo': 'Pages/ejercicio1/calculadora.html',
@@ -18,10 +19,12 @@ const RUTAS = {
   '/npm': 'Pages/ejercicio4/npm.html',
 };
 
+// genero todo el sitio antes de levantar el server
 await generarSitio();
 
 const server = createServer((req, res) => {
 
+  // si pide css se lo mando sin vueltas
   if (req.url?.startsWith('/Styles/') && req.url.endsWith('.css')) {
     const css = readFileSync(path.join(__dirname, req.url), 'utf8');
     res.writeHead(200, { 'Content-Type': 'text/css; charset=utf-8' });
@@ -33,7 +36,7 @@ const server = createServer((req, res) => {
 
   if (!archivo) {
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-    res.end('404 - Pagina no encontrada');
+    res.end('404 - flaco, esa pagina no existe');
     return;
   }
 
@@ -43,17 +46,10 @@ const server = createServer((req, res) => {
     res.end(html);
   } catch (err) {
     res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
-    res.end(`Error interno: ${err.message}`);
+    res.end(`le erraste feo: ${err.message}`);
   }
 });
 
 server.listen(3000, '127.0.0.1', () => {
-  console.log('\n[NodeJS] Servidor listo -> http://127.0.0.1:3000\n');
-  console.log('  Paginas disponibles:');
-  console.log('  /          -> Inicio');
-  console.log('  /calculo   -> Ejercicio 1');
-  console.log('  /archivos  -> Ejercicio 2');
-  console.log('  /vista.html -> HTML generado');
-  console.log('  /url       -> Ejercicio 3');
-  console.log('  /npm       -> Ejercicio 4');
+  console.log('\n[estanga] el server esta arriba en http://127.0.0.1:3000');
 });

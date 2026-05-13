@@ -1,11 +1,12 @@
-// Modulo del menu principal reutilizado por layout.js.
+// acá armo el menú para no tener que escribirlo en cada página
+// es un módulo que devuelve el html de la navegación
 
 const LINKS = [
-  { href: '/', label: 'Inicio', icono: 'house-fill' },
-  { href: '/calculo', label: 'Ejercicio 1', icono: 'calculator-fill' },
-  { href: '/archivos', label: 'Ejercicio 2', icono: 'folder-fill' },
-  { href: '/url', label: 'Ejercicio 3', icono: 'link-45deg' },
-  { href: '/npm', label: 'Ejercicio 4', icono: 'box-fill' },
+  { href: '/', label: 'inicio', icono: 'house-fill' },
+  { href: '/calculo', label: 'ejercicio 1', icono: 'calculator-fill' },
+  { href: '/archivos', label: 'ejercicio 2', icono: 'folder-fill' },
+  { href: '/url', label: 'ejercicio 3', icono: 'link-45deg' },
+  { href: '/npm', label: 'ejercicio 4', icono: 'box-fill' },
 ];
 
 export function getMenu(rutaActiva = '/') {
@@ -26,7 +27,7 @@ export function getMenu(rutaActiva = '/') {
       <nav class="navbar navbar-expand-lg navbar-custom container">
         <div class="container-fluid px-0">
           <a class="navbar-brand brand-custom" href="/">NJS<span class="brand-dot">.</span></a>
-          <button class="navbar-toggler toggler-custom" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false" aria-label="Abrir menu">
+          <button class="navbar-toggler toggler-custom" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false" aria-label="abrir menú">
             <i class="bi bi-list"></i>
           </button>
           <div class="collapse navbar-collapse mt-3 mt-lg-0" id="menuPrincipal">
