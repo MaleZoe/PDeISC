@@ -1,54 +1,50 @@
-/* 
- * MÓDULO DE ESTADO - GESTIÓN DE DATOS
- * Centraliza la lista de números y realiza cálculos matemáticos.
- * No tiene acceso al DOM.
- */
-
-window.Estado = {
-    // Límite mínimo requerido para habilitar la exportación
+// aca guardo los numeros y hago las cuentas
+// no toco el dom acá, es pura logica
+export const Estado = {
+    // el minimo que pide el profe para exportar
     MIN_NUMEROS: 10,
-    // Límite máximo de elementos permitidos en la colección
+    // para que no explote pongo un maximo
     MAX_NUMEROS: 20,
     
-    // Almacenamiento volátil de los números ingresados
+    // aca guardo todo
     lista: [],
 
-    // Agrega un número a la lista verificando duplicados y capacidad máxima
+    // para meter un numero nuevo
     agregar(numero) {
         if (this.estaLlena()) {
-            throw new Error("Se ha alcanzado el límite máximo de 20 números.");
+            throw new Error("ya llenaste todo, borra algo si queres meter mas");
         }
         if (this.lista.includes(numero)) {
-            throw new Error(`El número ${numero} ya está en la lista.`);
+            throw new Error(`el ${numero} ya lo pusiste, no seas repetitivo`);
         }
         
         this.lista.push(numero);
         return true;
     },
 
-    // Elimina un número por su posición en el array
+    // para sacar uno si el usuario se arrepiente
     eliminar(indice) {
         if (indice < 0 || indice >= this.lista.length) return null;
         const eliminado = this.lista.splice(indice, 1);
         return eliminado[0];
     },
 
-    // Vacía completamente la colección de números
+    // borro todo a la mierda
     limpiar() {
         this.lista = [];
     },
 
-    // Verifica si la lista ha llegado al tope de su capacidad
+    // chequeo si ya no entra mas nada
     estaLlena() {
         return this.lista.length >= this.MAX_NUMEROS;
     },
 
-    // Determina si se cumplen los requisitos mínimos para exportar a .txt
+    // para saber si me dejan bajar el txt
     puedeExportar() {
         return this.lista.length >= this.MIN_NUMEROS;
     },
 
-    // Realiza el procesamiento matemático de la colección actual
+    // hago las cuentas de la facu
     estadisticas() {
         if (this.lista.length === 0) {
             return { promedio: 0, minimo: 0, maximo: 0, suma: 0, cantidad: 0 };

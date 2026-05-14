@@ -1,12 +1,14 @@
 {
-  "name": "proyecto-numeros",
-  "version": "1.0.0",
-  "description": "Aplicación de colección de números y exportación",
+  "name": "proyecto-numeros-1",
+  "version": "1.0.1",
+  "description": "Sistema académico de colección y exportación de datos - Protocolo Estanga",
   "main": "server.js",
+  "type": "module",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node --watch server.js"
   },
-  "author": "Antigravity",
+  "author": "Estanga Student",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2"

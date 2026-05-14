@@ -1,0 +1,16 @@
+:root {
+  --color-fondo: #0a0c10;
+  --color-superficie: #141822;
+  --color-superficie-hover: #1c2230;
+  --color-borde: #262f45;
+  --color-acento: #00f2ff;
+  --color-acento-hover: #00d4e0;
+  --color-exito: #00ff95;
+  --color-exito-rgb: 0, 255, 149;
+  --color-advertencia: #ffcc00;
+  --color-peligro: #ff3366;
+  --color-texto-principal: #f0f4f8;
+  --color-texto-secundario: #8a9bb8;
+  --sombra-neon: 0 0 15px rgba(0, 242, 255, 0.15);
+  --sombra-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+}

@@ -1,0 +1,18 @@
+/* modo claro para el estanga */
+:root {
+  --color-fondo: #f8f9fa;
+  --color-superficie: #ffffff;
+  --color-superficie-hover: #f1f3f5;
+  --color-borde: #dee2e6;
+  --color-acento: #00f2ff; /* Turquesa */
+  --color-acento-hover: #00d4e0;
+  --color-exito: #198754;
+  --color-exito-rgb: 25, 135, 84;
+  --color-advertencia: #ffc107;
+  --color-peligro: #dc3545;
+  --color-texto-principal: #212529;
+  --color-texto-secundario: #6c757d;
+  --sombra-neon: 0 0 15px rgba(0, 242, 255, 0.15);
+  --sombra-card: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --color-stat-bg: rgba(0, 0, 0, 0.05);
+}

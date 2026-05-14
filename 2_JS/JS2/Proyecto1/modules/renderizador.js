@@ -1,11 +1,7 @@
-/* 
- * MÓDULO DE RENDERIZADO - MANIPULACIÓN DEL DOM
- * Encargado de actualizar la interfaz visual basándose en los datos.
- * No contiene lógica de negocio.
- */
-
-window.Renderizador = {
-    // Referencias cacheadas a los elementos del DOM
+// aca toco el html para que se vea lo que pasa
+// nada de logica pesada aca, solo dibujo
+export const Renderizador = {
+    // me guardo los elementos para no buscarlos cada vez
     elementos: {
         lista: document.getElementById('listaNumeros'),
         input: document.getElementById('inputNumero'),
@@ -24,24 +20,24 @@ window.Renderizador = {
         contenedorToast: document.getElementById('contenedorToast')
     },
 
-    // Inyecta un nuevo item en la lista con animación de entrada
+    // meto un numero nuevo en la lista
     agregarItemLista(numero, indice) {
         const li = document.createElement('li');
         li.className = 'item-numero';
         li.dataset.indice = indice;
-        // Animación de entrada definida en CSS
+        // que entre con onda
         li.style.animation = 'entradaItem 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
         
         li.innerHTML = `
             <span class="numero-indice">#${indice + 1}</span>
             <span class="numero-valor">${numero}</span>
-            <button class="btn-eliminar" aria-label="Eliminar número ${numero}" data-idx="${indice}">×</button>
+            <button class="btn-eliminar" aria-label="borrar numero ${numero}" data-idx="${indice}">×</button>
         `;
         
         this.elementos.lista.appendChild(li);
     },
 
-    // Elimina un item con animación de salida y dispara el re-indexado
+    // saco un numero y reacomodo todo
     eliminarItemLista(indice) {
         const items = this.elementos.lista.querySelectorAll('.item-numero');
         const itemAEliminar = Array.from(items).find(el => parseInt(el.dataset.indice) === indice);
@@ -55,7 +51,7 @@ window.Renderizador = {
         }
     },
 
-    // Actualiza los números de orden (#1, #2...) tras una eliminación
+    // para que los numeros de orden no queden mal al borrar
     reindexarLista() {
         const items = this.elementos.lista.querySelectorAll('.item-numero');
         items.forEach((item, index) => {
@@ -65,25 +61,25 @@ window.Renderizador = {
         });
     },
 
-    // Actualiza el badge del contador y los estados de color (ámbar/verde/rojo)
+    // para ver cuanto falta para llenar
     actualizarContador(cantidad, max) {
         const porcentaje = (cantidad / max) * 100;
         this.elementos.barraProgreso.style.width = `${porcentaje}%`;
         
-        let texto = `${cantidad} / ${max} números`;
+        let texto = `${cantidad} / ${max} numeros`;
         this.elementos.contadorTexto.className = 'badge contador-badge';
         
         if (cantidad >= 10 && cantidad < 20) {
             this.elementos.contadorTexto.classList.add('estado-listo');
         } else if (cantidad >= 20) {
             this.elementos.contadorTexto.classList.add('estado-lleno');
-            texto = `¡Límite alcanzado! ${cantidad} / ${max}`;
+            texto = `no entra mas nada! ${cantidad} / ${max}`;
         }
         
         this.elementos.contadorTexto.textContent = texto;
     },
 
-    // Actualiza el panel lateral de estadísticas con los nuevos valores
+    // pongo los resultados de las cuentas en el panel
     actualizarEstadisticas(stats) {
         const { promedio, minimo, maximo, suma, cantidad } = stats;
         
@@ -101,7 +97,7 @@ window.Renderizador = {
         this.elementos.stats.maximo.textContent = maximo;
     },
 
-    // Muestra un error efímero debajo del input de ingreso
+    // aviso que se mandaron una macana
     mostrarError(mensaje) {
         this.elementos.error.textContent = mensaje;
         this.elementos.input.classList.add('input-error');
@@ -110,13 +106,13 @@ window.Renderizador = {
         this._errorTimeout = setTimeout(() => this.limpiarError(), 3000);
     },
 
-    // Limpia el estado de error del input
+    // saco el color de error
     limpiarError() {
         this.elementos.error.textContent = '';
         this.elementos.input.classList.remove('input-error');
     },
 
-    // Genera y muestra una notificación toast en pantalla
+    // un cartelito que aparece y se va
     mostrarToast(mensaje, tipo = 'info') {
         const toast = document.createElement('div');
         toast.className = `toast-item toast-${tipo}`;
@@ -138,42 +134,41 @@ window.Renderizador = {
         }, 4000);
     },
 
-    // Vacía la lista visual de números
+    // limpio toda la vista
     limpiarLista() {
         this.elementos.lista.innerHTML = '';
     },
 
-    // Alterna la visibilidad del placeholder de lista vacía
+    // muestro que no hay nada
     mostrarEstadoVacio() {
         this.elementos.estadoVacio.style.display = 'flex';
     },
 
+    // saco el cartel de vacio
     ocultarEstadoVacio() {
         this.elementos.estadoVacio.style.display = 'none';
     },
 
-    // Controla el estado habilitado/deshabilitado de los controles según el volumen de datos
+    // prendo o apago botones segun la cantidad
     actualizarBotonExportar(puedeExportar, llena) {
         this.elementos.btnExportar.disabled = !puedeExportar;
         
         if (!puedeExportar) {
-            this.elementos.btnExportar.setAttribute('title', 'Necesitás al menos 10 números para exportar.');
+            this.elementos.btnExportar.setAttribute('title', 'metele al menos 10');
         } else {
-            this.elementos.btnExportar.setAttribute('title', 'Guardar lista como archivo .txt');
+            this.elementos.btnExportar.setAttribute('title', 'ahora si podes guardar');
         }
 
         if (llena) {
             this.elementos.input.disabled = true;
             this.elementos.btnAgregar.disabled = true;
-            this.elementos.input.placeholder = "Límite alcanzado";
         } else {
             this.elementos.input.disabled = false;
             this.elementos.btnAgregar.disabled = false;
-            this.elementos.input.placeholder = "Ej: 42.5";
         }
     },
 
-    // Dispara un flash visual de confirmación
+    // una animacion copada cuando todo sale bien
     activarAnimacionExito() {
         const card = this.elementos.lista.closest('.card-neon');
         card.classList.add('animacion-exito');

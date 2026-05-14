@@ -1,87 +1,91 @@
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
+// aca traigo el express para el server
+import express from 'express';
+// estos son para los archivos y las rutas
+import fs from 'fs';
+import path from 'path';
+import os from 'os';
+import { fileURLToPath } from 'url';
+
+// esto es para que el __dirname funcione con los imports
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-const PUERTO = 3000;
+const PUERTO = 3002;
 
-// Middleware para procesar JSON y servir archivos estáticos
+// aca configuro para que lea json
 app.use(express.json());
-app.use('/public', express.static(path.join(__dirname, 'public')));
-app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
 
-// Registro de peticiones en consola
+// sirvo todas las carpetas como dice el protocolo
+app.use('/styles', express.static(path.join(__dirname, 'styles')));
+app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
+app.use('/modules', express.static(path.join(__dirname, 'modules')));
+app.use('/Context', express.static(path.join(__dirname, 'Context')));
+
+// esto es para ver que llega
 app.use((req, res, next) => {
     console.log(`[${req.method}] ${req.url}`);
     next();
 });
 
-// Ruta principal: Entrega la Single Page Application
+// la ruta de entrada a la pagina
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'index.html'));
 });
 
-// Endpoint: Exportar lista de números a un archivo .txt
+// aca guardo los numeros en un txt
 app.post('/exportar', (req, res) => {
     const { numeros } = req.body;
 
-    // Validación básica del lado del servidor
+    // valido que me manden algo que sirva
     if (!numeros || !Array.isArray(numeros) || numeros.length === 0) {
-        return res.status(400).json({ ok: false, error: "La lista de números está vacía o es inválida." });
+        return res.status(400).json({ ok: false, error: "la lista esta vacia, no seas boludo" });
     }
 
     try {
-        // Cálculo de estadísticas para el reporte
-        const total = numeros.length;
-        const suma = numeros.reduce((a, b) => a + b, 0);
-        const promedio = (suma / total).toFixed(2);
-        const minimo = Math.min(...numeros);
-        const maximo = Math.max(...numeros);
-        const fecha = new Date().toLocaleString('es-ES');
+        // armo el texto del archivo: solo los numeros, uno por linea
+        const contenido = numeros.join('\n');
+        const nombreArchivo = `numeros_${Date.now()}.txt`;
 
-        // Construcción del contenido del archivo según el formato requerido
-        let contenido = `=== Lista de Números Exportados ===\n`;
-        contenido += `Fecha: ${fecha}\n`;
-        contenido += `Total: ${total} números\n`;
-        contenido += `─────────────────────────────────\n`;
+        // 1. guardo el archivo en la raiz del proyecto (backend)
+        const rutaProyecto = path.join(__dirname, nombreArchivo);
+        fs.writeFileSync(rutaProyecto, contenido, 'utf8');
+
+        // 2. LA POSTA: guardo tambien en la carpeta de Descargas del sistema (Windows)
+        const carpetaDownloads = path.join(os.homedir(), 'Downloads');
+        const rutaDownloads = path.join(carpetaDownloads, nombreArchivo);
         
-        numeros.forEach((num, i) => {
-            contenido += `${(i + 1).toString().padEnd(3)}. ${num}\n`;
-        });
-
-        contenido += `─────────────────────────────────\n`;
-        contenido += `Promedio:   ${promedio}\n`;
-        contenido += `Mínimo:     ${minimo}\n`;
-        contenido += `Máximo:     ${maximo}\n`;
-        contenido += `Suma total: ${suma}\n`;
-
-        // Escritura física en la raíz del proyecto
-        const rutaArchivo = path.join(__dirname, 'numeros_exportados.txt');
-        fs.writeFileSync(rutaArchivo, contenido, 'utf8');
+        try {
+            fs.writeFileSync(rutaDownloads, contenido, 'utf8');
+        } catch (err) {
+            console.warn(">>> Advertencia: No pude guardar en Downloads directamente:", err.message);
+        }
 
         res.json({ 
             ok: true, 
-            archivo: "numeros_exportados.txt", 
-            total: total 
+            archivo: nombreArchivo, 
+            total: numeros.length,
+            rutaLocal: rutaDownloads
         });
 
     } catch (error) {
-        console.error("Error al exportar:", error);
-        res.status(500).json({ ok: false, error: "No se pudo guardar el archivo." });
+        console.error(">>> ERROR CRITICO AL EXPORTAR:", error);
+        res.status(500).json({ ok: false, error: error.message || "error interno del servidor" });
     }
 });
 
-// Inicio del servidor con manejo de puerto en uso
+// prendo el server
 const servidor = app.listen(PUERTO, () => {
-    console.log(`>>> Servidor iniciado exitosamente en http://localhost:${PUERTO}`);
+    console.log(`>>> el server esta andando en http://localhost:${PUERTO}`);
 });
 
+// por si el puerto esta ocupado
 servidor.on('error', (error) => {
     if (error.code === 'EADDRINUSE') {
-        console.error(`[ERROR] El puerto ${PUERTO} está ocupado. Cierra el proceso anterior antes de intentar de nuevo.`);
+        console.error(`[ERROR] el puerto ${PUERTO} ya lo estas usando en otro lado`);
         process.exit(1);
     } else {
-        console.error("Error crítico en el servidor:", error);
+        console.error("error critico:", error);
         process.exit(1);
     }
 });

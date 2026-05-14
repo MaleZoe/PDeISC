@@ -1,147 +1,184 @@
+// el cerebro del filtrado - proyecto 2
+import { Estado } from '../modules/estado.js';
+import { Renderizador } from '../modules/renderizador.js';
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Referencias a los elementos interactivos
-  const inputArchivo = document.getElementById('inputArchivo');
-  const zonaArrastre = document.getElementById('zonaArrastre');
-  const btnSeleccionarArchivo = document.getElementById('btnSeleccionarArchivo');
+  const fileInput = document.getElementById('fileInput');
   const btnExportar = document.getElementById('btnExportar');
-  const btnNuevoArchivo = document.getElementById('btnNuevoArchivo');
-  const btnToggleDescartados = document.getElementById('btnToggleDescartados');
-  const seccionDescartados = document.getElementById('seccionDescartados');
+  const zonaCarga = document.getElementById('zonaCarga');
 
-  // Constante requerida: maximo 5MB por carga
-  const MAXIMO_BYTES = 5 * 1024 * 1024;
+  // cuando eligen un archivo
+  fileInput.addEventListener('change', manejarCargaArchivo);
 
-  // Lógica principal de procesamiento asincrono de archivos de cliente
-  const procesarArchivoDeUsuario = (archivo) => {
-    // 1. Verificar existencia de extension correcta
+  // por si quieren arrastrar el archivo 
+  zonaCarga.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    zonaCarga.classList.add('dragover');
+  });
+
+  zonaCarga.addEventListener('dragleave', () => {
+    zonaCarga.classList.remove('dragover');
+  });
+
+  zonaCarga.addEventListener('drop', (e) => {
+    e.preventDefault();
+    zonaCarga.classList.remove('dragover');
+    if (e.dataTransfer.files.length > 0) {
+      procesarArchivo(e.dataTransfer.files[0]);
+    }
+  });
+
+  // cuando quieren bajar el txt con el resultado
+  btnExportar.addEventListener('click', manejarExportacion);
+
+  function manejarCargaArchivo(e) {
+    if (e.target.files.length > 0) {
+      procesarArchivo(e.target.files[0]);
+    }
+  }
+
+  // aca mando el archivo al server 
+  async function procesarArchivo(archivo) {
+    // valido que sea txt como dice el profe
     if (!archivo.name.endsWith('.txt')) {
-      window.Renderizador.mostrarErrorArchivo('El archivo debe tener extension .txt');
+      Renderizador.mostrarToast("mandame un .txt flaco, no adivino", "error");
       return;
     }
 
-    // 2. Control estricto de limite de peso
-    if (archivo.size > MAXIMO_BYTES) {
-      window.Renderizador.mostrarErrorArchivo('El archivo excede el limite maximo de 5MB');
-      return;
-    }
+    Renderizador.mostrarToast("subiendo y procesando...", "info");
 
-    // Actualizar visual en la zona de drop
-    window.Renderizador.mostrarArchivoSeleccionado(archivo.name, archivo.size);
-
-    // 3. Comenzar lectura del blob como cadena de texto
-    const lector = new FileReader();
-
-    lector.onload = (evento) => {
-      const contenidoTexto = evento.target.result;
-      
-      // a. Cargar al estado
-      window.Estado.cargarDesdeTexto(archivo.name, contenidoTexto);
-      
-      // b. Actualizar marcadores estaticos
-      window.Renderizador.actualizarMetricas(window.Estado);
-      
-      // c. Construir DOM de arreglos
-      window.Renderizador.renderizarListaUtiles(window.Estado.numerosUtiles);
-      
-      // d. Construir DOM de listados secundarios
-      window.Renderizador.renderizarListaDescartados(window.Estado.numerosDescartados);
-      
-      // e. Animacion progresiva
-      window.Renderizador.actualizarBarraPorcentaje(parseFloat(window.Estado.porcentajeUtiles()));
-      
-      // f. Transicionar vistas
-      window.Renderizador.mostrarPanelResultados();
-
-      // g. Validaciones criticas de exportacion post-carga
-      if (window.Estado.totalLeidos() === 0) {
-        window.Renderizador.mostrarToast("No se encontraron numeros validos en el archivo.", "advertencia");
-        window.Renderizador.deshabilitarBotonExportar("No hay informacion numerica");
-      } else if (window.Estado.totalUtiles() === 0) {
-        window.Renderizador.deshabilitarBotonExportar("No hay numeros utiles para exportar.");
-      } else {
-        window.Renderizador.habilitarBotonExportar();
-      }
-    };
-
-    lector.onerror = () => {
-      window.Renderizador.mostrarErrorArchivo("Error de lectura interno del navegador.");
-    };
-
-    lector.readAsText(archivo, 'utf-8');
-  };
-
-  // Evento estandar por boton de buscar
-  btnSeleccionarArchivo.addEventListener('click', () => {
-    inputArchivo.click();
-  });
-
-  // Evento cuando el sistema de carpetas emite una carga
-  inputArchivo.addEventListener('change', (evento) => {
-    if (evento.target.files.length > 0) {
-      procesarArchivoDeUsuario(evento.target.files[0]);
-    }
-  });
-
-  // Optimizacion visual de drag and drop interactivo
-  zonaArrastre.addEventListener('dragover', (evento) => {
-    evento.preventDefault();
-    zonaArrastre.classList.add('drag-activo');
-  });
-
-  zonaArrastre.addEventListener('dragleave', () => {
-    zonaArrastre.classList.remove('drag-activo');
-  });
-
-  zonaArrastre.addEventListener('drop', (evento) => {
-    evento.preventDefault();
-    zonaArrastre.classList.remove('drag-activo');
-    
-    if (evento.dataTransfer.files.length > 0) {
-      procesarArchivoDeUsuario(evento.dataTransfer.files[0]);
-    }
-  });
-
-  // Peticion asincrona para guardar los datos localmente en backend
-  btnExportar.addEventListener('click', async () => {
-    // Prevencion segura contra envios vacios
-    if (window.Estado.totalLeidos() === 0) {
-      window.Renderizador.mostrarToast("No hay registros disponibles para exportar.", "advertencia");
-      return;
-    }
-
-    // Feedback inmediato de proceso pendiente
-    window.Renderizador.mostrarEstadoCargandoExportar();
+    const formData = new FormData();
+    formData.append('archivo', archivo);
 
     try {
-      const peticion = await fetch('/exportar', {
+      const respuesta = await fetch('/procesar', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(window.Estado.generarPayload())
+        body: formData
       });
 
-      const respuesta = await peticion.json();
-
-      if (respuesta.ok === true) {
-        window.Renderizador.mostrarToast('Archivo guardado: filtrado_resultado.txt', 'exito');
-      } else {
-        window.Renderizador.mostrarToast(respuesta.error || 'Ocurrio un error desconocido al exportar.', 'error');
+      if (!respuesta.ok || !respuesta.headers.get('content-type')?.includes('application/json')) {
+        const text = await respuesta.text();
+        console.error("Respuesta no JSON:", text);
+        throw new Error("Error en el servidor (no devolvió JSON)");
       }
-    } catch (error) {
-      window.Renderizador.mostrarToast("Error de comunicacion con el servidor Express.", "error");
-    } finally {
-      // Restablecer interfaz tras accion de red independientemente del exito
-      window.Renderizador.restaurarBotonExportar();
+
+      const data = await respuesta.json();
+
+      if (data.ok) {
+        // guardo los resultados que me mando el server
+        Estado.setResultado({
+          archivo: data.archivoOrigen,
+          total: data.totalLeidos,
+          utiles: data.numerosUtiles,
+          descartados: data.numerosDescartados,
+          factoriales: data.numerosFactoriales
+        });
+
+        // dibujo todo
+        Renderizador.actualizarInfoArchivo(data.archivoOrigen);
+        Renderizador.actualizarEstadisticas(Estado);
+        Renderizador.llenarListaUtiles(Estado.numerosUtiles);
+        Renderizador.mostrarFactoriales(Estado.numerosFactoriales);
+        Renderizador.mostrarToast("procesado en el backend con exito!", "exito");
+      } else {
+        throw new Error(data.error);
+      }
+    } catch (err) {
+      Renderizador.mostrarToast(err.message || "se cayo el server procesando", "error");
     }
-  });
+  }
 
-  // Limpiar memoria y vista
-  btnNuevoArchivo.addEventListener('click', () => {
-    window.Estado.resetear();
-    window.Renderizador.resetearUI();
-  });
+  // mando al server para guardar el reporte final
+  async function manejarExportacion() {
+    if (!Estado.tieneDatos()) return;
 
-  // Comportamiento del desplegable de elementos de descarte
-  btnToggleDescartados.addEventListener('click', () => {
-    seccionDescartados.classList.toggle('oculto');
+    btnExportar.disabled = true;
+    btnExportar.textContent = "guardando...";
+
+    try {
+      const respuesta = await fetch('/guardar-resultado', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            numerosUtiles: Estado.numerosUtiles,
+            stats: {
+                archivoOrigen: Estado.archivoOrigen,
+                totalLeidos: Estado.totalLeidos,
+                totalUtiles: Estado.totalUtiles,
+                porcentajeUtiles: Estado.porcentajeUtiles
+            }
+        })
+      });
+
+      const data = await respuesta.json();
+      if (data.ok) {
+        Renderizador.mostrarToast("se guardo en el servidor: " + data.archivo, "exito");
+        
+        // TAMBIEN disparar descarga en el navegador por las dudas
+        const contenido = `=== REPORTE DE FILTRADO (ESTANGA) ===\n` +
+                        `Archivo Origen: ${Estado.archivoOrigen}\n` +
+                        `Total Leidos: ${Estado.totalLeidos}\n` +
+                        `Utiles: ${Estado.totalUtiles} (${Estado.porcentajeUtiles}%)\n` +
+                        `------------------------------------\n` +
+                        Estado.numerosUtiles.join('\n');
+        
+        const blob = new Blob([contenido], { type: 'text/plain' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = data.archivo;
+        document.body.appendChild(link);
+        link.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(link);
+      } else {
+        throw new Error(data.error);
+      }
+    } catch (err) {
+      Renderizador.mostrarToast("error al guardar en el server", "error");
+    } finally {
+      btnExportar.disabled = false;
+      btnExportar.textContent = "Exportar Resultados";
+    }
+  }
+
+  // --- ESCUCHO AL PROYECTO 1 ---
+  window.addEventListener('procesarP1', async (e) => {
+    const { nombre } = e.detail;
+    Renderizador.mostrarToast(`Cargando ${nombre} desde P1...`, "info");
+
+    try {
+      const res = await fetch('/procesar-p1', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre })
+      });
+      
+      if (!res.ok || !res.headers.get('content-type')?.includes('application/json')) {
+        throw new Error("Error en el servidor o archivo no encontrado");
+      }
+
+      const data = await res.json();
+
+      if (data.ok) {
+        Estado.setResultado({
+          archivo: data.archivoOrigen,
+          total: data.totalLeidos,
+          utiles: data.numerosUtiles,
+          descartados: data.numerosDescartados,
+          factoriales: data.numerosFactoriales
+        });
+
+        Renderizador.actualizarInfoArchivo("(Servidor P1) " + data.archivoOrigen);
+        Renderizador.actualizarEstadisticas(Estado);
+        Renderizador.llenarListaUtiles(Estado.numerosUtiles);
+        Renderizador.mostrarFactoriales(Estado.numerosFactoriales);
+        Renderizador.mostrarToast("Archivo de P1 procesado!", "exito");
+      } else {
+        throw new Error(data.error);
+      }
+    } catch (err) {
+      Renderizador.mostrarToast(err.message || "Error al procesar desde P1", "error");
+    }
   });
 });

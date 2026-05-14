@@ -3,123 +3,160 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NJS5 - Filtro de Numeros</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Syne:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/public/styles/estilos.css">
+  <title>P2 — Filtrado de Datos (Estanga Protocol)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link id="theme-link" rel="stylesheet" href="/styles/dark.css">
+  <link rel="stylesheet" href="/styles/estilos.css">
 </head>
 <body>
-
-  <!-- Barra de navegacion -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+  <nav id="mainNav" class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary sticky-top">
     <div class="container">
-      <span class="navbar-brand">NJS5 — Filtro de Numeros</span>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavegacion">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="menuNavegacion">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/">Volver al inicio</a>
-          </li>
-        </ul>
-      </div>
+      <span class="navbar-brand text-glow text-accent">— Filtro de Datos</span>
+      <button id="toggleTheme" class="btn btn-outline-light btn-sm">Modo Claro</button>
     </div>
   </nav>
 
-  <!-- Seccion 1: Carga de archivo -->
-  <main class="container mb-5" id="seccionCarga">
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <div id="zonaArrastre">
-          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-file-earmark-text text-muted mb-3" viewBox="0 0 16 16">
-            <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
-            <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2.5a1 1 0 0 0 1 1H13v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
-          </svg>
-          <h3 class="mb-2">Arrastra tu archivo .txt aqui</h3>
-          <p class="text-muted mb-3">o hace clic para seleccionarlo</p>
-          <button id="btnSeleccionarArchivo" class="btn btn-outline-primary mb-3">Seleccionar archivo</button>
-          <p class="text-muted small">Admite archivos .txt hasta 5MB</p>
-          <div id="nombreArchivoSeleccionado" class="badge-archivo oculto"></div>
+  <main class="container my-5">
+    <div class="row">
+      <div class="col-md-6">
+          <div class="card-estanga">
+            <h5>Carga de Archivo Local</h5>
+            <div id="zonaCarga" class="zona-carga mt-3" onclick="document.getElementById('fileInput').click()">
+              <p>Arrastra el .txt aca o hace click</p>
+              <input type="file" id="fileInput" hidden accept=".txt">
+            </div>
+            <div class="mt-2 small">Archivo: <span id="nombreArchivo">Ninguno</span></div>
+          </div>
+
+          <!-- NUEVO: Seleccion desde el servidor (P1) -->
+          <div class="card-estanga">
+            <h5 class="d-flex justify-content-between align-items-center">
+              Archivos en Servidor (P1)
+              <button id="btnRefrescarP1" class="btn btn-sm btn-outline-accent">Refrescar</button>
+            </h5>
+            <div class="mt-3">
+              <select id="selectP1" class="form-select bg-dark text-light border-secondary">
+                <option value="">Seleccione un archivo...</option>
+              </select>
+              <button id="btnCargarP1" class="btn btn-accent btn-sm w-100 mt-2" disabled>Procesar Seleccionado</button>
+            </div>
+          </div>
+
+        <div class="card-estanga">
+          <h5>Estadisticas</h5>
+          <div class="row mt-3">
+            <div class="col-6 mb-3">
+              <label class="text-secondary-custom small">Total Leidos</label>
+              <div id="statTotal" class="h4">0</div>
+            </div>
+            <div class="col-6 mb-3">
+              <label class="text-secondary-custom small">Utiles</label>
+              <div id="statUtiles" class="h4 text-accent text-glow">0</div>
+            </div>
+            <div class="col-6">
+              <label class="text-secondary-custom small">Descartados</label>
+              <div id="statDescartados" class="h4 text-danger">0</div>
+            </div>
+            <div class="col-6">
+              <label class="text-secondary-custom small">Porcentaje</label>
+              <div id="statPorcentaje" class="h4">0%</div>
+            </div>
+          </div>
         </div>
-        <input type="file" id="inputArchivo" accept=".txt" style="display:none">
+
+        <button id="btnExportar" class="btn btn-primary w-100 py-3" disabled>Exportar Resultados</button>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card-estanga mt-4">
+          <h5>Numeros Utiles (Filtrados)</h5>
+          <ul id="listaUtiles" class="list-unstyled mt-3 custom-scroll" style="max-height: 250px; overflow-y: auto;">
+            <li class="text-muted text-center py-4">No hay datos</li>
+          </ul>
+        </div>
+
+        <div class="card-estanga mt-4">
+          <h5>Numeros Factoriales</h5>
+          <div id="contenedorFactoriales" class="mt-3">
+             <p class="text-muted text-center py-3">Carga un archivo para ver si hay factoriales</p>
+          </div>
+        </div>
       </div>
     </div>
   </main>
 
-  <!-- Seccion 2: Resultados -->
-  <section class="container oculto" id="seccionResultados">
-    <div class="d-flex justify-content-between align-items-center mb-2">
-      <div>
-        <span class="text-muted small">Archivo procesado: </span>
-        <strong id="nombreArchivoResultado"></strong>
-      </div>
-      <button id="btnNuevoArchivo" class="btn-nuevo-archivo">Nuevo archivo</button>
-    </div>
+  <button id="btnArriba" class="btn btn-primary position-fixed bottom-0 end-0 m-4 shadow" style="display:none">↑</button>
 
-    <!-- Metricas -->
-    <div class="grilla-metricas">
-      <div class="tarjeta-metrica">
-        <span class="label-metrica">Total leidos</span>
-        <span class="valor-metrica" id="metricaTotalLeidos">0</span>
-      </div>
-      <div class="tarjeta-metrica util">
-        <span class="label-metrica">Utiles</span>
-        <span class="valor-metrica text-success" id="metricaUtiles">0</span>
-      </div>
-      <div class="tarjeta-metrica descartado">
-        <span class="label-metrica">Descartados</span>
-        <span class="valor-metrica text-danger" id="metricaDescartados">0</span>
-      </div>
-      <div class="tarjeta-metrica porcentaje">
-        <span class="label-metrica">% Utiles</span>
-        <span class="valor-metrica" id="metricaPorcentaje">0.00%</span>
-      </div>
-    </div>
-
-    <!-- Barra de progreso -->
-    <div class="mb-4">
-      <div class="barra-contenedor">
-        <div id="barraProgresoPorcentaje"></div>
-      </div>
-      <small id="textoPorcentaje" class="text-muted text-end d-block">0% utiles</small>
-    </div>
-
-    <!-- Listas de numeros -->
-    <div class="row mb-4">
-      <div class="col-md-12 mb-4">
-        <h4 class="mb-1">NUMEROS QUE CUMPLEN LA CONDICION</h4>
-        <p class="text-muted small mb-3">Primer digito = ultimo digito — ordenados de menor a mayor</p>
-        <ul id="listaUtiles"></ul>
-      </div>
-    </div>
-
-    <div class="row mb-4">
-      <div class="col-12">
-        <button id="btnToggleDescartados" class="btn-toggle-descartados mb-3">Ver numeros descartados</button>
-        <div id="seccionDescartados" class="oculto">
-          <ul id="listaDescartados"></ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- Accion final -->
-    <div class="text-center mb-5 mt-4">
-      <button id="btnExportar" class="btn-exportar">Guardar resultado como .txt</button>
-    </div>
-  </section>
-
-  <!-- Contenedor para notificaciones (Toasts) -->
   <div id="contenedorToast" class="toast-container-custom"></div>
 
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="/scripts/parser.js"></script>
-  <script src="/scripts/filtro.js"></script>
-  <script src="/scripts/estado.js"></script>
-  <script src="/scripts/renderizador.js"></script>
-  <script src="/scripts/app.js"></script>
+  <script>
+    const btnTheme = document.getElementById('toggleTheme');
+    const themeLink = document.getElementById('theme-link');
+    const mainNav = document.getElementById('mainNav');
+
+    btnTheme.addEventListener('click', () => {
+      if (themeLink.getAttribute('href') === '/styles/dark.css') {
+        themeLink.setAttribute('href', '/styles/light.css');
+        document.documentElement.setAttribute('data-theme', 'light');
+        btnTheme.textContent = 'Modo Oscuro';
+        btnTheme.classList.replace('btn-outline-light', 'btn-outline-dark');
+        mainNav.classList.replace('navbar-dark', 'navbar-light');
+        mainNav.classList.replace('bg-dark', 'bg-light');
+      } else {
+        themeLink.setAttribute('href', '/styles/dark.css');
+        document.documentElement.setAttribute('data-theme', 'dark');
+        btnTheme.textContent = 'Modo Claro';
+        btnTheme.classList.replace('btn-outline-dark', 'btn-outline-light');
+        mainNav.classList.replace('navbar-light', 'navbar-dark');
+        mainNav.classList.replace('bg-light', 'bg-dark');
+      }
+    });
+
+    const btnArriba = document.getElementById('btnArriba');
+    window.onscroll = () => {
+      if (window.scrollY > 100) btnArriba.style.display = 'block';
+      else btnArriba.style.display = 'none';
+    };
+    btnArriba.onclick = () => window.scrollTo({top:0, behavior:'smooth'});
+    // --- LOGICA P1 INTEGRATION ---
+    const selectP1 = document.getElementById('selectP1');
+    const btnCargarP1 = document.getElementById('btnCargarP1');
+    const btnRefrescarP1 = document.getElementById('btnRefrescarP1');
+
+    async function cargarArchivosP1() {
+        try {
+            const res = await fetch('/archivos-p1');
+            if (!res.ok) throw new Error("Endpoint no encontrado");
+            const data = await res.json();
+            if (data.ok) {
+                selectP1.innerHTML = '<option value="">Seleccione un archivo...</option>';
+                data.archivos.forEach(f => {
+                    const opt = document.createElement('option');
+                    opt.value = f;
+                    opt.textContent = f;
+                    selectP1.appendChild(opt);
+                });
+            }
+        } catch (err) { console.error("Error cargando P1:", err); }
+    }
+
+    selectP1.addEventListener('change', () => {
+        btnCargarP1.disabled = !selectP1.value;
+    });
+
+    btnRefrescarP1.addEventListener('click', cargarArchivosP1);
+    
+    // Al cargar la pagina, busco los archivos de P1
+    cargarArchivosP1();
+
+    // El procesamiento lo manejamos desde app.js mediante un evento custom o exportando una funcion
+    // Para simplificar, dispararemos un evento que app.js escuchara
+    btnCargarP1.addEventListener('click', () => {
+        const nombre = selectP1.value;
+        if (!nombre) return;
+        window.dispatchEvent(new CustomEvent('procesarP1', { detail: { nombre } }));
+    });
+  </script>
+  <script type="module" src="/scripts/app.js"></script>
 </body>
 </html>

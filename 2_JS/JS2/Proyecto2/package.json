@@ -1,12 +1,17 @@
 {
-  "name": "njs5-proyecto-filtro",
-  "version": "1.0.0",
-  "description": "Filtro de numeros por digitos iniciales y finales",
+  "name": "proyecto-numeros-2",
+  "version": "1.0.1",
+  "description": "Sistema académico de filtrado de números - Protocolo Estanga",
   "main": "server.js",
+  "type": "module",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node --watch server.js"
   },
+  "author": "Estanga Student",
+  "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "multer": "^2.1.1"
   }
 }
