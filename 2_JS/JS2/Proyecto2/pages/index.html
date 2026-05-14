@@ -126,27 +126,14 @@
     async function cargarArchivos() {
         selectServer.innerHTML = '<option value="">Cargando...</option>';
         try {
-            // Busco en ambos servers por separado para que si uno falla el otro siga
-            const fetchP1 = fetch('/archivos-p1').then(r => r.json()).catch(() => ({ok:false}));
-            const fetchLocal = fetch('/archivos-locales').then(r => r.json()).catch(() => ({ok:false}));
-            
-            const [resP1, resLocal] = await Promise.all([fetchP1, fetchLocal]);
+            // Ahora solo buscamos los archivos de P1
+            const res = await fetch('/archivos-p1');
+            const data = await res.json();
 
             selectServer.innerHTML = '<option value="">Seleccione...</option>';
             
-            // Agrego los locales (que ahora vienen filtrados del back)
-            if (resLocal.ok && resLocal.archivos) {
-                resLocal.archivos.forEach(f => {
-                    const opt = document.createElement('option');
-                    opt.value = 'LOCAL:' + f;
-                    opt.textContent = '[LOCAL] ' + f;
-                    selectServer.appendChild(opt);
-                });
-            }
-
-            // Agrego los de P1
-            if (resP1.ok && resP1.archivos) {
-                resP1.archivos.forEach(f => {
+            if (data.ok && data.archivos) {
+                data.archivos.forEach(f => {
                     const opt = document.createElement('option');
                     opt.value = 'P1:' + f;
                     opt.textContent = '[P1] ' + f;
@@ -155,11 +142,11 @@
             }
             
             if (selectServer.options.length <= 1) {
-                selectServer.innerHTML = '<option value="">No hay archivos</option>';
+                selectServer.innerHTML = '<option value="">No hay archivos en P1</option>';
             }
         } catch (err) { 
-            console.error("Error cargando archivos:", err); 
-            selectServer.innerHTML = '<option value="">Error al cargar</option>';
+            console.error("Error cargando archivos P1:", err); 
+            selectServer.innerHTML = '<option value="">Error al cargar P1</option>';
         }
     }
 
