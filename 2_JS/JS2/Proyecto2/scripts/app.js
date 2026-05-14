@@ -227,4 +227,13 @@ document.addEventListener('DOMContentLoaded', () => {
       Renderizador.mostrarToast(err.message || "Error al procesar archivo local", "error");
     }
   });
+
+  // --- REINICIAR TODO ---
+  window.addEventListener('reiniciarApp', () => {
+    Estado.reiniciar();
+    Renderizador.actualizarEstadisticas(Estado);
+    Renderizador.llenarListaUtiles([]);
+    Renderizador.mostrarFactoriales([]);
+    Renderizador.mostrarToast("Laboratorio reiniciado", "info");
+  });
 });

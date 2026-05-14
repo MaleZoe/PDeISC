@@ -169,6 +169,13 @@
 
     btnRefrescarServer.addEventListener('click', () => {
         // el usuario quiere refrescar TODO
+        document.getElementById('nombreArchivo').textContent = 'Ninguno';
+        selectServer.value = '';
+        btnCargarServer.disabled = true;
+        
+        // aviso a app.js que limpie el estado y la vista
+        window.dispatchEvent(new CustomEvent('reiniciarApp'));
+        
         cargarArchivos();
     });
     
