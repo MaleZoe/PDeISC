@@ -63,7 +63,7 @@ app.get('/archivos-p1', (req, res) => {
 app.get('/archivos-locales', (req, res) => {
   try {
     const archivos = fs.readdirSync(__dirname)
-      .filter(f => (f.startsWith('upload_') || f.startsWith('resultado_')) && f.endsWith('.txt'))
+      .filter(f => f.startsWith('resultado_') && f.endsWith('.txt'))
       .sort((a, b) => b.localeCompare(a)); // Mas nuevos primero
     
     res.json({ ok: true, archivos });

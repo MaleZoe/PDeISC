@@ -126,13 +126,15 @@
     async function cargarArchivos() {
         selectServer.innerHTML = '<option value="">Cargando...</option>';
         try {
-            const [resP1, resLocal] = await Promise.all([
-                fetch('/archivos-p1').then(r => r.json()).catch(() => ({ok:false})),
-                fetch('/archivos-locales').then(r => r.json()).catch(() => ({ok:false}))
-            ]);
+            // Busco en ambos servers por separado para que si uno falla el otro siga
+            const fetchP1 = fetch('/archivos-p1').then(r => r.json()).catch(() => ({ok:false}));
+            const fetchLocal = fetch('/archivos-locales').then(r => r.json()).catch(() => ({ok:false}));
+            
+            const [resP1, resLocal] = await Promise.all([fetchP1, fetchLocal]);
 
             selectServer.innerHTML = '<option value="">Seleccione...</option>';
             
+            // Agrego los locales (que ahora vienen filtrados del back)
             if (resLocal.ok && resLocal.archivos) {
                 resLocal.archivos.forEach(f => {
                     const opt = document.createElement('option');
@@ -142,6 +144,7 @@
                 });
             }
 
+            // Agrego los de P1
             if (resP1.ok && resP1.archivos) {
                 resP1.archivos.forEach(f => {
                     const opt = document.createElement('option');
@@ -149,6 +152,10 @@
                     opt.textContent = '[P1] ' + f;
                     selectServer.appendChild(opt);
                 });
+            }
+            
+            if (selectServer.options.length <= 1) {
+                selectServer.innerHTML = '<option value="">No hay archivos</option>';
             }
         } catch (err) { 
             console.error("Error cargando archivos:", err); 
@@ -160,10 +167,16 @@
         btnCargarServer.disabled = !selectServer.value;
     });
 
-    btnRefrescarServer.addEventListener('click', cargarArchivos);
+    btnRefrescarServer.addEventListener('click', () => {
+        // el usuario quiere refrescar TODO
+        cargarArchivos();
+    });
     
     // Al cargar la pagina
     cargarArchivos();
+
+    // Listener global para que app.js pueda pedir refresco
+    window.addEventListener('actualizarListas', cargarArchivos);
 
     btnCargarServer.addEventListener('click', () => {
         const value = selectServer.value;

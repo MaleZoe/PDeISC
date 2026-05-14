@@ -80,6 +80,9 @@ document.addEventListener('DOMContentLoaded', () => {
         Renderizador.llenarListaUtiles(Estado.numerosUtiles);
         Renderizador.mostrarFactoriales(Estado.numerosFactoriales);
         Renderizador.mostrarToast("procesado en el backend con exito!", "exito");
+        
+        // aviso que hay data nueva en el server (por si se creo un upload_)
+        window.dispatchEvent(new CustomEvent('actualizarListas'));
       } else {
         throw new Error(data.error);
       }
@@ -131,6 +134,9 @@ document.addEventListener('DOMContentLoaded', () => {
         link.click();
         window.URL.revokeObjectURL(url);
         document.body.removeChild(link);
+
+        // refresco la lista porque se creo un nuevo resultado_*.txt
+        window.dispatchEvent(new CustomEvent('actualizarListas'));
       } else {
         throw new Error(data.error);
       }
