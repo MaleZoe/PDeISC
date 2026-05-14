@@ -31,7 +31,10 @@ export const Renderizador = {
         li.innerHTML = `
             <span class="numero-indice">#${indice + 1}</span>
             <span class="numero-valor">${numero}</span>
-            <button class="btn-eliminar" aria-label="borrar numero ${numero}" data-idx="${indice}">×</button>
+            <div class="acciones-item">
+                <button class="btn-editar" aria-label="editar numero ${numero}" data-idx="${indice}">✎</button>
+                <button class="btn-eliminar" aria-label="borrar numero ${numero}" data-idx="${indice}">×</button>
+            </div>
         `;
         
         this.elementos.lista.appendChild(li);
@@ -58,7 +61,48 @@ export const Renderizador = {
             item.dataset.indice = index;
             item.querySelector('.numero-indice').textContent = `#${index + 1}`;
             item.querySelector('.btn-eliminar').dataset.idx = index;
+            const btnEditar = item.querySelector('.btn-editar');
+            if (btnEditar) btnEditar.dataset.idx = index;
         });
+    },
+
+    // pongo el item en modo edicion
+    activarModoEdicion(indice) {
+        const item = Array.from(this.elementos.lista.querySelectorAll('.item-numero'))
+            .find(el => parseInt(el.dataset.indice) === indice);
+        
+        if (!item) return;
+
+        const spanValor = item.querySelector('.numero-valor');
+        const valorActual = spanValor.textContent;
+        const btnEditar = item.querySelector('.btn-editar');
+
+        // cambio el texto por un input
+        spanValor.innerHTML = `<input type="number" class="input-edit" value="${valorActual}" step="any">`;
+        const input = spanValor.querySelector('input');
+        input.focus();
+        input.select();
+
+        // cambio el icono del boton
+        btnEditar.textContent = 'ok';
+        btnEditar.classList.add('modo-guardar');
+
+        return input;
+    },
+
+    // vuelvo al estado normal
+    finalizarEdicion(indice, nuevoValor) {
+        const item = Array.from(this.elementos.lista.querySelectorAll('.item-numero'))
+            .find(el => parseInt(el.dataset.indice) === indice);
+        
+        if (!item) return;
+
+        const spanValor = item.querySelector('.numero-valor');
+        const btnEditar = item.querySelector('.btn-editar');
+
+        spanValor.textContent = nuevoValor;
+        btnEditar.textContent = '✎';
+        btnEditar.classList.remove('modo-guardar');
     },
 
     // para ver cuanto falta para llenar

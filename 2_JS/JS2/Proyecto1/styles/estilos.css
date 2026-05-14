@@ -160,6 +160,7 @@ body.bg-neon {
     font-family: var(--fuente-mono);
     font-size: 1.1rem;
     font-weight: 600;
+    color: var(--color-texto-principal);
 }
 
 .btn-eliminar {
@@ -176,6 +177,48 @@ body.bg-neon {
 .btn-eliminar:hover {
     color: var(--color-peligro);
     transform: scale(1.2);
+}
+
+.acciones-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-editar {
+    background: none;
+    border: none;
+    color: var(--color-texto-secundario);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transicion);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-editar:hover {
+    color: var(--color-acento);
+    transform: scale(1.2);
+}
+
+.btn-editar.modo-guardar {
+    color: var(--color-exito);
+    font-weight: bold;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.input-edit {
+    background: var(--color-fondo);
+    border: 1px solid var(--color-acento);
+    color: var(--color-texto-principal);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-family: var(--fuente-mono);
+    width: 100px;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 242, 255, 0.3);
 }
 
 /* Estado Vacío */

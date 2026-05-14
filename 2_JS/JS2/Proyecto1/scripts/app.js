@@ -27,14 +27,52 @@ document.addEventListener('DOMContentLoaded', () => {
         Renderizador.limpiarError();
     });
 
-    // para borrar uno solo de la lista
+    // para borrar o editar de la lista
     listaUI.addEventListener('click', (e) => {
-        const btn = e.target.closest('.btn-eliminar');
-        if (btn) {
-            const indice = parseInt(btn.dataset.idx);
+        const btnEliminar = e.target.closest('.btn-eliminar');
+        if (btnEliminar) {
+            const indice = parseInt(btnEliminar.dataset.idx);
             manejarEliminado(indice);
+            return;
+        }
+
+        const btnEditar = e.target.closest('.btn-editar');
+        if (btnEditar) {
+            const indice = parseInt(btnEditar.dataset.idx);
+            manejarEdicion(indice, btnEditar);
         }
     });
+
+    // para corregir un numero
+    function manejarEdicion(indice, btn) {
+        if (btn.classList.contains('modo-guardar')) {
+            const item = btn.closest('.item-numero');
+            const input = item.querySelector('.input-edit');
+            const validacion = Validador.validarEntrada(input.value);
+
+            if (!validacion.valido) {
+                Renderizador.mostrarToast(validacion.error, "error");
+                return;
+            }
+
+            try {
+                Estado.actualizar(indice, validacion.numero);
+                Renderizador.finalizarEdicion(indice, Validador.formatearNumero(validacion.numero));
+                actualizarInterfaz();
+                Renderizador.mostrarToast("valor actualizado", "exito");
+            } catch (error) {
+                Renderizador.mostrarToast(error.message, "error");
+            }
+        } else {
+            const input = Renderizador.activarModoEdicion(indice);
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') manejarEdicion(indice, btn);
+                if (e.key === 'Escape') {
+                    Renderizador.finalizarEdicion(indice, Validador.formatearNumero(Estado.lista[indice]));
+                }
+            });
+        }
+    }
 
     // para guardar el txt
     btnExportar.addEventListener('click', manejarExportacion);

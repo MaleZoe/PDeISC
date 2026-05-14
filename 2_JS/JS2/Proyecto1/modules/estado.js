@@ -29,6 +29,19 @@ export const Estado = {
         return eliminado[0];
     },
 
+    // para corregir un numero que ya estaba
+    actualizar(indice, nuevoValor) {
+        if (indice < 0 || indice >= this.lista.length) return false;
+        
+        // valido que no este repetido en otra posicion
+        if (this.lista.some((val, idx) => val === nuevoValor && idx !== indice)) {
+            throw new Error(`el ${nuevoValor} ya lo pusiste antes`);
+        }
+
+        this.lista[indice] = nuevoValor;
+        return true;
+    },
+
     // borro todo a la mierda
     limpiar() {
         this.lista = [];
