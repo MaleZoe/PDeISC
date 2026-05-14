@@ -59,6 +59,19 @@ app.get('/archivos-p1', (req, res) => {
   }
 });
 
+// NUEVO: funcion escanear carpeta p2 (local)
+app.get('/archivos-locales', (req, res) => {
+  try {
+    const archivos = fs.readdirSync(__dirname)
+      .filter(f => (f.startsWith('upload_') || f.startsWith('resultado_')) && f.endsWith('.txt'))
+      .sort((a, b) => b.localeCompare(a)); // Mas nuevos primero
+    
+    res.json({ ok: true, archivos });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: "error al leer archivos locales" });
+  }
+});
+
 // endpoint para procesar un archivo especifico de P1
 app.post('/procesar-p1', (req, res) => {
   const { nombre } = req.body;
@@ -88,6 +101,36 @@ app.post('/procesar-p1', (req, res) => {
     });
   });
 });
+
+// NUEVO: endpoint para procesar un archivo local ya existente
+app.post('/procesar-local', (req, res) => {
+    const { nombre } = req.body;
+    if (!nombre) return res.status(400).json({ ok: false, error: "falta el nombre" });
+  
+    const rutaArchivo = path.join(__dirname, nombre);
+    if (!fs.existsSync(rutaArchivo)) {
+      return res.status(404).json({ ok: false, error: "el archivo ya no existe" });
+    }
+  
+    fs.readFile(rutaArchivo, 'utf-8', (err, contenido) => {
+      if (err) return res.status(500).json({ ok: false, error: "error al leer el archivo" });
+  
+      const lineas = contenido.split(/\r?\n/).filter(line => line.trim() !== "");
+      const numeros = lineas.map(Number).filter(n => !isNaN(n));
+      const { utiles, descartados, factoriales } = Filtro.filtrar(numeros);
+  
+      res.json({
+        ok: true,
+        archivoOrigen: nombre,
+        totalLeidos: numeros.length,
+        totalUtiles: utiles.length,
+        totalDescartados: descartados.length,
+        numerosUtiles: utiles,
+        numerosDescartados: descartados,
+        numerosFactoriales: factoriales
+      });
+    });
+  });
 
 // ruta principal
 app.get('/', (req, res) => {

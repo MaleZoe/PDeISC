@@ -20,25 +20,41 @@
     <div class="row">
       <div class="col-md-6">
           <div class="card-estanga">
-            <h5>Carga de Archivo Local</h5>
+            <h5 class="d-flex justify-content-between align-items-center">
+              Carga de Datos
+              <div class="d-flex gap-1">
+                <button id="btnRefrescarLocal" class="btn btn-xs btn-outline-accent" title="Refrescar Local">Ref. Local</button>
+                <button id="btnRefrescarP1" class="btn btn-xs btn-outline-accent" title="Refrescar P1">Ref. P1</button>
+              </div>
+            </h5>
             <div id="zonaCarga" class="zona-carga mt-3" onclick="document.getElementById('fileInput').click()">
               <p>Arrastra el .txt aca o hace click</p>
               <input type="file" id="fileInput" hidden accept=".txt">
             </div>
             <div class="mt-2 small">Archivo: <span id="nombreArchivo">Ninguno</span></div>
-          </div>
 
-          <!-- NUEVO: Seleccion desde el servidor (P1) -->
-          <div class="card-estanga">
-            <h5 class="d-flex justify-content-between align-items-center">
-              Archivos en Servidor (P1)
-              <button id="btnRefrescarP1" class="btn btn-sm btn-outline-accent">Refrescar</button>
-            </h5>
-            <div class="mt-3">
-              <select id="selectP1" class="form-select bg-dark text-light border-secondary">
-                <option value="">Seleccione un archivo...</option>
-              </select>
-              <button id="btnCargarP1" class="btn btn-accent btn-sm w-100 mt-2" disabled>Procesar Seleccionado</button>
+            <div class="row g-2 mt-2">
+              <!-- Seleccion Local -->
+              <div class="col-12 mt-3 pt-3 border-top border-secondary">
+                <label class="small text-secondary-custom mb-1">Servidor Local (P2):</label>
+                <div class="d-flex gap-2">
+                  <select id="selectLocal" class="form-select bg-dark text-light border-secondary">
+                    <option value="">Seleccione...</option>
+                  </select>
+                  <button id="btnCargarLocal" class="btn btn-outline-accent btn-sm" disabled>Cargar</button>
+                </div>
+              </div>
+
+              <!-- Seleccion P1 -->
+              <div class="col-12 mt-2 pt-2 border-top border-secondary">
+                <label class="small text-secondary-custom mb-1">Servidor Remoto (P1):</label>
+                <div class="d-flex gap-2">
+                  <select id="selectP1" class="form-select bg-dark text-light border-secondary">
+                    <option value="">Seleccione...</option>
+                  </select>
+                  <button id="btnCargarP1" class="btn btn-accent btn-sm" disabled>Cargar</button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -129,7 +145,7 @@
             if (!res.ok) throw new Error("Endpoint no encontrado");
             const data = await res.json();
             if (data.ok) {
-                selectP1.innerHTML = '<option value="">Seleccione un archivo...</option>';
+                selectP1.innerHTML = '<option value="">Seleccione...</option>';
                 data.archivos.forEach(f => {
                     const opt = document.createElement('option');
                     opt.value = f;
@@ -145,16 +161,50 @@
     });
 
     btnRefrescarP1.addEventListener('click', cargarArchivosP1);
-    
-    // Al cargar la pagina, busco los archivos de P1
-    cargarArchivosP1();
 
-    // El procesamiento lo manejamos desde app.js mediante un evento custom o exportando una funcion
-    // Para simplificar, dispararemos un evento que app.js escuchara
+    // --- NUEVO: LOGICA LOCAL (P2) INTEGRATION ---
+    const selectLocal = document.getElementById('selectLocal');
+    const btnCargarLocal = document.getElementById('btnCargarLocal');
+    const btnRefrescarLocal = document.getElementById('btnRefrescarLocal');
+
+    async function cargarArchivosLocales() {
+        try {
+            const res = await fetch('/archivos-locales');
+            if (!res.ok) throw new Error("Endpoint no encontrado");
+            const data = await res.json();
+            if (data.ok) {
+                selectLocal.innerHTML = '<option value="">Seleccione...</option>';
+                data.archivos.forEach(f => {
+                    const opt = document.createElement('option');
+                    opt.value = f;
+                    opt.textContent = f;
+                    selectLocal.appendChild(opt);
+                });
+            }
+        } catch (err) { console.error("Error cargando Local:", err); }
+    }
+
+    selectLocal.addEventListener('change', () => {
+        btnCargarLocal.disabled = !selectLocal.value;
+    });
+
+    btnRefrescarLocal.addEventListener('click', cargarArchivosLocales);
+    
+    // Al cargar la pagina, busco los archivos de P1 y Local
+    cargarArchivosP1();
+    cargarArchivosLocales();
+
+    // El procesamiento lo manejamos desde app.js mediante eventos custom
     btnCargarP1.addEventListener('click', () => {
         const nombre = selectP1.value;
         if (!nombre) return;
         window.dispatchEvent(new CustomEvent('procesarP1', { detail: { nombre } }));
+    });
+
+    btnCargarLocal.addEventListener('click', () => {
+        const nombre = selectLocal.value;
+        if (!nombre) return;
+        window.dispatchEvent(new CustomEvent('procesarLocal', { detail: { nombre } }));
     });
   </script>
   <script type="module" src="/scripts/app.js"></script>

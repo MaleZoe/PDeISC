@@ -181,4 +181,44 @@ document.addEventListener('DOMContentLoaded', () => {
       Renderizador.mostrarToast(err.message || "Error al procesar desde P1", "error");
     }
   });
+
+  // --- ESCUCHO AL PROYECTO LOCAL (P2) ---
+  window.addEventListener('procesarLocal', async (e) => {
+    const { nombre } = e.detail;
+    Renderizador.mostrarToast(`Procesando local: ${nombre}...`, "info");
+
+    try {
+      const res = await fetch('/procesar-local', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre })
+      });
+      
+      if (!res.ok || !res.headers.get('content-type')?.includes('application/json')) {
+        throw new Error("Error en el servidor o archivo no encontrado");
+      }
+
+      const data = await res.json();
+
+      if (data.ok) {
+        Estado.setResultado({
+          archivo: data.archivoOrigen,
+          total: data.totalLeidos,
+          utiles: data.numerosUtiles,
+          descartados: data.numerosDescartados,
+          factoriales: data.numerosFactoriales
+        });
+
+        Renderizador.actualizarInfoArchivo("(Local P2) " + data.archivoOrigen);
+        Renderizador.actualizarEstadisticas(Estado);
+        Renderizador.llenarListaUtiles(Estado.numerosUtiles);
+        Renderizador.mostrarFactoriales(Estado.numerosFactoriales);
+        Renderizador.mostrarToast("Archivo local procesado!", "exito");
+      } else {
+        throw new Error(data.error);
+      }
+    } catch (err) {
+      Renderizador.mostrarToast(err.message || "Error al procesar archivo local", "error");
+    }
+  });
 });
