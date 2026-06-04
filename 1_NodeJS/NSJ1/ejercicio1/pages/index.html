@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 1 - Hola Mundo</title>
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link id="theme-link" rel="stylesheet" href="../styles/claro.css">
+</head>
+<body>
+    <!-- header con el switch de modo oscuro -->
+    <header class="container-fluid py-3 border-bottom">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="h4 mb-0">Ejercicio 1</h1>
+            <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="Cambiar modo">☀️🌙</button>
+        </div>
+    </header>
+
+    <!-- hero o seccion principal -->
+    <main class="container mt-5">
+        <div class="jumbotron text-center p-4 border rounded">
+            <h2 class="h4">¡Hola Mundo desde Node.js!</h2>
+            <p>Este es el primer ejercicio del TP.</p>
+            <hr class="my-4">
+            <p class="small">Fijate en la consola de la terminal para ver el otro mensaje.</p>
+        </div>
+    </main>
+
+    <!-- boton para subir -->
+    <button id="btn-scroll-top" class="btn btn-primary position-fixed bottom-0 end-0 m-4" style="display: none;">↑</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="../scripts/main.js"></script>
+</body>
+</html>

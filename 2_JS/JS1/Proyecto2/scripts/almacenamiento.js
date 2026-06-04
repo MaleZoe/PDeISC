@@ -27,6 +27,14 @@ window.Almacenamiento = (() => {
             case 'unshift':
                 agregarConUnshift(producto);
                 break;
+            case 'splice': {
+                const indice = parseInt(posicion, 10);
+                const insertarEn = Number.isNaN(indice)
+                    ? catalogoProductos.length
+                    : Math.min(Math.max(indice, 0), catalogoProductos.length);
+                catalogoProductos.splice(insertarEn, 0, producto);
+                break;
+            }
             default:
                 agregarConPush(producto);
         }

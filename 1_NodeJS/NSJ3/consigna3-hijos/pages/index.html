@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consigna 3 - Inspector de Nodos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link id="theme-light" rel="stylesheet" href="/styles/light.css">
+    <link id="theme-dark" rel="stylesheet" href="/styles/dark.css" disabled>
+</head>
+<body>
+    <header class="py-3 shadow-sm border-0 glass">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <h1 class="h4 mb-0 fw-bold tracking-tight">Inspector de Jerarquía</h1>
+            </div>
+            <button id="theme-toggle" class="btn btn-sm btn-outline-secondary rounded-pill border-0 shadow-none">
+                <i class="bi bi-moon-stars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="container-fluid py-4">
+        <div class="alert alert-info border-0 shadow-sm mb-4 fade-in">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            <strong>Consigna:</strong> Hace click en cualquier componente para ver cuántos hijos tiene en tiempo real.
+        </div>
+
+        <div class="row g-4">
+            <!-- componente 1 -->
+            <div class="col-md-6">
+                <div id="comp-1" class="card h-100 p-4 text-center border-0 shadow-sm cursor-pointer inspectable">
+                    <div class="mb-3">
+                        <i class="bi bi-mouse2 fs-1 text-primary"></i>
+                    </div>
+                    <h5 class="fw-bold">Hover State</h5>
+                    <p class="text-muted">Deslizá el mouse para activar el efecto de profundidad.</p>
+                    <div class="counter-badge badge bg-dark text-white rounded-pill px-3 py-2 mt-auto align-self-center">
+                        ? hijos
+                    </div>
+                </div>
+            </div>
+            <!-- componente 2 -->
+            <div class="col-md-6">
+                <div id="comp-2" class="card h-100 p-4 text-center border-0 shadow-sm cursor-pointer inspectable">
+                    <div class="mb-3">
+                        <i class="bi bi-hand-index-thumb fs-1 text-success"></i>
+                    </div>
+                    <h5 class="fw-bold">Double Click</h5>
+                    <p class="text-muted">Hacé doble click rápido para rotar este elemento.</p>
+                    <div class="counter-badge badge bg-dark text-white rounded-pill px-3 py-2 mt-auto align-self-center">
+                        ? hijos
+                    </div>
+                </div>
+            </div>
+            <!-- componente 3 -->
+            <div class="col-md-6">
+                <div id="comp-3" class="card h-100 p-4 border-0 shadow-sm inspectable">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-keyboard fs-2 text-info"></i>
+                        <h5 class="fw-bold mb-0">Keyboard Input</h5>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Escribí algo:</label>
+                        <input type="text" id="input-teclado" class="form-control" placeholder="Presioná teclas...">
+                    </div>
+                    <div id="feedback-teclado" class="badge bg-info-subtle text-info p-2 rounded-3 text-start w-100 mb-3">
+                        Esperando entrada...
+                    </div>
+                    <div class="counter-badge badge bg-dark text-white rounded-pill px-3 py-2 mt-auto align-self-center">
+                        ? hijos
+                    </div>
+                </div>
+            </div>
+            <!-- componente 4 -->
+            <div class="col-md-6">
+                <div id="comp-4" class="card h-100 p-4 border-0 shadow-sm inspectable">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-eye fs-2 text-danger"></i>
+                        <h5 class="fw-bold mb-0">Focus Tracker</h5>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Click para enfocar:</label>
+                        <input type="text" id="input-foco" class="form-control" placeholder="Hacé foco acá...">
+                    </div>
+                    <div id="feedback-foco" class="badge bg-danger-subtle text-danger p-2 rounded-3 text-start w-100 mb-3">
+                        Estado: Inactivo
+                    </div>
+                    <div class="counter-badge badge bg-dark text-white rounded-pill px-3 py-2 mt-auto align-self-center">
+                        ? hijos
+                    </div>
+                </div>
+            </div>
+            <!-- componente 5 -->
+            <div class="col-md-12">
+                <div id="comp-5" class="card p-5 text-center border-0 shadow-sm bg-primary-subtle inspectable">
+                    <div class="mb-3">
+                        <i class="bi bi-shield-lock fs-1 text-primary"></i>
+                    </div>
+                    <h5 class="fw-bold">Custom Context Menu</h5>
+                    <p class="mb-4">Probá el click derecho para ver cómo capturamos el evento.</p>
+                    <div class="counter-badge badge bg-dark text-white rounded-pill px-3 py-2 mx-auto">
+                        ? hijos
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/scripts/main.js"></script>
+</body>
+</html>

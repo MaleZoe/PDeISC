@@ -1,0 +1,141 @@
+/* moderno ej 3 claro - premium */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+:root {
+    --primary: #0070f3;
+    --bg: #fcfcfd;
+    --text: #1a1a1a;
+    --card-bg: #ffffff;
+    --border: rgba(0, 0, 0, 0.08);
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+}
+
+header {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+#calc-form, .bg-light, .bg-white {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    padding: 2rem !important;
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #eaeaea;
+    transition: all 0.2s;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 4px rgba(0, 112, 243, 0.1);
+    border-color: var(--primary);
+}
+
+h1, h2, h3, h4, .h1, .h2, .h3, .h4 {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+#resultado-display {
+    color: var(--primary) !important;
+    font-weight: 600;
+}
+
+.btn {
+    border-radius: 10px;
+    font-weight: 500;
+    padding: 0.6rem 1.2rem;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary {
+    background: #f0f0f0;
+    border: 1px solid #e0e0e0;
+    color: #444;
+}
+
+.btn-secondary:hover {
+    background: #e5e5e5;
+    color: #000;
+}
+
+    #theme-toggle {
+        min-width: 3.2rem;
+        min-height: 3.2rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        padding: 0.55rem 0.75rem;
+    }
+
+    @media (max-width: 767px) {
+        main.container {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+        }
+
+        #theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1100;
+            width: 3.4rem;
+            height: 3.4rem;
+            border-radius: 50%;
+            padding: 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .row {
+            gap: 1.5rem;
+
+    .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    #calc-form,
+    .bg-white {
+        padding: 1.5rem !important;
+    }
+
+    .d-flex.gap-2 {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .d-flex.gap-2 .btn {
+        width: 100%;
+    }
+
+    header .container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    #resultado-display {
+        font-size: 2.5rem;
+    }
+}
+

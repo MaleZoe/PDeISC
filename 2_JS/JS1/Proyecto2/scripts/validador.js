@@ -21,8 +21,7 @@ window.Validador = (() => {
         },
         'inp-color': {
             requerido: true,
-            patron: /^[a-zA-Z\s]+$/,
-            mensajeError: 'Ingresá un color válido.'
+            mensajeError: 'Seleccioná un color.'
         },
         'inp-stock': { // Patente
             requerido: true,

@@ -46,7 +46,7 @@
                         <div class="row g-4">
                             <!-- Datos del Vehículo -->
                             <div class="col-md-6 position-relative">
-                                <label for="inp-marca" class="form-label">Marca</label>
+                                <label for="inp-marca" class="form-label">Marca <span class="text-danger">*</span></label>
                                 <select class="form-select" id="inp-marca" required>
                                     <option value="" selected disabled>Seleccioná marca...</option>
                                     <option value="Toyota">Toyota</option>
@@ -64,7 +64,7 @@
                                 <span class="mensaje-exito d-none">✓</span>
                             </div>
                             <div class="col-md-6 position-relative">
-                                <label for="inp-nombre" class="form-label">Modelo</label>
+                                <label for="inp-nombre" class="form-label">Modelo <span class="text-danger">*</span></label>
                                 <select class="form-select" id="inp-nombre" required disabled>
                                     <option value="" selected disabled>Seleccioná modelo...</option>
                                 </select>
@@ -73,32 +73,40 @@
                             </div>
 
                             <div class="col-md-4 position-relative">
-                                <label for="inp-anio" class="form-label">Año</label>
+                                <label for="inp-anio" class="form-label">Año <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" id="inp-anio" placeholder="Ej. 2024" min="1900" max="2026" required>
                                 <span class="mensaje-error" id="err-anio"></span>
                                 <span class="mensaje-exito d-none">✓</span>
                             </div>
                             <div class="col-md-4 position-relative">
-                                <label for="inp-color" class="form-label">Color</label>
-                                <input type="text" class="form-control" id="inp-color" placeholder="Ej. Blanco, Gris, Azul" required>
+                                <label for="inp-color" class="form-label">Color <span class="text-danger">*</span></label>
+                                <select class="form-select" id="inp-color" required>
+                                    <option value="" selected disabled>Seleccioná color...</option>
+                                    <option value="Blanco">Blanco</option>
+                                    <option value="Negro">Negro</option>
+                                    <option value="Gris">Gris</option>
+                                    <option value="Azul">Azul</option>
+                                    <option value="Rojo">Rojo</option>
+                                    <option value="Plateado">Plateado</option>
+                                </select>
                                 <span class="mensaje-error" id="err-color"></span>
                                 <span class="mensaje-exito d-none">✓</span>
                             </div>
                             <div class="col-md-4 position-relative">
-                                <label for="inp-stock" class="form-label">Patente / Dominio</label>
+                                <label for="inp-stock" class="form-label">Patente / Dominio <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="inp-stock" placeholder="Ej. AA123BB o ABC123" required>
                                 <span class="mensaje-error" id="err-stock"></span>
                                 <span class="mensaje-exito d-none">✓</span>
                             </div>
 
                             <div class="col-md-4 position-relative">
-                                <label for="inp-precio" class="form-label">Kilómetros</label>
+                                <label for="inp-precio" class="form-label">Kilómetros <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" id="inp-precio" placeholder="0 para 0km" min="0" required>
                                 <span class="mensaje-error" id="err-precio"></span>
                                 <span class="mensaje-exito d-none">✓</span>
                             </div>
                             <div class="col-md-4 position-relative">
-                                <label for="inp-categoria" class="form-label">Combustible</label>
+                                <label for="inp-categoria" class="form-label">Combustible <span class="text-danger">*</span></label>
                                 <select class="form-select" id="inp-categoria" required>
                                     <option value="" selected disabled>Seleccioná...</option>
                                     <option value="Nafta">Nafta</option>
@@ -111,7 +119,7 @@
                                 <span class="mensaje-exito d-none">✓</span>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label d-block mb-3">Condición</label>
+                                <label class="form-label d-block mb-3">Condición <span class="text-danger">*</span></label>
                                 <div class="d-flex gap-3">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="condicion" id="cond-nuevo" value="Nuevo" checked>
@@ -127,7 +135,7 @@
                             </div>
 
                             <div class="col-md-12 position-relative">
-                                <label for="inp-imagen" class="form-label">Precio de Venta (USD)</label>
+                                <label for="inp-imagen" class="form-label">Precio de Venta (USD) <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent border-end-0 text-success fw-bold">U$S</span>
                                     <input type="number" class="form-control border-start-0 ps-0" id="inp-imagen" placeholder="Ej. 15000" required>

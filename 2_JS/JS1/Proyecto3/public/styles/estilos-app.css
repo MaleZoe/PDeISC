@@ -21,6 +21,50 @@
     animation: fadeInDown 0.2s ease;
 }
 
+#contenedorCantidadHijos {
+    display: none;
+}
+
+#contenedorCantidadHijos.visible {
+    display: block;
+}
+
+#bannerFeedback {
+    display: none;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radio-borde);
+    align-items: center;
+    gap: 0.75rem;
+}
+
+#bannerFeedback.visible {
+    display: flex;
+}
+
+#bannerFeedback.banner-exito {
+    background: rgba(16, 185, 129, 0.15);
+    border-left: 4px solid var(--color-exito);
+    color: var(--color-exito);
+}
+
+#bannerFeedback.banner-error {
+    background: rgba(239, 68, 68, 0.15);
+    border-left: 4px solid var(--color-error);
+    color: var(--color-error);
+}
+
+#bannerFeedback.banner-duplicado {
+    background: rgba(245, 158, 11, 0.15);
+    border-left: 4px solid #f59e0b;
+    color: #fbbf24;
+}
+
+#bannerFeedback.banner-storage {
+    background: rgba(99, 102, 241, 0.15);
+    border-left: 4px solid #6366f1;
+    color: #a5b4fc;
+}
+
 fieldset {
     border: 1px solid var(--color-borde) !important;
     border-radius: var(--radio-borde);

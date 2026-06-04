@@ -1,55 +1,66 @@
-// acá arranco el servidor de una
+// Punto de entrada del proyecto.
+// Antes de levantar el servidor, genera todos los HTML dentro de /pages.
 import { createServer } from 'node:http';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-
-import { generarSitio } from './Modules/sitio/sitio.js';
+import { generarSitio } from './modules/site/generarSitio.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-
-// este objeto tiene las rutas para que no sea un quilombo de ifs
+// Cada ruta publica apunta a un archivo HTML ya generado en /pages.
 const RUTAS = {
-  '/': 'Pages/inicio.html',
-  '/calculo': 'Pages/ejercicio1/calculadora.html',
-  '/archivos': 'Pages/ejercicio2/archivos.html',
-  '/vista.html': 'Pages/ejercicio2/galeria.html',
-  '/url': 'Pages/ejercicio3/url-info.html',
-  '/npm': 'Pages/ejercicio4/npm.html',
+  '/': 'pages/index.html',
+  '/calculo': 'pages/consigna1/calculo.html',
+  '/archivos': 'pages/consigna2/archivos.html',
+  '/vista.html': 'pages/consigna2/vista.html',
+  '/url': 'pages/consigna3/url.html',
+  '/npm': 'pages/consigna4/npm.html',
 };
 
-// genero todo el sitio antes de levantar el server
 await generarSitio();
 
 const server = createServer((req, res) => {
-
-  // si pide css se lo mando sin vueltas
-  if (req.url?.startsWith('/Styles/') && req.url.endsWith('.css')) {
-    const css = readFileSync(path.join(__dirname, req.url), 'utf8');
-    res.writeHead(200, { 'Content-Type': 'text/css; charset=utf-8' });
-    res.end(css);
+  // Los estilos se sirven como archivos estaticos.
+  if (req.url?.startsWith('/styles/') && req.url.endsWith('.css')) {
+    try {
+      const css = readFileSync(path.join(__dirname, req.url), 'utf8');
+      res.writeHead(200, { 'Content-Type': 'text/css; charset=utf-8' });
+      res.end(css);
+    } catch (e) {
+      res.writeHead(404);
+      res.end('404 - Estilo no encontrado');
+    }
     return;
   }
 
   const archivo = RUTAS[req.url];
 
+  // Si la ruta no existe en el mapa, responde 404.
   if (!archivo) {
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-    res.end('404 - flaco, esa pagina no existe');
+    res.end('404 - Pagina no encontrada');
     return;
   }
 
   try {
+    // Lee y devuelve el HTML ya generado en disco.
     const html = readFileSync(path.join(__dirname, archivo), 'utf8');
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
     res.end(html);
   } catch (err) {
     res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
-    res.end(`le erraste feo: ${err.message}`);
+    res.end(`Error interno: ${err.message}`);
   }
 });
 
 server.listen(3000, '127.0.0.1', () => {
-  console.log('\n[estanga] el server esta arriba en http://127.0.0.1:3000');
+  console.log('\n[NJS2] Servidor listo -> http://127.0.0.1:3000\n');
+  console.log(' Paginas disponibles:');
+  console.log(' / -> Inicio');
+  console.log(' /calculo -> Consigna 1');
+  console.log(' /archivos -> Consigna 2');
+  console.log(' /vista.html -> HTML generado');
+  console.log(' /url -> Consigna 3');
+  console.log(' /npm -> Consigna 4');
 });

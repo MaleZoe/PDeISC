@@ -5,41 +5,46 @@ export const Lector = (() => {
         const formData = new FormData(formulario);
         
         return {
-            nombre: formData.get('nombre') || '',
-            email: formData.get('email') || '',
-            fecha: formData.get('fecha') || '',
-            plan: formData.get('plan') || '',
-            documento: formData.get('documento') || '',
-            telefono: formData.get('telefono') || '',
-            notas: formData.get('notas') || ''
+            nombre: (formData.get('nombre') || '').trim(),
+            email: (formData.get('email') || '').trim(),
+            fecha: (formData.get('fecha') || '').trim(),
+            plan: (formData.get('plan') || '').trim(),
+            documento: (formData.get('documento') || '').trim(),
+            telefono: (formData.get('telefono') || '').trim(),
+            notas: (formData.get('notas') || '').trim()
         };
     }
 
     // Opción 2: getElementById (Lee cada campo buscando su ID específico)
     function leerConGetElementById(formulario) {
         return {
-            nombre: document.getElementById('inp-nombre').value,
-            email: document.getElementById('inp-email').value,
-            fecha: document.getElementById('inp-fecha').value,
-            plan: document.getElementById('inp-plan').value,
-            documento: document.getElementById('inp-documento').value,
-            telefono: document.getElementById('inp-telefono').value,
-            notas: document.getElementById('inp-notas').value
+            nombre: document.getElementById('inp-nombre').value.trim(),
+            email: document.getElementById('inp-email').value.trim(),
+            fecha: document.getElementById('inp-fecha').value.trim(),
+            plan: document.getElementById('inp-plan').value.trim(),
+            documento: document.getElementById('inp-documento').value.trim(),
+            telefono: document.getElementById('inp-telefono').value.trim(),
+            notas: document.getElementById('inp-notas').value.trim()
         };
     }
 
-    // Opción 3: form.elements (Busca campos dentro de la colección del formulario)
+    // Opción 3: form.elements (indexado por atributo name, no por id)
     function leerConFormElements(formulario) {
         const elementos = formulario.elements;
+
+        const valor = (nombre) => {
+            const campo = elementos[nombre];
+            return campo ? String(campo.value).trim() : '';
+        };
         
         return {
-            nombre: elementos['inp-nombre'].value,
-            email: elementos['inp-email'].value,
-            fecha: elementos['inp-fecha'].value,
-            plan: elementos['inp-plan'].value,
-            documento: elementos['inp-documento'].value,
-            telefono: elementos['inp-telefono'].value,
-            notas: elementos['inp-notas'].value
+            nombre: valor('nombre'),
+            email: valor('email'),
+            fecha: valor('fecha'),
+            plan: valor('plan'),
+            documento: valor('documento'),
+            telefono: valor('telefono'),
+            notas: valor('notas')
         };
     }
 

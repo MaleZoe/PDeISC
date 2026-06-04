@@ -7,7 +7,7 @@ export const Validador = (() => {
         'inp-fecha':       { requerido: true, tipo: 'fecha-pasada', edadMinima: 14 },
         'inp-plan':        { requerido: true, tipo: 'select' },
         'inp-documento':   { requerido: true, patron: /^\d{7,8}$/ },
-        'inp-telefono':    { requerido: true, patron: /^[\d\s]{8,15}$/ },
+        'inp-telefono':    { requerido: true, tipo: 'telefono' },
         'inp-notas':       { requerido: false, maxLen: 100 },
     };
 
@@ -110,6 +110,14 @@ export const Validador = (() => {
             return false;
         }
 
+        if (regla.tipo === 'telefono') {
+            const digitos = valor.replace(/\D/g, '');
+            if (digitos.length < 8 || digitos.length > 15) {
+                mostrarError(id, "Ingresá un teléfono válido (8-15 dígitos).");
+                return false;
+            }
+        }
+
         if (regla.patron && !regla.patron.test(valor)) {
             if (id === 'inp-nombre' || id === 'inp-apellido') {
                 mostrarError(id, MENSAJES.patronLetras);
@@ -117,8 +125,6 @@ export const Validador = (() => {
                 mostrarError(id, MENSAJES.email);
             } else if (id === 'inp-documento') {
                 mostrarError(id, MENSAJES.dni);
-            } else if (id === 'inp-telefono') {
-                mostrarError(id, "Ingresá un teléfono válido (8-15 dígitos).");
             }
             return false;
         }
@@ -200,6 +206,10 @@ export const Validador = (() => {
             if (campo) {
                 campo.addEventListener('blur', () => validarCampo(id));
                 campo.addEventListener('input', () => {
+                    validarCampo(id);
+                    actualizarBotonGuardar();
+                });
+                campo.addEventListener('change', () => {
                     validarCampo(id);
                     actualizarBotonGuardar();
                 });

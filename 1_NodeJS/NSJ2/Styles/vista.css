@@ -1,85 +1,81 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 body {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Inter', sans-serif;
   min-height: 100vh;
-  background-color: #0d0f12;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-  background-size: 48px 48px;
-  color: #e8edf3;
+  background:
+    radial-gradient(circle at top left, rgba(243, 188, 99, 0.12), transparent 24%),
+    radial-gradient(circle at right center, rgba(120, 166, 255, 0.12), transparent 24%),
+    linear-gradient(180deg, #0a0e13 0%, #11161d 100%);
+  color: #eef4fb;
 }
 
 code {
-  background: rgba(255,255,255,0.07);
-  color: #f5c842;
   padding: 0.12rem 0.45rem;
-  border-radius: 6px;
-  font-family: 'Space Mono', monospace;
-  font-size: 0.85em;
-}
-
-.galeria-card {
-  background: #13161b;
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 24px;
-  padding: clamp(1.5rem, 4vw, 3rem);
-}
-
-.galeria-badge {
-  display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 0.32rem 0.85rem;
   border-radius: 999px;
-  background: rgba(61,214,140,0.12);
-  color: #3dd68c;
-  border: 1px solid rgba(61,214,140,0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffd29f;
 }
 
-.galeria-titulo {
-  font-size: clamp(2rem, 6vw, 4rem);
-  font-weight: 700;
+.vista-card {
+  background: rgba(19, 24, 31, 0.76);
+  border-radius: 32px;
+  padding: clamp(1.5rem, 2vw, 2.5rem);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(16px);
+}
+
+.vista-badge {
+  display: inline-block;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(243, 188, 99, 0.14);
+  color: #ffd27c;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.vista-title {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(2.2rem, 6vw, 4.4rem);
   letter-spacing: -0.04em;
-  line-height: 1;
-  color: #e8edf3;
+  line-height: 0.98;
 }
 
-.galeria-titulo em {
-  color: #3dd68c;
+.vista-title em {
+  color: #ffbf9f;
   font-style: italic;
 }
 
-.galeria-texto {
-  color: rgba(232,237,243,0.65);
+.vista-text {
+  color: rgba(238, 244, 251, 0.74);
   font-size: 1rem;
-  line-height: 1.75;
+  line-height: 1.8;
 }
 
-.galeria-stack { display: grid; gap: 0.6rem; }
-
-.galeria-item {
-  background: rgba(255,255,255,0.04);
-  border-radius: 12px;
-  padding: 0.9rem 1rem;
+.vista-stack {
+  display: grid;
+  gap: 0.9rem;
 }
 
-.galeria-item span {
+.vista-item {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 20px;
+  padding: 1rem 1.1rem;
+}
+
+.vista-item span {
   display: block;
-  font-size: 0.72rem;
+  color: rgba(238, 244, 251, 0.52);
+  font-size: 0.74rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: rgba(232,237,243,0.45);
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.45rem;
 }
 
-.galeria-item strong {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.82rem;
-  color: #e8edf3;
-  word-break: break-all;
+.vista-item strong {
+  color: #fff;
 }

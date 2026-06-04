@@ -259,7 +259,7 @@ window.Validador = (() => {
         }
 
         if (regla.tipo === 'documento-unico') {
-            if (window.Storage.existeDocumento(valor)) {
+            if (window.Storage.existeDocumento(valor.trim())) {
                 mostrarError(id, MENSAJES.documentoDuplicado);
                 return false;
             }

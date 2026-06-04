@@ -35,9 +35,6 @@
                             <span id="badgeContador" class="badge rounded-pill bg-primary shadow-sm">0</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#seccionEstadisticas">Estadísticas</a>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -51,7 +48,7 @@
                 <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-2">
                     <h2 class="h3 fw-bold color-primario m-0">Registrar Nueva Persona</h2>
                     <span class="badge border px-3 py-2 badge-metodo shadow-sm rounded-pill">
-                        💾 Almacenamiento: localStorage
+                         Almacenamiento: localStorage
                     </span>
                 </div>
                 <p class="text-muted">Completá el formulario — los datos se guardarán en el almacenamiento local del navegador</p>
@@ -193,7 +190,10 @@
                 <p class="text-muted m-0">Datos persistidos en localStorage — se conservan al recargar la página</p>
             </header>
             <!-- Toolbar -->
-            <div class="d-flex justify-content-end mb-4 p-2 rounded-3">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4 p-2 rounded-3">
+                <div class="flex-grow-1" style="max-width: 420px;">
+                    <input type="search" id="busquedaPersona" class="form-control" placeholder="Buscar por nombre, apellido o documento..." disabled>
+                </div>
                 <div id="contenedorVaciar">
                     <button type="button" id="btnVaciarTodo" class="btn btn-outline-danger btn-sm px-3 fw-medium" disabled>Vaciar todo</button>
                 </div>

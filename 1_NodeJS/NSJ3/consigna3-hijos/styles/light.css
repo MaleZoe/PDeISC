@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --bg-color: #f1f5f9;
+    --surface-color: #ffffff;
+    --primary-color: #6366f1;
+    --primary-hover: #4f46e5;
+    --accent-color: #10b981;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+    transition: var(--transition);
+    overflow-x: hidden;
+}
+
+.container-fluid {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.card {
+    background-color: var(--surface-color);
+    border: 1px solid rgba(255,255,255,0.8);
+    border-radius: 24px;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+    border-radius: 14px;
+    padding: 12px 24px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    border: none;
+    box-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.39);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.23);
+    transform: translateY(-2px);
+}
+
+header {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.floating {
+    animation: float 6s ease-in-out infinite;
+}

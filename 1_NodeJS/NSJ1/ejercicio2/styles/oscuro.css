@@ -1,0 +1,106 @@
+/* moderno ej 2 oscuro - premium */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+:root {
+    --primary: #0070f3;
+    --bg: #0a0a0a;
+    --text: #ededed;
+    --card-bg: #111111;
+    --border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+}
+
+header {
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--border) !important;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 1.5rem;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    background: #161616;
+}
+
+.card h5 {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.card p {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+h1, h2, h3, h4, .h1, .h2, .h3, .h4 {
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+.btn {
+    border-radius: 10px;
+    font-weight: 500;
+    padding: 0.6rem 1.2rem;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary {
+    background: #333;
+    border: 1px solid #444;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background: #444;
+    transform: translateY(-2px);
+}
+    #theme-toggle {
+        min-width: 3.2rem;
+        min-height: 3.2rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        padding: 0.55rem 0.75rem;
+    }
+
+    @media (max-width: 767px) {
+        main.container {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+        }
+
+        #theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1100;
+            width: 3.4rem;
+            height: 3.4rem;
+            border-radius: 50%;
+            padding: 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+        }
+
+        .row {
+            gap: 1.5rem;
+        }
+    }

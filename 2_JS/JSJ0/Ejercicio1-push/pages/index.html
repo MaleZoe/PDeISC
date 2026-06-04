@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <!-- meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP - Método push</title>
+    <!-- google fonts y bootstrap -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- tema inicializable -->
+    <link id="hoja-estilo-tema" rel="stylesheet" href="/styles/light.css">
+</head>
+<body>
+
+    <!-- header -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu-navegacion" aria-controls="menu-navegacion" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="menu-navegacion">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <span class="nav-link active">Método: <strong>push()</strong></span>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button id="btn-tema" class="btn btn-outline-light btn-sm">🌙 Modo Oscuro</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- hero -->
+    <div class="bg-dark text-white py-4 px-3 mb-4 text-center">
+        <div class="container-fluid">
+            <h1 class="display-5 fw-bold">Trabajo Práctico: 1- push()</h1>
+            <p class="lead">Agrega elementos al final del array</p>
+        </div>
+    </div>
+
+    <!-- main container -->
+    <main class="main-container container-fluid">
+        
+        <!-- articles -->
+        <div class="row g-4">
+            <!-- punto 1: frutas -->
+            <div class="col-md-4">
+                <div class="card card-personalizada h-100">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h3 class="h5 mb-0">1. Agregar 3 Frutas</h3>
+                        <button class="btn btn-sm btn-outline-danger" onclick="reiniciarPunto(1)">Reiniciar</button>
+                    </div>
+                    <p class="text-secondary small">Una vez agregadas 3 frutas, se ocultara la funcionalidad de agregar.</p>
+                    
+                    <div id="p1-formulario">
+                        <div class="mb-3">
+                            <label for="p1-fruta" class="form-label-personalizado">Seleccionar Fruta</label>
+                            <select id="p1-fruta" class="form-select" required>
+                                <option value="" selected disabled>Elegí una fruta...</option>
+                                <option value="Manzana">Manzana</option>
+                                <option value="Banana">Banana</option>
+                                <option value="Naranja">Naranja</option>
+                                <option value="Pera">Pera</option>
+                                <option value="Uva">Uva</option>
+                                <option value="Frutilla">Frutilla</option>
+                            </select>
+                            <span id="p1-fruta-error" class="mensaje-error"></span>
+                        </div>
+                        <button id="p1-btn-add" class="btn btn-primary w-100">Agregar Fruta (Click / Enter)</button>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h5>Frutas en el Array:</h5>
+                        <ul id="p1-lista" class="list-group"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- punto 2: amigos -->
+            <div class="col-md-4">
+                <div class="card card-personalizada h-100">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h3 class="h5 mb-0">2. Amigos (ABM)</h3>
+                        <button class="btn btn-sm btn-outline-danger" onclick="reiniciarPunto(2)">Reiniciar</button>
+                    </div>
+                    <p class="text-secondary small">Agrega tus 3 amigos a la lista. Podes modificarlos o borrarlos.</p>
+                    
+                    <div id="p2-formulario">
+                        <div class="mb-3">
+                            <label for="p2-amigo" class="form-label-personalizado">Nombre del Amigo</label>
+                            <input type="text" id="p2-amigo" class="form-control" required pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s']+$">
+                            <span id="p2-amigo-error" class="mensaje-error"></span>
+                        </div>
+                        <input type="hidden" id="p2-edit-index" value="">
+                        <button id="p2-btn-add" class="btn btn-success w-100">Agregar Amigo (Click / Doble Click)</button>
+                    </div>
+
+                    <div class="mt-4">
+                        <h5>Lista de Amigos:</h5>
+                        <ul id="p2-lista" class="list-group"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- punto 3: numeros mayores -->
+            <div class="col-md-4">
+                <div class="card card-personalizada h-100">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h3 class="h5 mb-0">3. Validar Numero Mayor</h3>
+                        <button class="btn btn-sm btn-outline-danger" onclick="reiniciarPunto(3)">Reiniciar</button>
+                    </div>
+                    <p class="text-secondary small">Agrega un numero solo si es mayor que el ultimo en el array.</p>
+                    
+                    <div class="mb-3">
+                        <label for="p3-numero" class="form-label-personalizado">Nuevo Numero</label>
+                        <input type="number" id="p3-numero" class="form-control" required>
+                        <span id="p3-numero-error" class="mensaje-error"></span>
+                    </div>
+                    <button id="p3-btn-add" class="btn btn-warning w-100">Validar y Agregar (Click / Enter)</button>
+
+                    <div class="mt-4">
+                        <h5>Numeros en el Array:</h5>
+                        <div id="p3-resultado" class="fs-4 fw-bold text-center p-2 bg-light rounded text-dark">[ 10, 20, 30 ]</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </main>
+
+    <!-- volver arriba -->
+    <button id="btn-subir" class="btn btn-secondary">▲</button>
+
+    <!-- bootstrap y main js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="/scripts/main.js"></script>
+    <script>
+        // aca controlo el boton de volver arriba
+        const btnSubir = document.getElementById('btn-subir');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 200) {
+                btnSubir.style.display = 'flex';
+            } else {
+                btnSubir.style.display = 'none';
+            }
+        });
+        btnSubir.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

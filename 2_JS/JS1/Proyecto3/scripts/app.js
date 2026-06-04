@@ -9,6 +9,7 @@ window.App = (() => {
         // Bindear eventos de validación a cada campo
         const inputs = document.querySelectorAll('#formularioPersona input, #formularioPersona select');
         inputs.forEach(input => {
+            if (input.type === 'radio') return;
             input.addEventListener('blur', () => window.Validador.validarCampo(input.id));
             input.addEventListener('input', () => {
                 window.Validador.validarCampo(input.id);
@@ -16,6 +17,14 @@ window.App = (() => {
             });
             input.addEventListener('change', () => {
                 window.Validador.validarCampo(input.id);
+                window.Validador.actualizarBotonGuardar();
+            });
+        });
+
+        document.querySelectorAll('#formularioPersona input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                const campoGrupo = radio.name === 'sexo' ? 'inp-sexo' : 'inp-tiene-hijos';
+                window.Validador.validarCampo(campoGrupo);
                 window.Validador.actualizarBotonGuardar();
             });
         });
@@ -151,7 +160,7 @@ window.App = (() => {
         const icono = banner.querySelector('.icono-banner');
         const texto = banner.querySelector('.texto-banner');
 
-        banner.className = 'mt-4 shadow-sm border visible'; // Reset
+        banner.className = 'mt-4 shadow-sm border visible';
         
         if (tipo === 'exito') {
             banner.classList.add('banner-exito');
@@ -175,7 +184,7 @@ window.App = (() => {
 
     function ocultarBanner() {
         const banner = document.getElementById('bannerFeedback');
-        banner.classList.remove('visible');
+        banner.className = 'mt-4 shadow-sm border';
     }
 
     function manejarVaciarTodo() {
@@ -191,24 +200,21 @@ window.App = (() => {
             <button class="btn btn-light btn-sm border" id="btnCancelarVaciar">Cancelar</button>
         `;
 
-        document.getElementById('btnConfirmarVaciar').addEventListener('click', () => {
+        document.getElementById('btnConfirmarVaciar').onclick = () => {
             window.Storage.vaciarTodo();
             window.Listado.renderizarListado([]);
             window.Listado.actualizarBadgeNavbar(0);
-            
-            // Restaurar botón
             restaurarBotonVaciar();
-            document.getElementById('busquedaPersona').value = '';
-        });
+            const busqueda = document.getElementById('busquedaPersona');
+            if (busqueda) busqueda.value = '';
+        };
 
-        document.getElementById('btnCancelarVaciar').addEventListener('click', restaurarBotonVaciar);
+        document.getElementById('btnCancelarVaciar').onclick = restaurarBotonVaciar;
 
         function restaurarBotonVaciar() {
             contenedor.innerHTML = '';
             contenedor.appendChild(btnOriginal);
-            // Re-asignar listener ya que se removió el nodo
-            btnOriginal.addEventListener('click', manejarVaciarTodo);
-            // Actualizar estado disabled
+            btnOriginal.onclick = manejarVaciarTodo;
             btnOriginal.disabled = window.Storage.obtenerTotal() === 0;
         }
     }

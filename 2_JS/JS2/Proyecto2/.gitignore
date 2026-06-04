@@ -1,0 +1,14 @@
+# dependencias de node
+node_modules/
+
+# archivos generados por el server
+*.txt
+!archivo_prueba.txt
+
+# archivos de sistema
+.DS_Store
+Thumbs.db
+
+# configuracion local
+.env
+.vscode/

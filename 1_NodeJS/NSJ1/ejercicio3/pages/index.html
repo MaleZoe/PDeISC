@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 3 - Funciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link id="theme-link" rel="stylesheet" href="../styles/claro.css">
+</head>
+<body>
+    <header class="container-fluid py-3 border-bottom">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="h4 mb-0">Ejercicio 3</h1>
+            <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="Cambiar modo">☀️🌙</button>
+        </div>
+    </header>
+
+    <main class="container mt-5">
+        <h2>Cálculos con Funciones</h2>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <form id="calc-form" class="p-4 border rounded shadow-sm bg-light">
+                    <div class="mb-3">
+                        <label for="num1" class="form-label">Número 1</label>
+                        <input type="number" class="form-control" id="num1" required>
+                        <div class="invalid-feedback">Poné un número válido, no seas animal.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="num2" class="form-label">Número 2</label>
+                        <input type="number" class="form-control" id="num2" required>
+                        <div class="invalid-feedback">Este campo también es obligatorio.</div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-primary" onclick="window.operar('sumar')">Sumar</button>
+                        <button type="button" class="btn btn-success" onclick="window.operar('restar')">Restar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <div class="p-4 border rounded bg-white h-100">
+                    <h4>Resultado:</h4>
+                    <p id="resultado-display" class="display-6 text-primary">-</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <button id="btn-scroll-top" class="btn btn-primary position-fixed bottom-0 end-0 m-4" style="display: none;">↑</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="../scripts/main.js"></script>
+</body>
+</html>

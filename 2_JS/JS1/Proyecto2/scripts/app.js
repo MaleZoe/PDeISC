@@ -14,6 +14,10 @@ window.App = (() => {
                 window.Validador.validarCampo(input.id);
                 actualizarEstadoBoton();
             });
+            input.addEventListener('change', () => {
+                window.Validador.validarCampo(input.id);
+                actualizarEstadoBoton();
+            });
         });
 
         // Manejo de radios de condición
@@ -87,7 +91,8 @@ window.App = (() => {
             descripcion: document.getElementById('inp-descripcion').value
         };
 
-        const posicion = document.getElementById('inp-posicion').value;
+        const posicionEl = document.getElementById('inp-posicion');
+        const posicion = posicionEl ? posicionEl.value : null;
         window.Almacenamiento.agregar(vehiculo, metodoActual, posicion);
         
         mostrarBanner('exito', 'Vehículo registrado correctamente.');
@@ -117,6 +122,7 @@ window.App = (() => {
             selectModelo.disabled = true;
         }
         
+        validarCondicionSegunKms();
         actualizarEstadoBoton();
     }
 
@@ -142,7 +148,9 @@ window.App = (() => {
         badge.textContent = `Método: ${metodoActual === 'indice' ? 'índice direct' : metodoActual + '()'}`;
         
         const wrapperPos = document.querySelector('.input-posicion-wrapper');
-        wrapperPos.classList.toggle('d-none', metodoActual !== 'splice');
+        if (wrapperPos) {
+            wrapperPos.classList.toggle('d-none', metodoActual !== 'splice');
+        }
     }
 
     const MODELOS_POR_MARCA = {

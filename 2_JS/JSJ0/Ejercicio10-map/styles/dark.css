@@ -1,0 +1,115 @@
+/* variables globales de color y tipografia */
+:root {
+    --bg-primary: #121212;
+    --bg-card: #1e1e1e;
+    --text-primary: #f8f9fa;
+    --text-secondary: #cbd5e1;
+    --accent: #3b82f6;
+    --border-color: #2d2d2d;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* header y navegacion */
+.navbar {
+    background-color: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+}
+
+/* seccion principal del contenido */
+.main-container {
+    flex: 1;
+    width: 100%;
+    max-width: 100%;
+    padding: 2rem;
+}
+
+/* tarjetas y contenedores de datos */
+.card-personalizada {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    transition: transform 0.2s;
+}
+
+/* formularios y campos de entrada */
+.form-label-personalizado {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.form-control, .form-select {
+    background-color: #2d2d2d !important;
+    border-color: #404040 !important;
+    color: #f8f9fa !important;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: #333333 !important;
+    border-color: var(--accent) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important;
+}
+
+.list-group-item {
+    background-color: #2d2d2d !important;
+    border-color: #404040 !important;
+    color: #f8f9fa !important;
+}
+
+.badge {
+    color: #ffffff !important;
+}
+
+.input-error {
+    border-color: #ef4444 !important;
+    background-color: #2d1a1a !important;
+}
+
+.mensaje-error {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+/* boton para volver arriba */
+#btn-subir {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+    z-index: 1000;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow);
+}
+
+
+p.text-secondary.small {
+    font-size: 0.95rem !important;
+    font-weight: 500;
+    color: var(--text-secondary) !important;
+}
+
+
+.card-personalizada h1, .card-personalizada h2, .card-personalizada h3, .card-personalizada h4, .card-personalizada h5, .card-personalizada h6,
+.card-personalizada .h1, .card-personalizada .h2, .card-personalizada .h3, .card-personalizada .h4, .card-personalizada .h5, .card-personalizada .h6 {
+    color: var(--text-primary) !important;
+}

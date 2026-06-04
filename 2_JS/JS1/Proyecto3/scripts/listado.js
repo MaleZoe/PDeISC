@@ -16,6 +16,14 @@ window.Listado = (() => {
         return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
     }
 
+    function formatearFechaLocal(fechaStr) {
+        if (!fechaStr) return '—';
+        const partes = fechaStr.split('-').map(Number);
+        if (partes.length !== 3 || partes.some(Number.isNaN)) return '—';
+        const [anio, mes, dia] = partes;
+        return new Date(anio, mes - 1, dia).toLocaleDateString('es-AR');
+    }
+
     /**
      * Deriva un número de 1 a 8 basado en los caracteres del ID de forma determinista
      */
@@ -39,9 +47,7 @@ window.Listado = (() => {
         const esMasculino = persona.sexo === 'Masculino';
         const badgeSexoHtml = `<span class="badge rounded-pill ${esMasculino ? 'badge-masculino' : 'badge-femenino'} shadow-sm">${persona.sexo}</span>`;
         
-        const formatFechaNac = persona.fechaNac 
-            ? new Date(persona.fechaNac).toLocaleDateString('es-AR', { timeZone: 'UTC' }) 
-            : '—';
+        const formatFechaNac = formatearFechaLocal(persona.fechaNac);
         
         const edadTexto = persona.edad !== null ? `${persona.edad} años` : '—';
         const docTexto = persona.documento || '—';
@@ -112,8 +118,9 @@ window.Listado = (() => {
                     </div>
                 </div>
 
-                <div class="text-muted small mt-3 pt-2 border-top border-secondary border-opacity-25">
-                    Registrado el ${fechaRegTexto}
+                <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-secondary border-opacity-25">
+                    <span class="text-muted small">Registrado el ${fechaRegTexto}</span>
+                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="window.Listado.confirmarEliminacion('${persona.id}', ${JSON.stringify(nombreCompl)})">Eliminar</button>
                 </div>
             </article>
             </div>
@@ -191,7 +198,7 @@ window.Listado = (() => {
         // Obtener o crear instancia (evita conflictos si el modal ya fue usado)
         const bsModal = bootstrap.Modal.getOrCreateInstance(modal);
 
-        document.getElementById('btnConfirmarEliminar').addEventListener('click', () => {
+        nuevoBtn.addEventListener('click', () => {
             eliminarPersona(id);
             bsModal.hide();
         });
