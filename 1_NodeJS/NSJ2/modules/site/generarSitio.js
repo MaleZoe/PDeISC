@@ -1,5 +1,32 @@
-// Genera todos los archivos HTML del proyecto dentro de /pages.
-// Cada modulo aporta el contenido de su consigna y layout.js envuelve el resultado.
+/**
+ * modules/site/generarSitio.js
+ * ─────────────────────────────────────────────────────────────────
+ * Orquestador de la generación estática del sitio.
+ *
+ * RESPONSABILIDAD:
+ *   Genera todos los archivos HTML del sitio dentro de /pages
+ *   antes de que el servidor HTTP empiece a escuchar requests.
+ *   Cada módulo de consigna aporta su contenido y renderLayout()
+ *   los envuelve en el layout HTML base compartido.
+ *
+ * FLUJO:
+ *   server.js → await generarSitio() → escribe /pages/*.html en disco
+ *   Después el servidor solo lee esos archivos y los sirve.
+ *
+ * PÁGINAS GENERADAS:
+ *   - pages/index.html          → Inicio (consigna5/inicio.js)
+ *   - pages/consigna1/calculo.html → Módulos propios (consigna1.js)
+ *   - pages/consigna2/archivos.html → File System (consigna2.js)
+ *   - pages/consigna2/vista.html   → HTML generado por FS (consigna2.js)
+ *   - pages/consigna3/url.html     → Análisis URL (consigna3.js)
+ *   - pages/consigna4/npm.html     → Paquete NPM (npm.js)
+ *
+ * MÓDULOS NATIVOS USADOS:
+ *   - node:path → construcción de rutas absolutas.
+ *   - node:url  → fileURLToPath para __dirname en ES Modules.
+ *   - node:fs   → usado internamente por escribirArchivo().
+ * ─────────────────────────────────────────────────────────────────
+ */
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import fs from 'node:fs';

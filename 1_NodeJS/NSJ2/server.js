@@ -1,5 +1,26 @@
-// Punto de entrada del proyecto.
-// Antes de levantar el servidor, genera todos los HTML dentro de /pages.
+/**
+ * server.js
+ * ─────────────────────────────────────────────────────────────────
+ * Punto de entrada del proyecto NJS2.
+ *
+ * FLUJO DE ARRANQUE:
+ *   1. Llama a generarSitio() que usa node:fs para escribir en disco
+ *      todos los archivos HTML dentro de /pages.
+ *   2. Levanta un servidor HTTP con node:http en el puerto 3000.
+ *   3. Por cada request entrante:
+ *      a. Si es /styles/*.css → sirve el archivo como estático.
+ *      b. Si es /context/*.js → sirve el script como estático.
+ *      c. Si coincide con una ruta del mapa RUTAS → lee y devuelve
+ *         el HTML ya generado en disco.
+ *      d. Si no coincide → responde 404.
+ *
+ * MÓDULOS NATIVOS USADOS:
+ *   - node:http   → createServer, manejo de requests y responses.
+ *   - node:fs     → readFileSync para leer HTMLs y CSS del disco.
+ *   - node:path   → construcción de rutas absolutas cross-platform.
+ *   - node:url    → fileURLToPath para obtener __dirname en ES Modules.
+ * ─────────────────────────────────────────────────────────────────
+ */
 import { createServer } from 'node:http';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -30,6 +51,19 @@ const server = createServer((req, res) => {
     } catch (e) {
       res.writeHead(404);
       res.end('404 - Estilo no encontrado');
+    }
+    return;
+  }
+
+  // Los scripts del contexto (theme.js) se sirven como archivos estaticos.
+  if (req.url?.startsWith('/context/') && req.url.endsWith('.js')) {
+    try {
+      const js = readFileSync(path.join(__dirname, req.url), 'utf8');
+      res.writeHead(200, { 'Content-Type': 'text/javascript; charset=utf-8' });
+      res.end(js);
+    } catch (e) {
+      res.writeHead(404);
+      res.end('404 - Script no encontrado');
     }
     return;
   }

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ejercicio 3 - Busqueda en tiempo real de usuarios de la API local">
+    <title>Ejercicio 3 — Busqueda en tiempo real</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/global.css">
+</head>
+<body>
+
+    <!-- header -->
+    <header class="site-header">
+        <a href="http://localhost:3003" class="header-brand">
+            <span>JS4</span>
+        </a>
+        <div class="header-actions">
+            <button class="btn-theme" id="btn-tema">Oscuro</button>
+        </div>
+    </header>
+
+    <!-- hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Ejercicio 3</div>
+            <h1>Busqueda en tiempo real</h1>
+            <p>Carga los usuarios y filtra por nombre usando fetch o axios</p>
+        </div>
+    </section>
+
+    <!-- contenido principal -->
+    <section class="section">
+        <div class="exercise-grid">
+
+            <div class="exercise-card" style="margin-top: 0;">
+                
+                <!-- zona de carga (se oculta al cargar) -->
+                <div id="zona-carga" style="text-align: center; padding: 2rem 0;">
+                    <h2 class="section-title" style="justify-content: center;">
+                        <span class="badge-num">3</span>
+                        Iniciador
+                    </h2>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">
+                        Elegi el metodo y cargá los datos iniciales para poder buscar
+                    </p>
+                    
+                    <div class="method-selector" style="max-width: 500px; margin: 0 auto 2rem;">
+                        <label>
+                            <input type="radio" name="metodo_busqueda" value="fetch" checked>
+                            <div class="method-toggle-btn">Fetch API</div>
+                        </label>
+                        <label>
+                            <input type="radio" name="metodo_busqueda" value="axios">
+                            <div class="method-toggle-btn">Axios</div>
+                        </label>
+                    </div>
+
+                    <button class="btn btn-primary" id="btn-cargar">
+                        Cargar e Iniciar
+                    </button>
+                </div>
+
+                <!-- zona de busqueda (oculta al inicio) -->
+                <div id="zona-busqueda" style="display: none;">
+                    <h2 class="section-title">
+                        <span class="badge-num">3</span>
+                        Buscador
+                    </h2>
+                    
+                    <div class="search-bar">
+                        <label class="form-label" for="input-buscador">Escribi el nombre para filtrar</label>
+                        <input
+                            class="search-input"
+                            type="text"
+                            id="input-buscador"
+                            autocomplete="off"
+                            placeholder="Ej. Leanne..."
+                        >
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <span class="results-count" id="lbl-count" style="margin-bottom: 0;">Mostrando 0 resultados</span>
+                        <span class="date-badge" id="lbl-metodo-activo">Usando FETCH</span>
+                    </div>
+
+                    <div id="contenedor-lista" style="padding: 1.5rem; background: var(--bg-primary); border-radius: 12px; border: 1px solid var(--border);">
+                        <!-- Lista de tarjetas renderizadas -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Consola de Log -->
+            <div class="console-sidebar" style="position: sticky; top: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <h3 style="font-size: 0.9rem; margin: 0; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Consola de red & Filtros</h3>
+                    <button class="btn-clear-console" onclick="document.getElementById('consola-ej3').innerHTML=''">Limpiar</button>
+                </div>
+                <div class="console-box" id="consola-ej3" style="height: calc(100vh - 120px); max-height: 600px; margin-top: 0;"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <button class="btn-scroll-top" id="btn-scroll-top" title="Ir arriba">^</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script type="module">
+        import { iniciarTema, toggleTema } from '../Context/tema.js';
+        import { iniciarScrollTop, getIniciales, mostrarToast, logConsole, limpiarConsole } from '../modules/utils.js';
+
+        iniciarTema();
+        iniciarScrollTop();
+        document.getElementById('btn-tema').addEventListener('click', toggleTema);
+
+        const API_URL = '/api/usuarios';
+        let usuariosCargados = [];
+
+        // renderizo la lista filtrada
+        function renderLista(usuarios) {
+            const contenedor = document.getElementById('contenedor-lista');
+            const count = document.getElementById('lbl-count');
+
+            count.textContent = `Mostrando ${usuarios.length} resultado${usuarios.length !== 1 ? 's' : ''}`;
+
+            if (usuarios.length === 0) {
+                contenedor.innerHTML = `
+                    <div class="empty-state" style="padding: 1rem;">
+                        <div class="empty-state-text">No se encontraron usuarios</div>
+                    </div>
+                `;
+                return;
+            }
+
+            const grid = document.createElement('div');
+            grid.className = 'users-grid';
+
+            usuarios.forEach(u => {
+                const card = document.createElement('div');
+                card.className = 'user-card';
+                card.style.background = 'var(--bg-card)';
+                card.innerHTML = `
+                    <div class="user-avatar">${getIniciales(u.nombre)}</div>
+                    <div class="user-name">${u.nombre}</div>
+                    <div class="user-email">${u['correo electrónico']}</div>
+                `;
+                grid.appendChild(card);
+            });
+
+            contenedor.innerHTML = '';
+            contenedor.appendChild(grid);
+        }
+
+        // carga los usuarios iniciales con el método seleccionado
+        document.getElementById('btn-cargar').addEventListener('click', async () => {
+            const btn = document.getElementById('btn-cargar');
+            const metodo = document.querySelector('input[name="metodo_busqueda"]:checked').value;
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Cargando...';
+
+            try {
+                // muestro primero la consola y zona de busqueda para que el log se vea
+                document.getElementById('zona-carga').style.display = 'none';
+                document.getElementById('zona-busqueda').style.display = 'block';
+
+                limpiarConsole('consola-ej3');
+                logConsole('consola-ej3', `Cargando datos iniciales con ${metodo.toUpperCase()}`, 'info');
+
+                if (metodo === 'fetch') {
+                    const r = await fetch(API_URL);
+                    logConsole('consola-ej3', `Respuesta inicial: ${r.status}`, 'success');
+                    if (!r.ok) throw new Error('Error de HTTP');
+                    usuariosCargados = await r.json();
+                } else {
+                    const r = await axios.get(API_URL);
+                    logConsole('consola-ej3', `Respuesta inicial: ${r.status}`, 'success');
+                    usuariosCargados = r.data;
+                }
+
+                logConsole('consola-ej3', `Usuarios cargados en memoria: ${usuariosCargados.length}`, 'success');
+                
+                // muestro todo
+                renderLista(usuariosCargados);
+                
+                // configuro UI
+                document.getElementById('lbl-metodo-activo').textContent = `Datos de ${metodo.toUpperCase()}`;
+                mostrarToast('Datos listos para buscar', 'success');
+
+            } catch (error) {
+                logConsole('consola-ej3', `Error: ${error.message}`, 'error');
+                mostrarToast(`Error al cargar: ${error.message}`, 'error');
+                btn.disabled = false;
+                btn.innerHTML = 'Cargar e Iniciar';
+                // vuelvo atrás si falla
+                document.getElementById('zona-carga').style.display = 'block';
+                document.getElementById('zona-busqueda').style.display = 'none';
+            }
+        });
+
+        // filtro en tiempo real al escribir
+        document.getElementById('input-buscador').addEventListener('input', function() {
+            const busqueda = this.value.toLowerCase().trim();
+            
+            if (!busqueda) {
+                logConsole('consola-ej3', 'Busqueda limpia, mostrando todos', 'info');
+                renderLista(usuariosCargados);
+                return;
+            }
+
+            const filtrados = usuariosCargados.filter(u => 
+                u.nombre.toLowerCase().includes(busqueda)
+            );
+            
+            logConsole('consola-ej3', `Filtro "${busqueda}" => Encontró ${filtrados.length} coincidencia(s)`, 'info');
+            renderLista(filtrados);
+        });
+        // resetear al cambiar el metodo
+        document.querySelectorAll('input[name="metodo_busqueda"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                document.getElementById('zona-carga').style.display = 'block';
+                document.getElementById('zona-busqueda').style.display = 'none';
+                document.getElementById('input-buscador').value = '';
+                usuariosCargados = [];
+                limpiarConsole('consola-ej3');
+                logConsole('consola-ej3', `Metodo cambiado a ${radio.value.toUpperCase()}. Listo para iniciar.`, 'info');
+            });
+        });
+    </script>
+</body>
+</html>

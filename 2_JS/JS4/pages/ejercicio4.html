@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ejercicio 4 - API propia de alumnos con Node.js y Express">
+    <title>Ejercicio 4 — API propia de alumnos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/global.css">
+</head>
+<body>
+
+    <!-- header -->
+    <header class="site-header">
+        <a href="http://localhost:3001" class="header-brand">
+            <span>JS4</span>
+        </a>
+        <div class="header-actions">
+            <button class="btn-theme" id="btn-tema">Oscuro</button>
+        </div>
+    </header>
+
+    <!-- hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Ejercicio 4</div>
+            <h1>API propia de alumnos</h1>
+            <p>CRUD completo con Node.js — agrega, edita y borra alumnos en <code style="background: rgba(255,255,255,0.2); padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.9em;">/api/alumnos</code></p>
+        </div>
+    </section>
+
+    <!-- contenido -->
+    <section class="section">
+        <div style="max-width: 1400px; margin: 0 auto;">
+
+            <!-- formulario para agregar o editar alumno -->
+            <div class="exercise-card" id="seccion-formulario">
+                <h2 class="section-title">
+                    <span class="badge-num">+</span>
+                    Agregar nuevo alumno
+                </h2>
+                <p class="section-subtitle" id="subtitulo-formulario">Completa todos los campos. Las validaciones son en tiempo real.</p>
+
+                <form id="form-alumno" novalidate>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="campo-nombre">Nombre completo</label>
+                            <input
+                                class="form-input"
+                                type="text"
+                                id="campo-nombre"
+                                autocomplete="off"
+                                required
+                                minlength="3"
+                                maxlength="60"
+                            >
+                            <span class="form-error" id="err-nombre">Solo letras, minimo 3 caracteres, maximo 2 letras consecutivas iguales</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="campo-email">Correo electronico</label>
+                            <input
+                                class="form-input"
+                                type="email"
+                                id="campo-email"
+                                autocomplete="off"
+                                required
+                            >
+                            <span class="form-error" id="err-email">Ingresa un email valido (ejemplo@mail.com)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="campo-carrera">Carrera</label>
+                            <select class="form-input" id="campo-carrera" required style="cursor: pointer;">
+                                <option value="" disabled selected>Selecciona una carrera</option>
+                                <option value="Ingeniería en Sistemas">Ingeniería en Sistemas</option>
+                                <option value="Licenciatura en Computación">Licenciatura en Computación</option>
+                                <option value="Tecnicatura en Programación">Tecnicatura en Programación</option>
+                                <option value="Ingeniería Informática">Ingeniería Informática</option>
+                                <option value="Diseño Multimedia">Diseño Multimedia</option>
+                            </select>
+                            <span class="form-error" id="err-carrera">Debes seleccionar una carrera de la lista</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="campo-legajo">Legajo</label>
+                            <input
+                                class="form-input"
+                                type="text"
+                                id="campo-legajo"
+                                autocomplete="off"
+                                required
+                                maxlength="5"
+                            >
+                            <span class="form-error" id="err-legajo">Formato: 1 letra mayuscula + 4 numeros (ej: S1001)</span>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <button type="submit" class="btn btn-primary" id="btn-agregar">
+                            Agregar alumno
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="btn-cancelar-edicion" style="display: none;" onclick="cancelarEdicion()">
+                            Cancelar edicion
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- tabla de alumnos registrados -->
+            <div class="exercise-card">
+                <h2 class="section-title">
+                    <span class="badge-num">R</span>
+                    Alumnos registrados
+                </h2>
+                <p class="section-subtitle" id="subtitulo-tabla">Cargando...</p>
+
+                <div class="table-wrapper">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Correo electronico</th>
+                                <th>Carrera</th>
+                                <th>Legajo</th>
+                                <th>Creado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-alumnos">
+                            <tr>
+                                <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                                    Cargando alumnos...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- modal de confirmación de borrado -->
+    <div class="modal-overlay" id="modal-borrar">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title">Confirmar eliminacion</span>
+                <button class="modal-close" onclick="cerrarModal()" aria-label="Cerrar">X</button>
+            </div>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Estas seguro que queres eliminar a <strong id="nombre-a-borrar"></strong>?
+                Esta accion no se puede deshacer.
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                <button class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
+                <button class="btn btn-danger" id="btn-confirmar-borrar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn-scroll-top" id="btn-scroll-top" title="Ir arriba">^</button>
+
+    <script type="module">
+        import { iniciarTema, toggleTema } from '../Context/tema.js';
+        import { iniciarScrollTop, iniciarHamburguesa, mostrarToast } from '../modules/utils.js';
+
+        iniciarTema();
+        iniciarScrollTop();
+        iniciarHamburguesa();
+        document.getElementById('btn-tema').addEventListener('click', toggleTema);
+
+        const API = '/api/alumnos';
+
+        // guardo el id del alumno que estoy editando o que quiero borrar
+        let idEnEdicion = null;
+        let idABorrar = null;
+
+        // valido el nombre: solo letras, mínimo 3 caracteres y no más de 2 letras consecutivas repetidas
+        function nombreValido(v) {
+            const soloLetras = /^[a-záéíóúüñA-ZÁÉÍÓÚÜÑ\s'-]+$/.test(v);
+            const longitudMinima = v.trim().length >= 3;
+            
+            // Verifica que no haya 3 o más caracteres iguales consecutivos
+            let noRepeticiones = true;
+            for (let i = 0; i < v.length - 2; i++) {
+                if (v[i] === v[i+1] && v[i] === v[i+2]) {
+                    noRepeticiones = false;
+                    break;
+                }
+            }
+            
+            return soloLetras && longitudMinima && noRepeticiones;
+        }
+
+        // valido el email
+        function emailValido(v) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+        }
+
+        // valido la carrera: debe haber seleccionado una opción válida
+        function carreraValida(v) {
+            return v && v.trim().length > 0;
+        }
+
+        // valido el legajo: letra mayúscula + 4 dígitos
+        function legajoValido(v) {
+            return /^[A-Z][0-9]{4}$/.test(v);
+        }
+
+        // marco error o éxito en un campo del formulario
+        function marcarCampo(inputId, errorId, esError) {
+            const input = document.getElementById(inputId);
+            const error = document.getElementById(errorId);
+            input.classList.toggle('error', esError);
+            input.classList.toggle('success', !esError);
+            error.classList.toggle('visible', esError);
+        }
+
+        // valido todos los campos del formulario
+        function validarTodo() {
+            const nombre = document.getElementById('campo-nombre').value;
+            const email = document.getElementById('campo-email').value;
+            const carrera = document.getElementById('campo-carrera').value;
+            const legajo = document.getElementById('campo-legajo').value;
+
+            marcarCampo('campo-nombre', 'err-nombre', !nombreValido(nombre));
+            marcarCampo('campo-email', 'err-email', !emailValido(email));
+            marcarCampo('campo-carrera', 'err-carrera', !carreraValida(carrera));
+            marcarCampo('campo-legajo', 'err-legajo', !legajoValido(legajo));
+
+            return nombreValido(nombre) && emailValido(email) && carreraValida(carrera) && legajoValido(legajo);
+        }
+
+        // validaciones en tiempo real para cada campo
+        document.getElementById('campo-nombre').addEventListener('input', function() {
+            marcarCampo('campo-nombre', 'err-nombre', !nombreValido(this.value));
+        });
+
+        document.getElementById('campo-email').addEventListener('input', function() {
+            marcarCampo('campo-email', 'err-email', !emailValido(this.value));
+        });
+
+        document.getElementById('campo-carrera').addEventListener('change', function() {
+            marcarCampo('campo-carrera', 'err-carrera', !carreraValida(this.value));
+        });
+
+        // el legajo se fuerza a mayúsculas mientras el usuario escribe
+        document.getElementById('campo-legajo').addEventListener('input', function() {
+            this.value = this.value.toUpperCase();
+            marcarCampo('campo-legajo', 'err-legajo', !legajoValido(this.value));
+        });
+
+        // renderizo la tabla con los alumnos recibidos
+        function renderTabla(alumnos) {
+            const tbody = document.getElementById('tbody-alumnos');
+            const subtitulo = document.getElementById('subtitulo-tabla');
+
+            subtitulo.textContent = `${alumnos.length} alumno${alumnos.length !== 1 ? 's' : ''} registrado${alumnos.length !== 1 ? 's' : ''}`;
+
+            if (alumnos.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                            No hay alumnos registrados todavia
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = alumnos.map(a => `
+                <tr id="fila-${a.id}">
+                    <td><span class="date-badge">#${a.id}</span></td>
+                    <td><strong>${a.nombre}</strong></td>
+                    <td style="color: var(--text-muted);">${a.email}</td>
+                    <td>${a.carrera}</td>
+                    <td><span class="date-badge">${a.legajo}</span></td>
+                    <td><span class="date-badge">${a.creado}</span></td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="btn btn-success" onclick="editarAlumno(${a.id})" id="btn-editar-${a.id}">Editar</button>
+                            <button class="btn btn-danger" onclick="confirmarBorrar(${a.id}, '${a.nombre}')" id="btn-borrar-${a.id}">Borrar</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // cargo los alumnos desde la api propia
+        async function cargarAlumnos() {
+            try {
+                const resp = await fetch(API);
+                const datos = await resp.json();
+                if (datos.ok) renderTabla(datos.alumnos);
+            } catch (error) {
+                mostrarToast('Error al cargar los alumnos', 'error');
+            }
+        }
+
+        // envio el formulario para agregar o editar un alumno
+        document.getElementById('form-alumno').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!validarTodo()) return;
+
+            const btn = document.getElementById('btn-agregar');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Guardando...';
+
+            const datos = {
+                nombre: document.getElementById('campo-nombre').value.trim(),
+                email: document.getElementById('campo-email').value.trim(),
+                carrera: document.getElementById('campo-carrera').value.trim(),
+                legajo: document.getElementById('campo-legajo').value.trim()
+            };
+
+            try {
+                let resp, resultado;
+
+                if (idEnEdicion) {
+                    // edito el alumno con PUT
+                    resp = await fetch(`${API}/${idEnEdicion}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(datos)
+                    });
+                } else {
+                    // creo uno nuevo con POST
+                    resp = await fetch(API, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(datos)
+                    });
+                }
+
+                resultado = await resp.json();
+
+                if (!resultado.ok) {
+                    mostrarToast(resultado.error, 'error');
+                    return;
+                }
+
+                mostrarToast(idEnEdicion ? 'Alumno actualizado correctamente' : 'Alumno agregado correctamente', 'success');
+                limpiarFormulario();
+                cargarAlumnos();
+
+            } catch (error) {
+                mostrarToast('Error de conexion con el servidor', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = idEnEdicion ? 'Guardar cambios' : 'Agregar alumno';
+            }
+        });
+
+        // cargo los datos del alumno a editar en el formulario
+        window.editarAlumno = async function(id) {
+            try {
+                const resp = await fetch(API);
+                const datos = await resp.json();
+                const alumno = datos.alumnos.find(a => a.id === id);
+                if (!alumno) return;
+
+                // lleno el formulario con los datos actuales del alumno
+                document.getElementById('campo-nombre').value = alumno.nombre;
+                document.getElementById('campo-email').value = alumno.email;
+                document.getElementById('campo-carrera').value = alumno.carrera;
+                document.getElementById('campo-legajo').value = alumno.legajo;
+
+                // pongo estado de éxito en todos los campos ya que tienen datos válidos
+                ['nombre', 'email', 'carrera', 'legajo'].forEach(campo => {
+                    document.getElementById(`campo-${campo}`).classList.add('success');
+                });
+
+                idEnEdicion = id;
+                document.getElementById('btn-agregar').innerHTML = 'Guardar cambios';
+                document.getElementById('btn-cancelar-edicion').style.display = 'inline-flex';
+                document.getElementById('seccion-formulario').scrollIntoView({ behavior: 'smooth' });
+
+            } catch (error) {
+                mostrarToast('No se pudo cargar el alumno', 'error');
+            }
+        };
+
+        // cancelo la edición y vuelvo al modo agregar
+        window.cancelarEdicion = function() {
+            limpiarFormulario();
+        };
+
+        // limpio el formulario y reseteo el estado
+        function limpiarFormulario() {
+            document.getElementById('form-alumno').reset();
+            idEnEdicion = null;
+            document.getElementById('btn-agregar').innerHTML = 'Agregar alumno';
+            document.getElementById('btn-cancelar-edicion').style.display = 'none';
+
+            ['nombre', 'email', 'carrera', 'legajo'].forEach(campo => {
+                document.getElementById(`campo-${campo}`).classList.remove('success', 'error');
+                document.getElementById(`err-${campo}`).classList.remove('visible');
+            });
+        }
+
+        // muestro el modal de confirmación antes de borrar
+        window.confirmarBorrar = function(id, nombre) {
+            idABorrar = id;
+            document.getElementById('nombre-a-borrar').textContent = nombre;
+            document.getElementById('modal-borrar').classList.add('open');
+        };
+
+        // cierro el modal sin borrar
+        window.cerrarModal = function() {
+            idABorrar = null;
+            document.getElementById('modal-borrar').classList.remove('open');
+        };
+
+        // confirmo el borrado y lo mando al servidor
+        document.getElementById('btn-confirmar-borrar').addEventListener('click', async () => {
+            if (!idABorrar) return;
+
+            const btn = document.getElementById('btn-confirmar-borrar');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner" style="border-color: rgba(255,255,255,0.3); border-top-color: white;"></span>';
+
+            try {
+                const resp = await fetch(`${API}/${idABorrar}`, { method: 'DELETE' });
+                const resultado = await resp.json();
+
+                if (resultado.ok) {
+                    mostrarToast('Alumno eliminado correctamente', 'success');
+                    cargarAlumnos();
+                } else {
+                    mostrarToast(resultado.error, 'error');
+                }
+            } catch {
+                mostrarToast('Error al eliminar', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Eliminar';
+                cerrarModal();
+            }
+        });
+
+        // cierro el modal si el usuario hace clic en el fondo oscuro
+        document.getElementById('modal-borrar').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('modal-borrar')) cerrarModal();
+        });
+
+        // cargo los alumnos al iniciar la página
+        cargarAlumnos();
+    </script>
+</body>
+</html>

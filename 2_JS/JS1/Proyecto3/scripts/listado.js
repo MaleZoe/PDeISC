@@ -130,28 +130,25 @@ window.Listado = (() => {
     /**
      * Punto de entrada principal para renderizar
      */
-    function renderizarListado(personasAMostrar, totalAbsoluto = personasAMostrar.length) {
-        actualizarEstadoVacio(totalAbsoluto);
-        actualizarContador(personasAMostrar.length, totalAbsoluto);
+    function renderizarListado(personas) {
+        actualizarEstadoVacio(personas.length);
+        actualizarContador(personas.length);
         
         // Habilitar/deshabilitar botón vaciar
         if (btnVaciarTodo) {
-            btnVaciarTodo.disabled = totalAbsoluto === 0;
+            btnVaciarTodo.disabled = personas.length === 0;
         }
 
         if (!listaPersonas) return;
         listaPersonas.innerHTML = '';
         
-        if (personasAMostrar.length === 0 && totalAbsoluto > 0) {
-            listaPersonas.innerHTML = `
-                <div class="text-center py-5 bg-dark bg-opacity-25 rounded-3 border border-secondary border-opacity-25">
-                    <p class="text-muted m-0">Sin resultados para la búsqueda.</p>
-                </div>`;
+        if (personas.length === 0) {
+            actualizarEstadoVacio(0);
             return;
         }
 
         let htmlFinal = '';
-        personasAMostrar.forEach((p, idx) => {
+        personas.forEach((p, idx) => {
             htmlFinal += crearFilaPersona(p, idx);
         });
         listaPersonas.innerHTML = htmlFinal;
@@ -206,31 +203,9 @@ window.Listado = (() => {
         bsModal.show();
     }
 
-    /**
-     * Filtra localmente el array obtenido del Storage
-     */
-    function filtrar(textoBusqueda) {
-        const personas = window.Storage.obtenerPersonas();
-        const textoNorm = normalizarTexto(textoBusqueda.trim());
-        
-        if (!textoNorm) {
-            renderizarListado(personas, personas.length);
-            return;
-        }
-
-        const filtradas = personas.filter(p => {
-            const doc = p.documento ? p.documento.toLowerCase() : '';
-            return normalizarTexto(p.nombre).includes(textoNorm) || 
-                   normalizarTexto(p.apellido).includes(textoNorm) ||
-                   doc.includes(textoNorm);
-        });
-
-        renderizarListado(filtradas, personas.length);
-    }
-
-    function actualizarContador(visibles, total) {
+    function actualizarContador(total) {
         if (textoContador) {
-            textoContador.textContent = `Mostrando ${visibles} de ${total} personas`;
+            textoContador.textContent = `Mostrando ${total} personas`;
         }
     }
 
@@ -248,14 +223,9 @@ window.Listado = (() => {
         if (total === 0) {
             estadoVacio.classList.remove('d-none');
             if (listaPersonas) listaPersonas.classList.add('d-none');
-            // Ocultar barra de búsqueda si está vacío
-            const busq = document.getElementById('busquedaPersona');
-            if(busq) busq.disabled = true;
         } else {
             estadoVacio.classList.add('d-none');
             if (listaPersonas) listaPersonas.classList.remove('d-none');
-            const busq = document.getElementById('busquedaPersona');
-            if(busq) busq.disabled = false;
         }
     }
 
@@ -265,10 +235,10 @@ window.Listado = (() => {
     function eliminarPersona(id) {
         const exito = window.Storage.eliminarPersona(id);
         if (exito) {
-            // Refrescar vistas respetando el filtro actual
-            const busquedaVal = document.getElementById('busquedaPersona').value;
-            filtrar(busquedaVal);
-            actualizarBadgeNavbar(window.Storage.obtenerTotal());
+            // Refrescar vistas
+            const personas = window.Storage.obtenerPersonas();
+            renderizarListado(personas);
+            actualizarBadgeNavbar(personas.length);
             
             // Notificar a App para actualizar estadisticas
             document.dispatchEvent(new Event('persona-eliminada'));
@@ -277,7 +247,6 @@ window.Listado = (() => {
 
     return {
         renderizarListado,
-        filtrar,
         actualizarContador,
         actualizarBadgeNavbar,
         actualizarEstadoVacio,

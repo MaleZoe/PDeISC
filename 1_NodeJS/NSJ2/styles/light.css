@@ -1,44 +1,294 @@
-/* estilos para el modo claro */
-body {
-  background-color: #f8f9fa;
-  color: #212529;
+/**
+ * styles/light.css
+ * ─────────────────────────────────────────────────────────────────
+ * Tema claro del sitio NJS2.
+ *
+ * PROBLEMA DE ESPECIFICIDAD RESUELTO:
+ *   estilos.css define las variables en `:root` con especificidad (0,1,0).
+ *   Un selector `[data-theme="light"]` también tiene (0,1,0), y como
+ *   `:root` viene DESPUÉS del @import en la cascada, `:root` ganaba siempre.
+ *
+ *   Solución: usar `html[data-theme="light"]` → especificidad (0,1,1)
+ *   que supera a `:root` (0,1,0) en cualquier posición de cascada.
+ *
+ * COLORES HARDCODEADOS:
+ *   estilos.css tiene varios colores fijos (#fff, rgba blancuzcos) que no
+ *   usan variables. Se sobreescriben con selectores específicos más abajo.
+ *   Bootstrap .text-white usa !important → se sobreescribe con !important.
+ * ─────────────────────────────────────────────────────────────────
+ */
+
+/* ══════════════════════════════════════════════════════════════
+   VARIABLES CSS — especificidad (0,1,1) supera a :root (0,1,0)
+═══════════════════════════════════════════════════════════════ */
+html[data-theme="light"] {
+  --bg:       #f0f4f8;
+  --bg-soft:  #e4eaf2;
+  --panel:    rgba(255, 255, 255, 0.88);
+  --panel-2:  rgba(240, 244, 248, 0.95);
+  --ink:      #1a2332;
+  --muted:    #546a7e;
+  --line:     rgba(0, 0, 0, 0.09);
+  --card:     rgba(255, 255, 255, 0.94);
+  --shadow:   0 26px 60px rgba(0, 0, 0, 0.08);
 }
 
-header, .nav-menu.active {
-  background-color: #ffffff;
+/* ── Fondo de página ── */
+html[data-theme="light"] body {
+  background:
+    radial-gradient(circle at top left,  rgba(255, 138, 101, 0.07), transparent 28%),
+    radial-gradient(circle at top right, rgba(120, 166, 255, 0.07), transparent 26%),
+    linear-gradient(180deg, #e8eef6 0%, var(--bg) 100%);
+  color: var(--ink);
 }
 
-.nav-menu a {
-  color: #0d6efd;
+/* ── Orbes de fondo ── */
+html[data-theme="light"] .fondo-ui__blur--uno {
+  background: rgba(255, 138, 101, 0.18);
+}
+html[data-theme="light"] .fondo-ui__blur--dos {
+  background: rgba(120, 166, 255, 0.14);
 }
 
-.nav-menu a:hover {
-  background-color: #e9ecef;
+/* ══════════════════════════════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════════════════════════════ */
+html[data-theme="light"] .navbar-ui {
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
 }
 
-.card {
-  background-color: #ffffff;
+html[data-theme="light"] .navbar-brand-ui {
+  color: var(--ink) !important;
 }
 
-.btn-primary {
-  background-color: #0d6efd;
-  color: white;
+html[data-theme="light"] .navbar-toggler-ui .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280,0,0,0.7%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
-.btn-secondary {
-  background-color: #6c757d;
-  color: white;
+html[data-theme="light"] .nav-link-ui {
+  color: rgba(26, 35, 50, 0.70);
 }
 
-#btn-subir {
-  background-color: #0d6efd;
-  color: white;
+html[data-theme="light"] .nav-link-ui:hover,
+html[data-theme="light"] .nav-link-ui--active {
+  color: var(--ink);
+  background: rgba(0, 0, 0, 0.06);
 }
 
-.hamburger {
-  color: #212529;
+html[data-theme="light"] .btn-theme-toggle {
+  background: rgba(0, 0, 0, 0.07);
+  border-color: rgba(0, 0, 0, 0.10);
+}
+html[data-theme="light"] .btn-theme-toggle:hover {
+  background: rgba(0, 0, 0, 0.13);
 }
 
-footer {
-  background-color: #e9ecef;
+/* ══════════════════════════════════════════════════════════════
+   HERO, SECTION-SHELL, CARDS
+═══════════════════════════════════════════════════════════════ */
+html[data-theme="light"] .hero-ui {
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--ink);
+}
+
+/* Anton title (display-1) — hereda color del body */
+html[data-theme="light"] .title-anton {
+  color: var(--ink);
+}
+
+html[data-theme="light"] .section-shell {
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--ink);
+}
+
+html[data-theme="light"] .card-ui {
+  background: var(--card);
+  color: var(--ink);
+}
+
+html[data-theme="light"] .card-ui:hover {
+  box-shadow: 0 28px 48px rgba(0, 0, 0, 0.10);
+}
+
+/* Títulos serif dentro de secciones/cards */
+html[data-theme="light"] .section-shell .serif-title,
+html[data-theme="light"] .card-ui .serif-title,
+html[data-theme="light"] .hero-ui .serif-title,
+html[data-theme="light"] .serif-title {
+  color: var(--ink);
+}
+
+/* Texto secundario */
+html[data-theme="light"] .text-ui,
+html[data-theme="light"] .hero-ui__text,
+html[data-theme="light"] .card-ui .text-ui {
+  color: var(--muted);
+}
+
+/* Link al fondo */
+html[data-theme="light"] .link-ui {
+  color: var(--ink);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FEATURE PANEL (clima / HTTP)
+   estilos.css tiene color:#fff hardcodeado → override total
+═══════════════════════════════════════════════════════════════ */
+html[data-theme="light"] .feature-panel {
+  background: linear-gradient(145deg, #ddeaf8, #eef4ff);
+  color: var(--ink);
+}
+
+html[data-theme="light"] .feature-panel .feature-panel__text {
+  color: var(--muted);
+}
+
+/* h2, títulos dentro del feature-panel con clase text-white de Bootstrap */
+html[data-theme="light"] .feature-panel .serif-title,
+html[data-theme="light"] .feature-panel h2,
+html[data-theme="light"] .feature-panel .text-white {
+  color: var(--ink) !important;
+}
+
+/* eyebrow con text-white-50 dentro de feature-panel */
+html[data-theme="light"] .feature-panel .text-white-50 {
+  color: var(--muted) !important;
+}
+
+/* Ícono blanco del feature-panel */
+html[data-theme="light"] .icon-ui--light {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--ink);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   STATS SHELL — estilos.css tiene color:#fff hardcodeado
+═══════════════════════════════════════════════════════════════ */
+html[data-theme="light"] .stats-shell {
+  background: linear-gradient(135deg, rgba(240, 244, 248, 0.98), rgba(255, 255, 255, 0.96));
+  color: var(--ink);
+}
+
+html[data-theme="light"] .metric-ui {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+html[data-theme="light"] .metric-ui__label {
+  color: var(--muted);
+}
+
+html[data-theme="light"] .metric-value,
+html[data-theme="light"] .temp-ui {
+  color: var(--ink);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PANEL LIST
+   estilos.css hardcodea rgba blancuzco y #fff en strong
+═══════════════════════════════════════════════════════════════ */
+html[data-theme="light"] .panel-list__item {
+  color: var(--muted);
+  border-color: var(--line);
+}
+
+html[data-theme="light"] .panel-list__item strong {
+  color: var(--ink);
+  text-align: right;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CODE STRIP — fondo rgba blancuzco en estilos.css
+═══════════════════════════════════════════════════════════════ */
+html[data-theme="light"] .code-strip,
+html[data-theme="light"] .code-strip--stack {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+html[data-theme="light"] .code-strip span {
+  color: var(--muted);
+}
+
+html[data-theme="light"] .code-strip strong {
+  color: var(--ink);
+}
+
+/* ── Código inline (<code>) ── */
+html[data-theme="light"] code {
+  background: rgba(0, 0, 0, 0.07);
+  color: #b83232;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PREVIEW NOTE y URL BOX
+═══════════════════════════════════════════════════════════════ */
+html[data-theme="light"] .preview-note {
+  background: rgba(255, 138, 101, 0.10);
+  color: #8c3a22;
+}
+
+html[data-theme="light"] .url-box {
+  background: rgba(120, 166, 255, 0.12);
+  color: #1e4db7;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TABLA
+═══════════════════════════════════════════════════════════════ */
+html[data-theme="light"] .table-ui {
+  --bs-table-color: var(--ink);
+  --bs-table-border-color: var(--line);
+}
+
+html[data-theme="light"] .table-ui td:first-child {
+  color: var(--muted);
+}
+
+html[data-theme="light"] .table-ui td:last-child {
+  color: var(--ink);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FOOTER — estilos.css hardcodea rgba(238,244,251,0.62)
+═══════════════════════════════════════════════════════════════ */
+html[data-theme="light"] .footer-ui {
+  background: rgba(255, 255, 255, 0.84);
+}
+
+html[data-theme="light"] .footer-ui__brand {
+  color: var(--ink);
+}
+
+html[data-theme="light"] .footer-ui__text,
+html[data-theme="light"] .footer-ui__meta,
+html[data-theme="light"] .metric-ui__label {
+  color: var(--muted);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   BTN-UI
+═══════════════════════════════════════════════════════════════ */
+html[data-theme="light"] .btn-ui--light {
+  background: rgba(0, 0, 0, 0.07);
+  color: var(--ink);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SOFT BADGE
+═══════════════════════════════════════════════════════════════ */
+html[data-theme="light"] .soft-badge {
+  background: rgba(120, 166, 255, 0.13);
+  color: #1e4db7;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Bootstrap text-white / text-white-50 (tienen !important)
+   Se necesita !important para ganarles.
+═══════════════════════════════════════════════════════════════ */
+html[data-theme="light"] .text-white {
+  color: var(--ink) !important;
+}
+
+html[data-theme="light"] .text-white-50 {
+  color: var(--muted) !important;
 }

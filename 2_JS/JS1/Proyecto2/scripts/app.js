@@ -1,12 +1,13 @@
 
 window.App = (() => {
 
-    let metodoActual = 'push';
+    let metodoActual = null;
 
     function inicializar() {
+        inicializarTema();
+
         const form = document.getElementById('formularioProducto');
-        
-        // Listeners para validación en tiempo real
+
         const inputs = form.querySelectorAll('input, select, textarea');
         inputs.forEach(input => {
             input.addEventListener('blur', () => window.Validador.validarCampo(input.id));
@@ -20,7 +21,6 @@ window.App = (() => {
             });
         });
 
-        // Manejo de radios de condición
         const radiosCondicion = document.querySelectorAll('input[name="condicion"]');
         radiosCondicion.forEach(radio => {
             radio.addEventListener('change', (e) => {
@@ -28,7 +28,6 @@ window.App = (() => {
             });
         });
 
-        // Manejo de métodos de inserción
         const tarjetasMetodo = document.querySelectorAll('.tarjeta-metodo');
         tarjetasMetodo.forEach(tarjeta => {
             tarjeta.addEventListener('click', () => {
@@ -37,7 +36,6 @@ window.App = (() => {
             });
         });
 
-        // Filtros
         document.getElementById('filtro-busqueda')?.addEventListener('input', debounce(() => window.Catalogo.aplicarFiltros(), 300));
         document.getElementById('filtro-categoria')?.addEventListener('change', () => window.Catalogo.aplicarFiltros());
         document.getElementById('filtro-orden')?.addEventListener('change', () => window.Catalogo.aplicarFiltros());
@@ -49,25 +47,52 @@ window.App = (() => {
             });
         }
 
-        // Lógica de Marcas y Modelos
         const inpMarca = document.getElementById('inp-marca');
         if (inpMarca) {
             inpMarca.addEventListener('change', manejarCambioMarca);
         }
 
-        // Lógica de Kilómetros vs Condición
         const inpKms = document.getElementById('inp-precio');
         if (inpKms) {
             inpKms.addEventListener('input', validarCondicionSegunKms);
         }
 
-        // Submit
         form.addEventListener('submit', manejarSubmit);
         form.addEventListener('reset', manejarReset);
 
-        // UI inicial
+        validarCondicionSegunKms();
         actualizarUIMetodo();
+        actualizarEstadoBoton();
         window.Catalogo.renderizar();
+    }
+
+    function aplicarTemaOscuro(activo) {
+        document.documentElement.classList.toggle('dark-mode', activo);
+        document.body.classList.toggle('dark-mode', activo);
+    }
+
+    function inicializarTema() {
+        const temaGuardado = localStorage.getItem('tema');
+        const themeIcon = document.getElementById('themeIcon');
+        const oscuro = temaGuardado === 'oscuro'
+            || (!temaGuardado && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+        aplicarTemaOscuro(oscuro);
+        if (themeIcon) themeIcon.textContent = oscuro ? '☀️' : '🌙';
+
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', toggleTema);
+        }
+    }
+
+    function toggleTema() {
+        const themeIcon = document.getElementById('themeIcon');
+        const oscuro = !document.documentElement.classList.contains('dark-mode');
+
+        aplicarTemaOscuro(oscuro);
+        if (themeIcon) themeIcon.textContent = oscuro ? '☀️' : '🌙';
+        localStorage.setItem('tema', oscuro ? 'oscuro' : 'claro');
     }
 
     function manejarSubmit(e) {
@@ -75,6 +100,11 @@ window.App = (() => {
         
         if (!window.Validador.validarFormulario()) {
             mostrarBanner('error', 'Por favor, revisá los campos marcados.');
+            return;
+        }
+
+        if (!metodoActual) {
+            mostrarBanner('error', 'Seleccioná un método de inserción (push o unshift).');
             return;
         }
 
@@ -141,11 +171,15 @@ window.App = (() => {
 
     function actualizarUIMetodo() {
         document.querySelectorAll('.tarjeta-metodo').forEach(t => {
-            t.classList.toggle('metodo-activo', t.dataset.metodo === metodoActual);
+            t.classList.toggle('metodo-activo', metodoActual !== null && t.dataset.metodo === metodoActual);
         });
         
         const badge = document.getElementById('metodoActivo');
-        badge.textContent = `Método: ${metodoActual === 'indice' ? 'índice direct' : metodoActual + '()'}`;
+        if (metodoActual) {
+            badge.textContent = `Método: ${metodoActual === 'indice' ? 'índice direct' : metodoActual + '()'}`;
+        } else {
+            badge.textContent = 'Método: sin seleccionar';
+        }
         
         const wrapperPos = document.querySelector('.input-posicion-wrapper');
         if (wrapperPos) {
@@ -221,11 +255,8 @@ window.App = (() => {
 
     function mostrarBanner(tipo, mensaje) {
         const banner = document.getElementById('bannerFeedback');
-        banner.className = `mt-4 p-3 rounded-3 d-flex align-items-center bg-white bg-opacity-10 border ${tipo === 'exito' ? 'border-success text-success' : 'border-danger text-danger'}`;
-        banner.innerHTML = `
-            <span class="me-2"></span>
-            <span class="fw-medium">${mensaje}</span>
-        `;
+        banner.className = `mt-4 p-3 rounded-3 d-flex align-items-center border banner-feedback ${tipo === 'exito' ? 'banner-feedback-exito' : 'banner-feedback-error'}`;
+        banner.innerHTML = `<span class="fw-medium">${mensaje}</span>`;
         banner.classList.remove('d-none');
         if (tipo === 'exito') setTimeout(() => banner.classList.add('d-none'), 3000);
     }

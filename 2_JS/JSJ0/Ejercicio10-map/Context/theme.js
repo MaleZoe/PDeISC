@@ -18,7 +18,7 @@ export function inicializarTema() {
 // esta funcion cambia el atributo del html y el css correspondiente
 function aplicarTema(tema) {
     document.documentElement.setAttribute('data-theme', tema);
-    document.documentElement.setAttribute('data-bs-theme', tema);
+    document.documentElement.setAttribute('data-bs-theme', 'light');
     localStorage.setItem('tema', tema);
 
     // cambio la hoja de estilos en base al tema
@@ -30,12 +30,12 @@ function aplicarTema(tema) {
     // actualizo el texto o icono del boton de cambio de tema
     const botonTema = document.getElementById('btn-tema');
     if (botonTema) {
-        botonTema.innerHTML = tema === 'dark' ? '☀️ Modo Claro' : '🌙 Modo Oscuro';
-        // cambio las clases del boton de bootstrap para que combine
-        if (tema === 'dark') {
-            botonTema.className = 'btn btn-outline-light btn-sm';
-        } else {
-            botonTema.className = 'btn btn-outline-dark btn-sm';
-        }
+        botonTema.innerHTML = tema === 'dark'
+            ? '<i class="bi bi-sun-fill" aria-hidden="true"></i>'
+            : '<i class="bi bi-moon-stars-fill" aria-hidden="true"></i>';
+        botonTema.dataset.tema = tema;
+        botonTema.title = tema === 'dark' ? 'Modo claro' : 'Modo oscuro';
+        botonTema.setAttribute('aria-label', tema === 'dark' ? 'Modo claro' : 'Modo oscuro');
+        botonTema.className = 'btn-tema-icono';
     }
 }

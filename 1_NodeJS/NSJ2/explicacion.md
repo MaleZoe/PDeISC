@@ -9,24 +9,27 @@ Este proyecto es una aplicación web backend en puro Node.js, atomizada en disti
 - **styles/**: Dividido en `base.css` (para estructura general), `light.css` y `dark.css`.
 - **context/**: Contiene `theme.js`, guardando la lógica de modo claro/oscuro en el `localStorage` del cliente.
 - **scripts/**: Código frontend. Encargado de las peticiones asincrónicas (`fetch`) al backend, dom general (menú hamburguesa, scroll top) y las estrictas validaciones on real time.
-- **modules/**: La lógica del servidor y los requerimientos. Acá tenemos:
-  - `calculadora.js` y `clima.js`: Modulos propios requeridos en la consigna 1.
-  - `crud.js`: Simulación de persistencia. Implementa NPM `upper-case` y guarda fechas de creación en el formato explícito exigido DD/MM/AA.
-  - `ejercicio2.js`: Módulo File System. Crea un HTML en disco `fs.writeFileSync()` y luego lo lee para servirlo a HTTP.
-  - `urlParser.js`: Analiza la URL del request y la tira por consola.
+- **modules/**: La lógica del servidor organizada por consignas y componentes modulares:
+  - **consigna1/**: Módulos propios para operaciones de cálculo ([calculo.js](file:///c:/Users/salvi/Documents/GitHub/PDeISC/1_NodeJS/NSJ2/modules/consigna1/calculo.js)) y de clima ([clima.js](file:///c:/Users/salvi/Documents/GitHub/PDeISC/1_NodeJS/NSJ2/modules/consigna1/clima.js)).
+  - **consigna2/**: Módulo nativo File System ([archivos.js](file:///c:/Users/salvi/Documents/GitHub/PDeISC/1_NodeJS/NSJ2/modules/consigna2/archivos.js)) para escribir y generar la vista HTML física en el disco.
+  - **consigna3/**: Módulo nativo URL ([url.js](file:///c:/Users/salvi/Documents/GitHub/PDeISC/1_NodeJS/NSJ2/modules/consigna3/url.js)) que analiza la URL de ejemplo y la imprime en consola.
+  - **consigna4/**: Componente que hace uso del paquete NPM `upper-case` ([npm.js](file:///c:/Users/salvi/Documents/GitHub/PDeISC/1_NodeJS/NSJ2/modules/consigna4/npm.js)).
+  - **consigna5/**: Menú modular ([menu.js](file:///c:/Users/salvi/Documents/GitHub/PDeISC/1_NodeJS/NSJ2/modules/consigna5/menu.js)) e Inicio ([inicio.js](file:///c:/Users/salvi/Documents/GitHub/PDeISC/1_NodeJS/NSJ2/modules/consigna5/inicio.js)).
+  - **shared/**: Contenedor global de diseño de página ([layout.js](file:///c:/Users/salvi/Documents/GitHub/PDeISC/1_NodeJS/NSJ2/modules/shared/layout.js)).
+  - **site/**: Orquestador que inicializa la generación estática de las páginas del sitio ([generarSitio.js](file:///c:/Users/salvi/Documents/GitHub/PDeISC/1_NodeJS/NSJ2/modules/site/generarSitio.js)).
 
 ## Validaciones Estrictas
-Hay 3 niveles de validación implementados en el CRUD (Ejercicio 4) y la calculadora de edad (Ejercicio 1):
+Hay 3 niveles de validación implementados en el CRUD y la calculadora:
 1. **HTML**: Uso de etiquetas `pattern`, `min`, `max` y `required`, limitando el ingreso nativamente.
-2. **Javascript On Real Time**: Los inputs escuchan el evento `input`. Si el usuario ingresa algo inválido (ej: un número en su nombre, o nada, o una edad irrealizable), el input se colorea de rojo intenso (`input-error`) y aparece un mensaje indicando el error de forma tajante (sin usar los horribles alerts).
-3. **Backend**: El archivo `server.js` comprueba de nuevo que la información que llega desde la petición Fetch no sea maliciosa y que los tipos/datos sean correctos antes de insertarlos, previniendo inyecciones de datos falaces.
+2. **Javascript On Real Time**: Los inputs se validan en tiempo real en el lado del cliente (coloreándose ante errores).
+3. **Backend**: El archivo [server.js](file:///c:/Users/salvi/Documents/GitHub/PDeISC/1_NodeJS/NSJ2/server.js) verifica que los datos de las peticiones sean válidos antes de procesarlos.
 
 ## Ejercicios Cumplidos a Rajatabla
-1. **Ejercicio 1**: Componente con módulos propios (Clima y edad).
-2. **Ejercicio 2**: Componente HTTP + File System (Se genera un archivo desde Node en el disco y se sirve en el navegador vía URL `/ejercicio2`).
-3. **Ejercicio 3**: Componente URL (Carga la URL desde el servidor, la desglosa, la manda como objeto al renderizador del HTML, y paralelamente la escupe por la consola del servidor usando `console.log`).
-4. **Ejercicio 4**: Uso de gestor NPM `upper-case` implementado dentro de un manejador de datos (Nombres se guardan siempre en mayúsculas después de toda la validación).
-5. **Ejercicio 5**: Todo el ecosistema está orquestado a través de una web con un Header (que oficia de menú), con links a las demás 5 páginas.
+1. **Ejercicio 1**: Componente con módulos propios (Cálculo y clima).
+2. **Ejercicio 2**: Componente HTTP + File System (Se genera un archivo HTML en el disco y se sirve en el navegador en `/vista.html`).
+3. **Ejercicio 3**: Componente URL (Carga la URL del ejemplo, la desglosa, la manda al renderizador del HTML, y paralelamente la escupe por la consola del servidor usando `console.log`).
+4. **Ejercicio 4**: Uso de gestor NPM `upper-case` implementado dentro del módulo de visualización de transformación de textos (`/npm`).
+5. **Ejercicio 5**: Menú modularizado con links a más de 5 páginas integradas y unificadas en la misma aplicación.
 
 ## UX / UI
 - Sin Alerts. Nada molesto.

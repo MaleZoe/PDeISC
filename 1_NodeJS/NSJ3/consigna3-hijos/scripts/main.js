@@ -79,7 +79,7 @@ inspectables.forEach(card => {
         
         if (badge) {
             badge.textContent = `${count} hijos`;
-            badge.classList.replace('bg-dark', 'bg-primary');
+            badge.classList.replace('bg-secondary-subtle', 'bg-primary');
             badge.classList.add('fade-in');
             
             // efecto visual momentaneo

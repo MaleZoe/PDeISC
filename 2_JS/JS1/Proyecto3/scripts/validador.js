@@ -14,7 +14,7 @@ window.Validador = (() => {
             patron: /^[a-záéíóúüñA-ZÁÉÍÓÚÜÑ\s\-]+$/
         },
         'inp-fecha-nac': {
-            requerido: false,
+            requerido: true,
             tipo: 'fecha-pasada'
         },
         'inp-sexo': {
@@ -22,25 +22,25 @@ window.Validador = (() => {
             tipo: 'radio'
         },
         'inp-documento': {
-            requerido: false,
+            requerido: true,
             patron: /^\d{7,8}$/,
             tipo: 'documento-unico' // Se checkea contra Storage
         },
         'inp-estado-civil': {
-            requerido: false,
+            requerido: true,
             tipo: 'select'
         },
         'inp-nacionalidad': {
-            requerido: false,
+            requerido: true,
             minLen: 3, maxLen: 60,
             patron: /^[a-záéíóúüñA-ZÁÉÍÓÚÜÑ\s]+$/
         },
         'inp-direccion': {
-            requerido: false,
+            requerido: true,
             minLen: 5, maxLen: 100
         },
         'inp-telefono': {
-            requerido: false,
+            requerido: true,
             patron: /^[\d\+\-\s]{7,20}$/
         },
         'inp-email': {

@@ -8,11 +8,32 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        
-        :root {
+
+        :root,
+        [data-theme="light"] {
             --bg: #f8fafc;
+            --surface: #ffffff;
             --primary: #4f46e5;
             --text: #0f172a;
+            --text-muted: #64748b;
+            --border: rgba(0, 0, 0, 0.05);
+            --nav-bg: rgba(255, 255, 255, 0.7);
+            --hero-gradient: radial-gradient(circle at top right, rgba(79, 70, 229, 0.05), transparent);
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --card-hover-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg: #020617;
+            --surface: #0f172a;
+            --primary: #818cf8;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #1e293b;
+            --nav-bg: rgba(15, 23, 42, 0.85);
+            --hero-gradient: radial-gradient(circle at top right, rgba(129, 140, 248, 0.08), transparent);
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --card-hover-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
         }
 
         body {
@@ -20,12 +41,13 @@
             background-color: var(--bg);
             color: var(--text);
             min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .glass-nav {
-            background: rgba(255, 255, 255, 0.7);
+            background: var(--nav-bg);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -33,21 +55,21 @@
 
         .hero-section {
             padding: 80px 0 40px;
-            background: radial-gradient(circle at top right, rgba(79, 70, 229, 0.05), transparent);
+            background: var(--hero-gradient);
         }
 
         .project-card {
-            border: none;
+            border: 1px solid var(--border);
             border-radius: 20px;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
-            background: #fff;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            background: var(--surface);
+            box-shadow: var(--card-shadow);
         }
 
         .project-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            box-shadow: var(--card-hover-shadow);
         }
 
         .icon-box {
@@ -80,6 +102,23 @@
             border-radius: 100px;
         }
 
+        [data-theme="dark"] h1,
+        [data-theme="dark"] h5,
+        [data-theme="dark"] .fw-bold {
+            color: var(--text);
+        }
+
+        [data-theme="dark"] .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        [data-theme="dark"] .bg-primary-subtle { background-color: rgba(99, 102, 241, 0.25) !important; color: #e0e7ff !important; }
+        [data-theme="dark"] .bg-success-subtle { background-color: rgba(16, 185, 129, 0.25) !important; color: #d1fae5 !important; }
+        [data-theme="dark"] .bg-warning-subtle { background-color: rgba(245, 158, 11, 0.25) !important; color: #fef3c7 !important; }
+        [data-theme="dark"] .bg-info-subtle { background-color: rgba(6, 182, 212, 0.25) !important; color: #cffafe !important; }
+        [data-theme="dark"] .bg-secondary-subtle { background-color: rgba(100, 116, 139, 0.25) !important; color: #e2e8f0 !important; }
+        [data-theme="dark"] .bg-danger-subtle { background-color: rgba(239, 68, 68, 0.25) !important; color: #fee2e2 !important; }
+
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -96,6 +135,20 @@
         .card-4 { animation-delay: 0.4s; }
         .card-5 { animation-delay: 0.5s; }
         .card-6 { animation-delay: 0.6s; }
+
+        @media (max-width: 767.98px) {
+            .hero-section {
+                padding: 48px 0 24px;
+            }
+
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+
+            .project-card:hover {
+                transform: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -108,9 +161,13 @@
                 </div>
                 <span class="fw-bold fs-5 tracking-tight">Project Hub</span>
             </div>
-            <div class="d-none d-md-flex gap-4">
-                <a href="#" class="text-decoration-none text-muted small fw-medium">Documentation</a>
-                <a href="#" class="text-decoration-none text-muted small fw-medium">Support</a>
+            <div class="d-flex align-items-center gap-3">
+                <div class="d-none d-md-flex gap-4">
+                    <a href="#documentacion" class="text-decoration-none text-muted small fw-medium">Documentación</a>
+                </div>
+                <button id="theme-toggle" class="btn btn-sm btn-outline-secondary rounded-pill border-0" aria-label="Cambiar tema">
+                    <i class="bi bi-moon-stars"></i>
+                </button>
             </div>
         </div>
     </nav>
@@ -126,7 +183,6 @@
 
     <main class="container pb-5">
         <div class="row g-4">
-            <!-- Project 1 -->
             <div class="col-md-6 col-lg-4 animate-card card-1">
                 <div class="card project-card h-100 p-4">
                     <div class="icon-box bg-primary-subtle text-primary">
@@ -143,7 +199,6 @@
                 </div>
             </div>
 
-            <!-- Project 2 -->
             <div class="col-md-6 col-lg-4 animate-card card-2">
                 <div class="card project-card h-100 p-4">
                     <div class="icon-box bg-warning-subtle text-warning">
@@ -160,7 +215,6 @@
                 </div>
             </div>
 
-            <!-- Project 3 -->
             <div class="col-md-6 col-lg-4 animate-card card-3">
                 <div class="card project-card h-100 p-4">
                     <div class="icon-box bg-info-subtle text-info">
@@ -177,7 +231,6 @@
                 </div>
             </div>
 
-            <!-- Project 4 -->
             <div class="col-md-6 col-lg-4 animate-card card-4">
                 <div class="card project-card h-100 p-4">
                     <div class="icon-box bg-success-subtle text-success">
@@ -194,7 +247,6 @@
                 </div>
             </div>
 
-            <!-- Project 5 -->
             <div class="col-md-6 col-lg-4 animate-card card-5">
                 <div class="card project-card h-100 p-4">
                     <div class="icon-box bg-secondary-subtle text-secondary">
@@ -211,7 +263,6 @@
                 </div>
             </div>
 
-            <!-- Project 6 -->
             <div class="col-md-6 col-lg-4 animate-card card-6">
                 <div class="card project-card h-100 p-4">
                     <div class="icon-box bg-danger-subtle text-danger">
@@ -230,7 +281,28 @@
         </div>
     </main>
 
-    <footer class="container py-5 mt-5 border-top">
+    <section id="documentacion" class="container py-5">
+        <div class="card project-card p-4 p-md-5">
+            <h2 class="h4 fw-bold mb-3"><i class="bi bi-book me-2"></i>Documentación</h2>
+            <p class="text-muted mb-4">
+                Cada consigna incluye un archivo <code>explicacion.md</code> con su estructura, funcionalidades y comandos de ejecución.
+                El repositorio también contiene un <code>README.md</code> con la guía general del proyecto.
+            </p>
+            <div class="row g-3">
+                <div class="col-sm-6 col-lg-4">
+                    <div class="small text-muted"><strong>Puerto hub:</strong> 3000</div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="small text-muted"><strong>Consignas:</strong> puertos 3001–3006</div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="small text-muted"><strong>Tema:</strong> botón luna/sol, persiste en localStorage</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="container py-5 mt-2 border-top">
         <div class="row align-items-center">
             <div class="col-md-6 text-center text-md-start">
                 <p class="text-muted small mb-0">&copy; 2026 Premium Design Lab. Todos los derechos reservados.</p>
@@ -241,5 +313,32 @@
         </div>
     </footer>
 
+    <script>
+        const toggleBtn = document.getElementById('theme-toggle');
+
+        function getSystemTheme() {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            toggleBtn.innerHTML = theme === 'dark'
+                ? '<i class="bi bi-sun"></i>'
+                : '<i class="bi bi-moon-stars"></i>';
+        }
+
+        function initTheme() {
+            applyTheme(localStorage.getItem('theme') || getSystemTheme());
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            const current = localStorage.getItem('theme') || getSystemTheme();
+            const next = current === 'light' ? 'dark' : 'light';
+            localStorage.setItem('theme', next);
+            applyTheme(next);
+        });
+
+        initTheme();
+    </script>
 </body>
 </html>

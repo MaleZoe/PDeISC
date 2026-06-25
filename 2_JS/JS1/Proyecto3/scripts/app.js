@@ -3,6 +3,8 @@
 window.App = (() => {
 
     function inicializar() {
+        inicializarTema();
+
         // Inicializar UI Formulario
         window.Formulario.inicializar();
 
@@ -36,13 +38,7 @@ window.App = (() => {
         // Configurar Reset
         form.addEventListener('reset', manejarReset);
 
-        // Configurar Búsqueda con Debounce
-        const inputBusqueda = document.getElementById('busquedaPersona');
-        if (inputBusqueda) {
-            inputBusqueda.addEventListener('input', debounce((e) => {
-                window.Listado.filtrar(e.target.value);
-            }, 300));
-        }
+
 
         // Configurar botón Vaciar Todo
         const btnVaciar = document.getElementById('btnVaciarTodo');
@@ -58,6 +54,39 @@ window.App = (() => {
         window.Validador.actualizarBotonGuardar();
 
         console.log(`[App] Aplicación iniciada. Personas en storage: ${personasGuardadas.length}`);
+    }
+    
+    function inicializarTema() {
+        const temaGuardado = localStorage.getItem('tema');
+        const body = document.body;
+        const themeIcon = document.getElementById('themeIcon');
+        
+        if (temaGuardado === 'oscuro' || (!temaGuardado && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            body.classList.add('dark-mode');
+            themeIcon.textContent = '☀️';
+        } else {
+            themeIcon.textContent = '🌙';
+        }
+        
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', toggleTema);
+        }
+    }
+    
+    function toggleTema() {
+        const body = document.body;
+        const themeIcon = document.getElementById('themeIcon');
+        
+        body.classList.toggle('dark-mode');
+        
+        if (body.classList.contains('dark-mode')) {
+            themeIcon.textContent = '☀️';
+            localStorage.setItem('tema', 'oscuro');
+        } else {
+            themeIcon.textContent = '🌙';
+            localStorage.setItem('tema', 'claro');
+        }
     }
 
     function manejarSubmit(evento) {
@@ -105,10 +134,6 @@ window.App = (() => {
         
         // Scroll
         document.getElementById('seccionListado').scrollIntoView({ behavior: 'smooth' });
-        
-        // Limpiar input de búsqueda
-        const ib = document.getElementById('busquedaPersona');
-        if (ib) ib.value = '';
     }
 
     function manejarReset() {
@@ -205,8 +230,6 @@ window.App = (() => {
             window.Listado.renderizarListado([]);
             window.Listado.actualizarBadgeNavbar(0);
             restaurarBotonVaciar();
-            const busqueda = document.getElementById('busquedaPersona');
-            if (busqueda) busqueda.value = '';
         };
 
         document.getElementById('btnCancelarVaciar').onclick = restaurarBotonVaciar;

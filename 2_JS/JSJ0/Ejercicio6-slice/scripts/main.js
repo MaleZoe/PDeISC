@@ -13,7 +13,10 @@ function configurarEventos() {
 
     const btn2 = document.getElementById('p2-btn-slice');
     btn2.addEventListener('click', slicePeliculas);
-    btn2.addEventListener('mouseenter', slicePeliculas);
+    btn2.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        slicePeliculas();
+    });
 
     const btn3 = document.getElementById('p3-btn-slice');
     btn3.addEventListener('click', sliceUltimos);

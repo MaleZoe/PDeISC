@@ -21,11 +21,18 @@
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
             <a class="navbar-brand fw-bold" href="#">Registro de Personas</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto gap-3 align-items-lg-center">
+
+            <div class="navbar-actions d-flex align-items-center gap-2 ms-auto order-lg-2">
+                <button type="button" id="themeToggle" class="theme-toggle-btn" aria-label="Cambiar entre modo claro y oscuro" title="Cambiar tema">
+                    <span id="themeIcon" aria-hidden="true">🌙</span>
+                </button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Abrir menú">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+
+            <div class="collapse navbar-collapse order-lg-1" id="navbarNav">
+                <ul class="navbar-nav ms-lg-auto gap-3 align-items-lg-center">
                     <li class="nav-item">
                         <a class="nav-link" href="#seccionFormulario">Nuevo Registro</a>
                     </li>
@@ -73,8 +80,8 @@
                             <span class="mensaje-exito position-absolute top-50 end-0 translate-middle-y me-3 d-none">✓</span>
                         </div>
                         <div class="col-md-6 position-relative">
-                            <label for="inp-fecha-nac" class="form-label fw-medium">Fecha de nacimiento</label>
-                            <input type="date" class="form-control" id="inp-fecha-nac">
+                            <label for="inp-fecha-nac" class="form-label fw-medium">Fecha de nacimiento <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="inp-fecha-nac" required>
                             <span class="mensaje-error" id="err-fecha-nac" role="alert"></span>
                             <span class="mensaje-exito position-absolute top-50 end-0 translate-middle-y me-4 d-none">✓</span>
                         </div>
@@ -94,8 +101,8 @@
                             <span class="mensaje-error" id="err-sexo" role="alert"></span>
                         </div>
                         <div class="col-md-6 position-relative">
-                            <label for="inp-documento" class="form-label fw-medium">Documento</label>
-                            <input type="text" class="form-control" id="inp-documento" placeholder="Sin puntos ni espacios">
+                            <label for="inp-documento" class="form-label fw-medium">Documento <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="inp-documento" placeholder="Sin puntos ni espacios" required>
                             <span class="mensaje-error" id="err-documento" role="alert"></span>
                             <span class="mensaje-exito position-absolute top-50 end-0 translate-middle-y me-3 d-none">✓</span>
                         </div>
@@ -113,8 +120,8 @@
                     <legend>Datos Adicionales</legend>
                     <div class="row g-4">
                         <div class="col-md-6 position-relative">
-                            <label for="inp-estado-civil" class="form-label fw-medium">Estado civil</label>
-                            <select class="form-select" id="inp-estado-civil">
+                            <label for="inp-estado-civil" class="form-label fw-medium">Estado civil <span class="text-danger">*</span></label>
+                            <select class="form-select" id="inp-estado-civil" required>
                                 <option value="" selected disabled>Seleccioná...</option>
                                 <option value="Soltero/a">Soltero/a</option>
                                 <option value="Casado/a">Casado/a</option>
@@ -125,20 +132,20 @@
                             <span class="mensaje-exito position-absolute top-50 end-0 translate-middle-y me-4 d-none">✓</span>
                         </div>
                         <div class="col-md-6 position-relative">
-                            <label for="inp-nacionalidad" class="form-label fw-medium">Nacionalidad</label>
-                            <input type="text" class="form-control" id="inp-nacionalidad" placeholder="Ej. Argentina">
+                            <label for="inp-nacionalidad" class="form-label fw-medium">Nacionalidad <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="inp-nacionalidad" placeholder="Ej. Argentina" required>
                             <span class="mensaje-error" id="err-nacionalidad" role="alert"></span>
                             <span class="mensaje-exito position-absolute top-50 end-0 translate-middle-y me-3 d-none">✓</span>
                         </div>
                         <div class="col-md-6 position-relative">
-                            <label for="inp-direccion" class="form-label fw-medium">Dirección</label>
-                            <input type="text" class="form-control" id="inp-direccion" placeholder="Calle, Número, Localidad">
+                            <label for="inp-direccion" class="form-label fw-medium">Dirección <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="inp-direccion" placeholder="Calle, Número, Localidad" required>
                             <span class="mensaje-error" id="err-direccion" role="alert"></span>
                             <span class="mensaje-exito position-absolute top-50 end-0 translate-middle-y me-3 d-none">✓</span>
                         </div>
                         <div class="col-md-6 position-relative">
-                            <label for="inp-telefono" class="form-label fw-medium">Teléfono</label>
-                            <input type="text" class="form-control" id="inp-telefono" placeholder="+54 9 11 ...">
+                            <label for="inp-telefono" class="form-label fw-medium">Teléfono <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="inp-telefono" placeholder="+54 9 11 ..." required>
                             <span class="mensaje-error" id="err-telefono" role="alert"></span>
                             <span class="mensaje-exito position-absolute top-50 end-0 translate-middle-y me-3 d-none">✓</span>
                         </div>
@@ -184,24 +191,21 @@
         </section>
 
         <!-- Sección B: Listado -->
-        <section id="seccionListado" class="seccion-principal p-4 p-md-5 rounded-4 bg-white shadow-sm border">
+        <section id="seccionListado" class="seccion-principal p-4 p-md-5 rounded-4 shadow-sm border">
             <header class="mb-4">
                 <h2 class="h3 fw-bold color-primario mb-1">Personas Registradas</h2>
                 <p class="text-muted m-0">Datos persistidos en localStorage — se conservan al recargar la página</p>
             </header>
             <!-- Toolbar -->
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4 p-2 rounded-3">
-                <div class="flex-grow-1" style="max-width: 420px;">
-                    <input type="search" id="busquedaPersona" class="form-control" placeholder="Buscar por nombre, apellido o documento..." disabled>
-                </div>
                 <div id="contenedorVaciar">
                     <button type="button" id="btnVaciarTodo" class="btn btn-outline-danger btn-sm px-3 fw-medium" disabled>Vaciar todo</button>
                 </div>
             </div>
 
             <!-- Estado Vacío -->
-            <div id="estadoVacio" class="text-center py-5 my-4 bg-white bg-opacity-5 rounded-4 border border-dashed">
-                <h4 class="fw-bold text-white">No hay personas registradas aún</h4>
+            <div id="estadoVacio" class="text-center py-5 my-4 rounded-4 border border-dashed">
+                <h4 class="fw-bold">No hay personas registradas aún</h4>
                 <p class="text-muted m-0">Completá el formulario para agregar la primera.</p>
             </div>
 

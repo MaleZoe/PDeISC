@@ -1,14 +1,34 @@
-# Explicación - consigna4-atributos 
+# Consigna 4 ï¿½ Gestor de Atributos
 
-Este proyecto cumple con la consigna pedida usando Node.js, Express y manipulación real del DOM. 
+Proyecto Express que crea nodos HTML dinï¿½micamente y modifica sus atributos mostrando cada cambio en pantalla.
 
-## Estructura 
-- pages/index.html: UI responsive con Bootstrap.
-- scripts/main.js: Lógica de eventos y DOM.
-- Context/theme.js: Manejo de modo oscuro/claro.
-- server.js: Servidor Express con ESM.
+## Requisitos cumplidos
 
-## Cómo correrlo 
-1. npm install
-2. node server.js
+1. **Botï¿½n "Crear nodos"** ï¿½ genera 5 elementos distintos: `<a>`, `<img>`, `<button>`, `<input>`, `<div>`
+2. **Botï¿½n "Modificar atributos"** ï¿½ cambia un atributo de cada nodo (ej.: `href` de Google a Bing)
+3. **Panel de cambios** ï¿½ muestra dinï¿½micamente el atributo modificado y el valor anterior ? nuevo
+4. **Feedback en cada nodo** ï¿½ debajo de cada elemento aparece el cambio aplicado
 
+## Atributos que se modifican
+
+| Nodo | Atributo | Ejemplo de cambio |
+|------|----------|-------------------|
+| `<a>` | `href` | `https://www.google.com` ? `https://www.bing.com` |
+| `<img>` | `src` | foto id/237 ? id/1025 |
+| `<button>` | `disabled` | `false` ? `true` |
+| `<input>` | `value` | `(vacï¿½o)` ? `Valor modificado` |
+| `<div>` | `id` | `mi-div-original` ? `mi-div-modificado` |
+
+## Cï¿½mo correrlo
+
+```bash
+npm install
+node server.js
+# http://localhost:3004
+```
+
+## Uso
+
+1. Click en **Crear nodos**
+2. Click en **Modificar atributos**
+3. Revisar el panel "Cambios realizados" y el texto bajo cada nodo

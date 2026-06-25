@@ -9,6 +9,9 @@ export const App = (() => {
 
     // Configuración inicial al cargar la página
     function inicializar() {
+        // Inicializar tema
+        inicializarTema();
+        
         const formulario = document.getElementById('formularioUsuario');
         formulario.addEventListener('submit', manejarSubmit);
         
@@ -25,6 +28,37 @@ export const App = (() => {
 
         seleccionarMetodo('formdata');
         renderizarListado();
+    }
+
+    function inicializarTema() {
+        const temaGuardado = localStorage.getItem('tema');
+        const body = document.body;
+        const themeIcon = document.getElementById('themeIcon');
+        
+        if (temaGuardado === 'oscuro' || (!temaGuardado && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            body.classList.add('dark-mode');
+            themeIcon.textContent = '☀️';
+        } else {
+            themeIcon.textContent = '🌙';
+        }
+        
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', toggleTema);
+    }
+    
+    function toggleTema() {
+        const body = document.body;
+        const themeIcon = document.getElementById('themeIcon');
+        
+        body.classList.toggle('dark-mode');
+        
+        if (body.classList.contains('dark-mode')) {
+            themeIcon.textContent = '☀️';
+            localStorage.setItem('tema', 'oscuro');
+        } else {
+            themeIcon.textContent = '🌙';
+            localStorage.setItem('tema', 'claro');
+        }
     }
 
     // Procesa el formulario cuando se intenta guardar

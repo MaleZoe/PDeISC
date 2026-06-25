@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ejercicio 2 - POST con formulario usando fetch y axios a la API local">
+    <title>Ejercicio 2 — POST con Formulario</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/global.css">
+</head>
+<body>
+
+    <!-- header -->
+    <header class="site-header">
+        <a href="http://localhost:3002" class="header-brand">
+            <span>JS4</span>
+        </a>
+        <div class="header-actions">
+            <button class="btn-theme" id="btn-tema">Oscuro</button>
+        </div>
+    </header>
+
+    <!-- hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Ejercicio 2</div>
+            <h1>POST con Formulario</h1>
+            <p>Envia datos con un formulario HTML seleccionando el metodo a utilizar</p>
+        </div>
+    </section>
+
+    <!-- contenido principal -->
+    <section class="section">
+        <div class="exercise-grid">
+            
+            <div class="exercise-card" style="margin-top: 0;">
+                <h2 class="section-title">
+                    <span class="badge-num">2</span>
+                    Agregar nuevo usuario
+                </h2>
+                <p class="section-subtitle">Elegi el metodo y completa los datos</p>
+
+                <!-- Selector de método -->
+                <div class="method-selector">
+                    <label>
+                        <input type="radio" name="metodo_envio" value="fetch" checked>
+                        <div class="method-toggle-btn">Fetch API</div>
+                    </label>
+                    <label>
+                        <input type="radio" name="metodo_envio" value="axios">
+                        <div class="method-toggle-btn">Axios</div>
+                    </label>
+                </div>
+
+                <div class="form-row" style="grid-template-columns: 1fr; align-items: start;">
+                    
+                    <!-- Formulario Unico -->
+                    <div>
+                        <form id="form-unico" novalidate>
+                            <div class="form-group">
+                                <label class="form-label" for="campo-nombre">Nombre</label>
+                                <input
+                                    class="form-input"
+                                    type="text"
+                                    id="campo-nombre"
+                                    autocomplete="off"
+                                    required
+                                    minlength="3"
+                                    maxlength="60"
+                                >
+                                <span class="form-error" id="err-nombre">Solo letras, minimo 3 caracteres, maximo 2 letras consecutivas iguales</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="campo-email">Correo electronico</label>
+                                <input
+                                    class="form-input"
+                                    type="email"
+                                    id="campo-email"
+                                    autocomplete="off"
+                                    required
+                                >
+                                <span class="form-error" id="err-email">Ingresa un email valido (ejemplo@mail.com)</span>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" id="btn-submit" style="width: 100%; justify-content: center; padding: 0.8rem;">
+                                Enviar
+                            </button>
+                        </form>
+
+                        <!-- Respuesta -->
+                        <div class="response-id-box" id="resp-box">
+                            <div class="response-id-label">ID devuelto por <span id="lbl-metodo-usado"></span></div>
+                            <div class="response-id-value" id="id-valor">—</div>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">
+                                Este es el ID asignado al nuevo usuario en la API
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Consola de Log -->
+            <div class="console-sidebar" style="position: sticky; top: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <h3 style="font-size: 0.9rem; margin: 0; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Consola de red (POST)</h3>
+                    <button class="btn-clear-console" onclick="document.getElementById('consola-ej2').innerHTML=''">Limpiar</button>
+                </div>
+                <div class="console-box" id="consola-ej2" style="height: calc(100vh - 120px); max-height: 600px; margin-top: 0;"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <button class="btn-scroll-top" id="btn-scroll-top" title="Ir arriba">^</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script type="module">
+        import { iniciarTema, toggleTema } from '../Context/tema.js';
+        import { iniciarScrollTop, iniciarHamburguesa, mostrarToast, logConsole, limpiarConsole } from '../modules/utils.js';
+
+        iniciarTema();
+        iniciarScrollTop();
+        iniciarHamburguesa();
+        document.getElementById('btn-tema').addEventListener('click', toggleTema);
+
+        const API_URL = '/api/usuarios';
+
+        // valido que el nombre tenga solo letras, al menos 3 caracteres y no más de 2 letras consecutivas repetidas
+        function nombreValido(nombre) {
+            const soloLetras = /^[a-záéíóúüñA-ZÁÉÍÓÚÜÑ\s'-]+$/.test(nombre);
+            const longitudMinima = nombre.trim().length >= 3;
+            
+            // Verifica que no haya 3 o más caracteres iguales consecutivos
+            let noRepeticiones = true;
+            for (let i = 0; i < nombre.length - 2; i++) {
+                if (nombre[i] === nombre[i+1] && nombre[i] === nombre[i+2]) {
+                    noRepeticiones = false;
+                    break;
+                }
+            }
+            
+            return soloLetras && longitudMinima && noRepeticiones;
+        }
+
+        // valido el formato del email
+        function emailValido(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        // marco error o éxito en un campo del formulario
+        function marcarCampo(inputId, errorId, esError) {
+            const input = document.getElementById(inputId);
+            const error = document.getElementById(errorId);
+            input.classList.toggle('error', esError);
+            input.classList.toggle('success', !esError);
+            error.classList.toggle('visible', esError);
+        }
+
+        // valido el formulario completo
+        function validarFormulario() {
+            const nombre = document.getElementById('campo-nombre').value;
+            const email = document.getElementById('campo-email').value;
+
+            const nombreOk = nombreValido(nombre);
+            const emailOk = emailValido(email);
+
+            marcarCampo('campo-nombre', 'err-nombre', !nombreOk);
+            marcarCampo('campo-email', 'err-email', !emailOk);
+
+            return nombreOk && emailOk;
+        }
+
+        // validaciones en tiempo real
+        document.getElementById('campo-nombre').addEventListener('input', function() {
+            marcarCampo('campo-nombre', 'err-nombre', !nombreValido(this.value));
+        });
+
+        document.getElementById('campo-email').addEventListener('input', function() {
+            marcarCampo('campo-email', 'err-email', !emailValido(this.value));
+        });
+
+        // limpio el formulario
+        function limpiarFormulario() {
+            document.getElementById('form-unico').reset();
+            ['campo-nombre', 'campo-email'].forEach(id => {
+                document.getElementById(id).classList.remove('success', 'error');
+            });
+            ['err-nombre', 'err-email'].forEach(id => {
+                document.getElementById(id).classList.remove('visible');
+            });
+        }
+
+        // envío de datos
+        document.getElementById('form-unico').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!validarFormulario()) return;
+
+            const btn = document.getElementById('btn-submit');
+            const metodo = document.querySelector('input[name="metodo_envio"]:checked').value;
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Enviando...';
+
+            const datos = {
+                nombre: document.getElementById('campo-nombre').value.trim(),
+                email: document.getElementById('campo-email').value.trim()
+            };
+
+            limpiarConsole('consola-ej2');
+            logConsole('consola-ej2', `Preparando POST con ${metodo.toUpperCase()}`, 'info');
+            logConsole('consola-ej2', `Endpoint: ${API_URL}`, 'info');
+            logConsole('consola-ej2', `Payload: ${JSON.stringify(datos)}`, 'info');
+
+            try {
+                let idDevuelto = null;
+
+                if (metodo === 'fetch') {
+                    logConsole('consola-ej2', 'Enviando headers y body (JSON.stringify)...', 'info');
+                    const respuesta = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(datos)
+                    });
+                    
+                    logConsole('consola-ej2', `Respuesta recibida: ${respuesta.status}`, 'success');
+                    const resultado = await respuesta.json();
+                    
+                    if (!resultado.ok) throw new Error(resultado.error);
+                    idDevuelto = resultado.id;
+                } else {
+                    logConsole('consola-ej2', 'Axios se encarga de serializar a JSON...', 'info');
+                    const respuesta = await axios.post(API_URL, datos);
+                    
+                    logConsole('consola-ej2', `Respuesta recibida: ${respuesta.status}`, 'success');
+                    const resultado = respuesta.data;
+                    
+                    if (!resultado.ok) throw new Error(resultado.error);
+                    idDevuelto = resultado.id;
+                }
+
+                logConsole('consola-ej2', `¡Exito! La API devolvió ID: ${idDevuelto}`, 'success');
+                document.getElementById('id-valor').textContent = idDevuelto;
+                document.getElementById('lbl-metodo-usado').textContent = metodo.toUpperCase();
+                document.getElementById('resp-box').classList.add('visible');
+                
+                mostrarToast(`Enviado con ${metodo} correctamente`, 'success');
+                limpiarFormulario();
+
+            } catch (error) {
+                logConsole('consola-ej2', `Ocurrio un error: ${error.message}`, 'error');
+                mostrarToast(`Error al enviar: ${error.message}`, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Enviar';
+                logConsole('consola-ej2', 'Transaccion finalizada.', 'info');
+            }
+        });
+        // resetear al cambiar el metodo
+        document.querySelectorAll('input[name="metodo_envio"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                limpiarFormulario();
+                document.getElementById('resp-box').classList.remove('visible');
+                limpiarConsole('consola-ej2');
+                logConsole('consola-ej2', `Metodo cambiado a ${radio.value.toUpperCase()}. Listo para enviar.`, 'info');
+            });
+        });
+    </script>
+</body>
+</html>

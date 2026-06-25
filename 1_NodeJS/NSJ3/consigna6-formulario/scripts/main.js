@@ -74,12 +74,12 @@ const render = () => {
                         </div>
                     </div>
                 </td>
-                <td><span class="badge bg-light text-dark">${d.materia}</span></td>
+                <td><span class="badge bg-secondary-subtle">${d.materia}</span></td>
                 <td class="text-end pe-4">
-                    <button class="btn btn-sm btn-light border-0 text-warning btn-edit" data-id="${d.id}" title="Editar">
+                    <button class="btn btn-sm btn-outline-secondary border-0 text-warning btn-edit" data-id="${d.id}" title="Editar">
                         <i class="bi bi-pencil-square"></i>
                     </button>
-                    <button class="btn btn-sm btn-light border-0 text-danger btn-del" data-id="${d.id}" title="Borrar">
+                    <button class="btn btn-sm btn-outline-secondary border-0 text-danger btn-del" data-id="${d.id}" title="Borrar">
                         <i class="bi bi-trash3"></i>
                     </button>
                 </td>

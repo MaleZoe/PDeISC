@@ -30,9 +30,9 @@ window.Catalogo = (() => {
         col.className = 'col-12 col-md-6 col-lg-4 tarjeta-entrada';
 
         col.innerHTML = `
-            <div class="tarjeta-producto h-100 p-4 shadow-sm border border-white border-opacity-10 rounded-4">
+            <div class="tarjeta-producto h-100 p-4 shadow-sm rounded-4">
                 <div class="d-flex justify-content-between align-items-start mb-3">
-                    <span class="badge bg-dark bg-opacity-50 text-white border border-white border-opacity-10 rounded-pill px-3 py-2">
+                    <span class="badge badge-patente rounded-pill px-3 py-2">
                         ${v.stock.toUpperCase()}
                     </span>
                     <span class="badge ${v.condicion === 'Nuevo' ? 'bg-success' : 'bg-primary'} rounded-pill">
@@ -41,26 +41,26 @@ window.Catalogo = (() => {
                 </div>
                 
                 <h3 class="h4 fw-bold mb-1">${v.marca} ${v.nombre}</h3>
-                <div class="d-flex gap-2 mb-3 small text-white text-opacity-75">
+                <div class="d-flex gap-2 mb-3 small tarjeta-meta">
                     <span>Año: ${v.anio}</span>
                     <span>•</span>
                     <span>Color: ${v.color}</span>
                 </div>
 
-                <div class="p-3 mb-4 rounded-3" style="background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.05);">
+                <div class="tarjeta-datos-panel p-3 mb-4 rounded-3">
                     <div class="d-flex justify-content-between mb-2">
-                        <span class="small text-white-50">Combustible</span>
-                        <span class="fw-medium text-white">${v.categoria}</span>
+                        <span class="small text-muted">Combustible</span>
+                        <span class="fw-medium">${v.categoria}</span>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span class="small text-white-50">Kilometraje</span>
-                        <span class="fw-medium text-white">${v.precio.toLocaleString()} km</span>
+                        <span class="small text-muted">Kilometraje</span>
+                        <span class="fw-medium">${v.precio.toLocaleString()} km</span>
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top border-white border-opacity-10">
+                <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top tarjeta-separador">
                     <div>
-                        <span class="small text-white text-opacity-50 d-block">Precio</span>
+                        <span class="small text-muted d-block">Precio</span>
                         <span class="h4 fw-bold text-success m-0">U$S ${parseInt(v.imagen).toLocaleString()}</span>
                     </div>
                     <button class="btn btn-outline-danger btn-sm border-0 bg-danger bg-opacity-10" onclick="window.App.eliminar('${v.id}')">

@@ -84,3 +84,92 @@ header {
 .floating {
     animation: float 6s ease-in-out infinite;
 }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Responsive: móvil y tablet */
+@media (max-width: 767.98px) {
+    .container-fluid {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .sticky-top {
+        position: relative !important;
+        top: 0 !important;
+    }
+
+    .card:hover {
+        transform: none;
+    }
+
+    header .h4,
+    header h1 {
+        font-size: 1rem;
+    }
+
+    .btn {
+        padding: 10px 18px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .container-fluid {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+}
+
+/* Panel de cambios de atributos */
+.cambio-etiqueta {
+    color: var(--text-main);
+}
+
+.cambio-detalle {
+    color: var(--text-muted);
+}
+
+.cambio-antes {
+    color: #dc2626;
+}
+
+.cambio-despues {
+    color: #16a34a;
+}
+
+#cambios-panel code {
+    background-color: #e2e8f0;
+    color: #0f172a;
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+}
+
+.nodo-cambio {
+    color: var(--text-muted);
+}
+
+.nodo-cambio strong {
+    color: var(--text-main);
+}
+
+.nodo-link {
+    color: #4f46e5;
+}
+
+.nodo-link:hover {
+    color: #4338ca;
+}
+
+.card .btn-outline-primary:disabled {
+    color: #64748b;
+    border-color: #cbd5e1;
+    background-color: #f1f5f9;
+    opacity: 1;
+}

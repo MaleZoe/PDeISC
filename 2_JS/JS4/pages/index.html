@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="JS4 - Trabajo práctico sobre consumo de APIs con fetch y axios en JavaScript">
+    <title>JS4 — APIs con Fetch & Axios</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/global.css">
+</head>
+<body>
+
+    <!-- header -->
+    <header class="site-header">
+        <a href="/" class="header-brand">
+            <div class="logo-icon">🚀</div>
+            <span>JS4 — APIs</span>
+        </a>
+
+        <nav class="header-nav">
+            <a href="/ejercicio1" id="nav-ej1">Ejercicio 1</a>
+            <a href="/ejercicio2" id="nav-ej2">Ejercicio 2</a>
+            <a href="/ejercicio3" id="nav-ej3">Ejercicio 3</a>
+            <a href="/ejercicio4" id="nav-ej4">Ejercicio 4</a>
+        </nav>
+
+        <div class="header-actions">
+            <button class="btn-theme" id="btn-tema" title="Cambiar tema">🌙</button>
+            <button class="btn-hamburger" id="btn-hamburger" aria-label="Menú">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- menú móvil -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="/ejercicio1">Ejercicio 1 — GET con Fetch & Axios</a>
+        <a href="/ejercicio2">Ejercicio 2 — POST con Formulario</a>
+        <a href="/ejercicio3">Ejercicio 3 — Búsqueda en tiempo real</a>
+        <a href="/ejercicio4">Ejercicio 4 — API propia de alumnos</a>
+    </div>
+
+    <!-- hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">📡 Trabajo Práctico</div>
+            <h1>Consumo de APIs<br>con JS</h1>
+            <p>Fetch vs Axios — JSONPlaceholder — API propia con Node.js & Express</p>
+        </div>
+    </section>
+
+    <!-- cards de navegación a los ejercicios -->
+    <section class="section">
+        <div class="cards-grid">
+            <a href="/ejercicio1" class="nav-card" id="card-ej1">
+                <div class="nav-card-icon">🔍</div>
+                <div class="nav-card-num">Ejercicio 1</div>
+                <div class="nav-card-title">GET con Fetch & Axios</div>
+                <div class="nav-card-desc">Obtener y mostrar usuarios de una API pública usando los dos métodos</div>
+            </a>
+
+            <a href="/ejercicio2" class="nav-card" id="card-ej2">
+                <div class="nav-card-icon">📤</div>
+                <div class="nav-card-num">Ejercicio 2</div>
+                <div class="nav-card-title">POST con Formulario</div>
+                <div class="nav-card-desc">Enviar datos con un formulario HTML usando fetch POST y axios POST</div>
+            </a>
+
+            <a href="/ejercicio3" class="nav-card" id="card-ej3">
+                <div class="nav-card-icon">🔎</div>
+                <div class="nav-card-num">Ejercicio 3</div>
+                <div class="nav-card-title">Búsqueda en tiempo real</div>
+                <div class="nav-card-desc">Filtrar usuarios por nombre mientras escribís en un campo de texto</div>
+            </a>
+
+            <a href="/ejercicio4" class="nav-card" id="card-ej4">
+                <div class="nav-card-icon">🗄️</div>
+                <div class="nav-card-num">Ejercicio 4</div>
+                <div class="nav-card-title">API propia de alumnos</div>
+                <div class="nav-card-desc">CRUD completo con Node.js — agregar, editar y borrar alumnos</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- botón ir arriba -->
+    <button class="btn-scroll-top" id="btn-scroll-top" title="Ir arriba">↑</button>
+
+    <script type="module">
+        import { iniciarTema, toggleTema } from '../Context/tema.js';
+        import { iniciarScrollTop, iniciarHamburguesa } from '../modules/utils.js';
+
+        iniciarTema();
+        iniciarScrollTop();
+        iniciarHamburguesa();
+
+        document.getElementById('btn-tema').addEventListener('click', toggleTema);
+    </script>
+</body>
+</html>

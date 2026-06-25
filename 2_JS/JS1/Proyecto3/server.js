@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PUERTO = 3002;
+const PUERTO = 4002;
 
 app.use((req, res, next) => {
     const hora = new Date().toLocaleTimeString('es-AR', { hour12: false });
@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 
 app.on('error', (error) => {
     if (error.code === 'EADDRINUSE') {
-        console.error("❌ Error: El puerto 3000 ya está en uso. Cerrando el proceso...");
+        console.error("❌ Error: El puerto 4002 ya está en uso. Cerrando el proceso...");
         process.exit(1);
     }
 });
@@ -34,7 +34,7 @@ const servidor = app.listen(PUERTO, () => {
 
 servidor.on('error', (error) => {
     if (error.code === 'EADDRINUSE') {
-        console.error("❌ Error: El puerto 3000 ya está en uso. Cerrando el proceso...");
+        console.error("❌ Error: El puerto 4002 ya está en uso. Cerrando el proceso...");
         process.exit(1);
     }
 });

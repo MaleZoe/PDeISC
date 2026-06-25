@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consigna 4 - Link Architect</title>
+    <title>Consigna 4 - Gestor de Atributos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link id="theme-light" rel="stylesheet" href="/styles/light.css">
@@ -12,54 +12,32 @@
 <body>
     <header class="py-3 shadow-sm mb-4">
         <div class="container d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center gap-2">
-                <i class="bi bi-link-45deg text-success fs-3"></i>
-                <h1 class="h4 mb-0 fw-bold">Gestor de Atributos</h1>
-            </div>
-            <button id="theme-toggle" class="btn btn-sm btn-outline-secondary rounded-pill">
+            <h1 class="h4 mb-0 fw-bold">Gestor de Atributos</h1>
+            <button id="theme-toggle" class="btn btn-sm btn-outline-secondary rounded-pill" aria-label="Cambiar tema">
                 <i class="bi bi-moon-stars"></i>
             </button>
         </div>
     </header>
 
     <main class="container py-4">
-        <div class="row g-4 justify-content-center">
-            <div class="col-lg-5">
-                <div class="card border-0 shadow-sm p-4 h-100">
-                    <h5 class="fw-bold mb-3">Constructor de Nodos</h5>
-                    <p class="text-muted small mb-4">Generá elementos dinámicos y manipulá sus propiedades en tiempo real.</p>
-                    
-                    <div class="d-grid gap-2">
-                        <button id="btn-crear" class="btn btn-success py-3 fw-bold shadow-sm">
-                            <i class="bi bi-plus-square me-2"></i>Construir 5 Nodos Diferentes
-                        </button>
-                        <button id="btn-modificar" class="btn btn-warning py-3 fw-bold shadow-sm text-white" style="display: none;">
-                            <i class="bi bi-pencil-fill me-2"></i>Mutar Atributos
-                        </button>
-                    </div>
+        <div class="d-flex flex-wrap gap-2 mb-4">
+            <button id="btn-crear" class="btn btn-primary">Crear nodos</button>
+            <button id="btn-modificar" class="btn btn-secondary" disabled>Modificar atributos</button>
+        </div>
 
-                    <div id="nodos-container" class="mt-4 d-flex flex-column gap-3">
-                        <!-- nodes appear here -->
-                    </div>
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <h2 class="h6 fw-bold mb-3">Nodos generados</h2>
+                <div id="nodos-container" class="d-flex flex-column gap-3">
+                    <p id="nodos-vacio" class="text-muted small mb-0">Presioná "Crear nodos" para generar los 5 elementos.</p>
                 </div>
             </div>
 
-            <div class="col-lg-7">
-                <div class="card border-0 shadow-sm bg-dark text-white p-4 h-100 font-monospace" style="min-height: 300px;">
-                    <div class="d-flex justify-content-between align-items-center mb-3 border-bottom border-secondary pb-2">
-                        <span class="text-secondary small uppercase tracking-wider">Console Output</span>
-                        <div class="d-flex gap-1">
-                            <div class="rounded-circle bg-danger" style="width: 12px; height: 12px;"></div>
-                            <div class="rounded-circle bg-warning" style="width: 12px; height: 12px;"></div>
-                            <div class="rounded-circle bg-success" style="width: 12px; height: 12px;"></div>
-                        </div>
-                    </div>
-                    <div id="log" style="display: none;">
-                        <ul id="log-lista" class="list-unstyled mb-0 small opacity-75"></ul>
-                    </div>
-                    <div id="console-placeholder" class="h-100 d-flex align-items-center justify-content-center opacity-25">
-                        <p>Esperando ejecución de comandos...</p>
-                    </div>
+            <div class="col-lg-6">
+                <h2 class="h6 fw-bold mb-3">Cambios realizados</h2>
+                <div id="cambios-panel" class="card border-0 shadow-sm p-3">
+                    <p id="cambios-vacio" class="text-muted small mb-0">Acá se mostrarán el atributo modificado y el cambio de cada nodo.</p>
+                    <ul id="cambios-lista" class="list-unstyled mb-0"></ul>
                 </div>
             </div>
         </div>

@@ -1,0 +1,16 @@
+{
+  "name": "js4-apis",
+  "version": "1.0.0",
+  "description": "Trabajo práctico JS4 - APIs",
+  "type": "module",
+  "scripts": {
+    "ej1": "node server1.js",
+    "ej2": "node server2.js",
+    "ej3": "node server3.js",
+    "ej4": "node server4.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "express": "^4.19.2"
+  }
+}

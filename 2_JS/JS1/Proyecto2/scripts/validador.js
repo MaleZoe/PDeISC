@@ -33,7 +33,7 @@ window.Validador = (() => {
             tipo: 'numero',
             min: 0,
             max: 250000,
-            mensajeError: 'El kilometraje excede el límite permitido (máx 2.5M).'
+            mensajeError: 'El kilometraje excede el límite permitido (máx 250.000km).'
         },
         'inp-categoria': { // Combustible
             requerido: true,
@@ -43,7 +43,8 @@ window.Validador = (() => {
             requerido: true,
             tipo: 'numero',
             min: 1,
-            mensajeError: 'Ingresá un precio válido.'
+            max: 200000,
+            mensajeError: 'El precio excede el límite permitido (máx 200.000 USD).'
         },
         'inp-descripcion': {
             requerido: false,

@@ -1,109 +1,150 @@
 import { initTheme, toggleTheme } from '../Context/theme.js';
 
-// inicio tema
 initTheme();
 document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
 
 const container = document.getElementById('nodos-container');
 const btnCrear = document.getElementById('btn-crear');
 const btnModificar = document.getElementById('btn-modificar');
-const log = document.getElementById('log');
-const logLista = document.getElementById('log-lista');
-const consolePlaceholder = document.getElementById('console-placeholder');
+const nodosVacio = document.getElementById('nodos-vacio');
+const cambiosVacio = document.getElementById('cambios-vacio');
+const cambiosLista = document.getElementById('cambios-lista');
 
-// creo los 5 nodos diferentes
+let nodosCreados = false;
+let atributosModificados = false;
+
+function crearNodoWrapper(etiqueta, nodo) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'card border-0 shadow-sm p-3 fade-in';
+    wrapper.dataset.tipo = etiqueta;
+
+    const label = document.createElement('span');
+    label.className = 'badge bg-secondary-subtle mb-2';
+    label.textContent = `<${etiqueta}>`;
+
+    const cambio = document.createElement('p');
+    cambio.className = 'nodo-cambio small mb-0 mt-2';
+    cambio.hidden = true;
+
+    wrapper.append(label, nodo, cambio);
+    return wrapper;
+}
+
+function registrarCambio(etiqueta, atributo, antes, despues) {
+    cambiosVacio.hidden = true;
+
+    const item = document.createElement('li');
+    item.className = 'cambio-item border-bottom pb-2 mb-2 fade-in';
+    item.innerHTML = `
+        <strong class="cambio-etiqueta">&lt;${etiqueta}&gt;</strong><br>
+        <span class="small cambio-detalle">Atributo: <code>${atributo}</code></span><br>
+        <span class="small cambio-detalle">Cambio: <span class="cambio-antes">${antes}</span> → <span class="cambio-despues">${despues}</span></span>
+    `;
+    cambiosLista.appendChild(item);
+}
+
+function mostrarCambioEnNodo(wrapper, atributo, antes, despues) {
+    const cambio = wrapper.querySelector('.nodo-cambio');
+    cambio.hidden = false;
+    cambio.innerHTML = `<strong>${atributo}:</strong> <span class="cambio-antes">${antes}</span> → <span class="cambio-despues">${despues}</span>`;
+}
+
 btnCrear.addEventListener('click', () => {
-    // 1. Anchor
+    if (nodosCreados) return;
+
+    nodosVacio.remove();
+    container.innerHTML = '';
+
     const a = document.createElement('a');
     a.href = 'https://www.google.com';
-    a.innerHTML = `<i class="bi bi-link-45deg me-2"></i>Link a Google`;
-    a.className = 'btn btn-outline-primary text-start fade-in w-100';
+    a.textContent = 'Link a Google';
+    a.className = 'd-block nodo-link';
     a.target = '_blank';
-    container.appendChild(a);
+    container.appendChild(crearNodoWrapper('a', a));
 
-    // 2. Image
     const img = document.createElement('img');
     img.src = 'https://picsum.photos/id/237/200/100';
-    img.alt = 'Perrito';
-    img.className = 'img-fluid rounded shadow-sm fade-in d-block mx-auto';
+    img.alt = 'Imagen de ejemplo';
+    img.className = 'img-fluid rounded';
     img.style.maxWidth = '200px';
-    container.appendChild(img);
+    container.appendChild(crearNodoWrapper('img', img));
 
-    // 3. Button
-    const btn = document.createElement('button');
-    btn.innerText = 'Botón Original';
-    btn.className = 'btn btn-info text-white fade-in w-100';
-    btn.type = 'button';
-    container.appendChild(btn);
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = 'Botón habilitado';
+    button.className = 'btn btn-outline-primary btn-sm';
+    container.appendChild(crearNodoWrapper('button', button));
 
-    // 4. Input
     const input = document.createElement('input');
     input.type = 'text';
-    input.placeholder = 'Escribí algo acá...';
-    input.className = 'form-control fade-in';
-    container.appendChild(input);
+    input.placeholder = 'Escribí algo...';
+    input.className = 'form-control form-control-sm';
+    container.appendChild(crearNodoWrapper('input', input));
 
-    // 5. Div
     const div = document.createElement('div');
-    div.innerText = 'Este es un DIV vacío';
-    div.className = 'p-3 border rounded bg-light-subtle text-center fade-in';
     div.id = 'mi-div-original';
-    container.appendChild(div);
+    div.textContent = 'Contenido del div';
+    div.className = 'p-2 border rounded';
+    container.appendChild(crearNodoWrapper('div', div));
 
-    btnCrear.style.display = 'none';
-    btnModificar.style.display = 'inline-block';
+    nodosCreados = true;
+    btnModificar.disabled = false;
 });
 
-// modifico atributos de forma específica
 btnModificar.addEventListener('click', () => {
-    const hijos = Array.from(container.children);
-    log.style.display = 'block';
-    consolePlaceholder.style.display = 'none';
-    
-    hijos.forEach((nodo, idx) => {
-        let msg = '';
-        const tag = nodo.tagName.toLowerCase();
+    if (!nodosCreados || atributosModificados) return;
 
-        switch(tag) {
-            case 'a':
-                const viejaUrl = nodo.href;
-                nodo.href = 'https://www.bing.com';
-                nodo.innerHTML = `<i class="bi bi-search me-2"></i>Ahora busca en Bing`;
-                nodo.classList.replace('btn-outline-primary', 'btn-outline-warning');
-                msg = `A: href <span class="text-warning">${viejaUrl}</span> -> <span class="text-info">${nodo.href}</span>`;
+    cambiosLista.innerHTML = '';
+    cambiosVacio.hidden = true;
+
+    container.querySelectorAll('[data-tipo]').forEach((wrapper) => {
+        const nodo = wrapper.children[1];
+        const tipo = wrapper.dataset.tipo;
+
+        switch (tipo) {
+            case 'a': {
+                const antes = nodo.getAttribute('href');
+                nodo.setAttribute('href', 'https://www.bing.com');
+                nodo.textContent = 'Link a Bing';
+                registrarCambio('a', 'href', antes, nodo.getAttribute('href'));
+                mostrarCambioEnNodo(wrapper, 'href', antes, nodo.getAttribute('href'));
                 break;
-            case 'img':
-                const viejoSrc = nodo.src;
-                nodo.src = 'https://picsum.photos/id/1025/200/100';
-                nodo.alt = 'Pug refactorizado';
-                msg = `IMG: src <span class="text-warning">.../id/237/...</span> -> <span class="text-info">.../id/1025/...</span>`;
+            }
+            case 'img': {
+                const antes = nodo.getAttribute('src');
+                nodo.setAttribute('src', 'https://picsum.photos/id/1025/200/100');
+                nodo.setAttribute('alt', 'Nueva imagen');
+                registrarCambio('img', 'src', antes, nodo.getAttribute('src'));
+                mostrarCambioEnNodo(wrapper, 'src', antes, nodo.getAttribute('src'));
                 break;
-            case 'button':
-                nodo.innerText = 'Botón Deshabilitado';
+            }
+            case 'button': {
+                const antes = nodo.disabled ? 'true' : 'false';
                 nodo.disabled = true;
-                nodo.classList.replace('btn-info', 'btn-danger');
-                msg = `BUTTON: status <span class="text-warning">enabled</span> -> <span class="text-danger">disabled</span>`;
+                nodo.textContent = 'Botón deshabilitado';
+                registrarCambio('button', 'disabled', antes, 'true');
+                mostrarCambioEnNodo(wrapper, 'disabled', antes, 'true');
                 break;
-            case 'input':
-                nodo.value = 'Valor Inyectado';
+            }
+            case 'input': {
+                const antes = nodo.value || '(vacío)';
+                nodo.value = 'Valor modificado';
                 nodo.readOnly = true;
-                nodo.className = 'form-control bg-secondary-subtle';
-                msg = `INPUT: value <span class="text-warning">empty</span> -> <span class="text-info">Valor Inyectado</span>`;
+                registrarCambio('input', 'value', antes, nodo.value);
+                mostrarCambioEnNodo(wrapper, 'value', antes, nodo.value);
                 break;
-            case 'div':
-                const viejoId = nodo.id;
-                nodo.id = 'mi-div-refactorizado';
-                nodo.innerText = 'DIV Mutado con éxito';
-                nodo.className = 'p-3 border border-success rounded bg-success-subtle text-success-emphasis text-center';
-                msg = `DIV: id <span class="text-warning">${viejoId}</span> -> <span class="text-info">${nodo.id}</span>`;
+            }
+            case 'div': {
+                const antes = nodo.getAttribute('id');
+                nodo.setAttribute('id', 'mi-div-modificado');
+                nodo.textContent = 'Div con id modificado';
+                registrarCambio('div', 'id', antes, nodo.getAttribute('id'));
+                mostrarCambioEnNodo(wrapper, 'id', antes, nodo.getAttribute('id'));
                 break;
+            }
         }
-
-        const li = document.createElement('li');
-        li.className = 'mb-2 border-bottom border-secondary pb-1';
-        li.innerHTML = `<span class="text-success">[MUTATION]</span> ${msg}`;
-        logLista.appendChild(li);
     });
-    
-    btnModificar.style.display = 'none';
+
+    atributosModificados = true;
+    btnModificar.disabled = true;
 });

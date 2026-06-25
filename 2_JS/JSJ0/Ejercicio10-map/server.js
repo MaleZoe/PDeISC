@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PUERTO = 3010;
+const PUERTO = 3110;
 
 // middleware para leer json en peticiones
 app.use(express.json());

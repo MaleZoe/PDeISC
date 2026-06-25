@@ -1,51 +1,35 @@
-/* estilos para el modo oscuro */
-body {
-  background-color: #212529;
-  color: #f8f9fa;
+/**
+ * styles/dark.css
+ * ─────────────────────────────────────────────────────────────────
+ * Tema oscuro del sitio NJS2.
+ *
+ * NOTA DE ESPECIFICIDAD:
+ *   Se usa `html[data-theme="dark"]` con especificidad (0,1,1)
+ *   para superar a `:root` (0,1,0) definido en estilos.css.
+ *
+ * El tema oscuro coincide con el diseño base de estilos.css.
+ * Este archivo existe para que el toggle pueda volver al modo oscuro
+ * correctamente reforzando las variables cuando corresponde.
+ * ─────────────────────────────────────────────────────────────────
+ */
+
+html[data-theme="dark"] {
+  --bg:       #0f1318;
+  --bg-soft:  #151b22;
+  --panel:    rgba(21, 27, 34, 0.88);
+  --panel-2:  rgba(17, 22, 29, 0.92);
+  --ink:      #eef4fb;
+  --muted:    #aab6c4;
+  --line:     rgba(255, 255, 255, 0.05);
+  --card:     rgba(18, 24, 31, 0.84);
+  --shadow:   0 26px 60px rgba(0, 0, 0, 0.3);
 }
 
-header, .nav-menu.active {
-  background-color: #343a40;
-}
-
-.nav-menu a {
-  color: #6ea8fe;
-}
-
-.nav-menu a:hover {
-  background-color: #495057;
-}
-
-.card {
-  background-color: #343a40;
-  border: 1px solid #495057;
-}
-
-.btn-primary {
-  background-color: #0d6efd;
-  color: white;
-}
-
-.btn-secondary {
-  background-color: #495057;
-  color: white;
-}
-
-#btn-subir {
-  background-color: #0d6efd;
-  color: white;
-}
-
-.hamburger {
-  color: #f8f9fa;
-}
-
-.form-control {
-  background-color: #495057;
-  color: white;
-  border-color: #6c757d;
-}
-
-footer {
-  background-color: #343a40;
+/* Fondo de la página en modo oscuro */
+html[data-theme="dark"] body {
+  background:
+    radial-gradient(circle at top left,  rgba(255, 138, 101, 0.12), transparent 24%),
+    radial-gradient(circle at top right, rgba(120, 166, 255, 0.12), transparent 22%),
+    linear-gradient(180deg, #0c1015 0%, var(--bg) 100%);
+  color: var(--ink);
 }

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ejercicio 1 - GET con Fetch y Axios desde la API local de usuarios">
+    <title>Ejercicio 1 — GET con Fetch y Axios</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/global.css">
+</head>
+<body>
+
+    <!-- header -->
+    <header class="site-header">
+        <a href="http://localhost:3001" class="header-brand">
+            <span>JS4</span>
+        </a>
+        <div class="header-actions">
+            <button class="btn-theme" id="btn-tema">Oscuro</button>
+        </div>
+    </header>
+
+    <!-- hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Ejercicio 1</div>
+            <h1>GET con Fetch y Axios</h1>
+            <p>Obtener los usuarios de la API local seleccionando el metodo de preferencia</p>
+        </div>
+    </section>
+
+    <!-- contenido principal -->
+    <section class="section">
+        <div class="exercise-grid">
+            
+            <div class="exercise-card" style="margin-top: 0;">
+                <h2 class="section-title">
+                    <span class="badge-num">1</span>
+                    Cargar lista de usuarios
+                </h2>
+                <p class="section-subtitle">Elegi la libreria y presiona el boton para disparar el request</p>
+
+                <!-- Selector de método -->
+                <div class="method-selector">
+                    <label>
+                        <input type="radio" name="metodo_carga" value="fetch" checked>
+                        <div class="method-toggle-btn">Fetch API</div>
+                    </label>
+                    <label>
+                        <input type="radio" name="metodo_carga" value="axios">
+                        <div class="method-toggle-btn">Axios</div>
+                    </label>
+                </div>
+
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <button class="btn btn-primary" id="btn-cargar">
+                        Cargar usuarios
+                    </button>
+                </div>
+
+                <div class="output-box" id="output-box" style="padding: 1.5rem; background: var(--bg-primary);">
+                    <div class="output-empty">Hace clic en el boton para obtener los usuarios</div>
+                </div>
+            </div>
+
+            <!-- Consola afuera -->
+            <div class="console-sidebar" style="position: sticky; top: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <h3 style="font-size: 0.9rem; margin: 0; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Consola de red</h3>
+                    <button class="btn-clear-console" onclick="document.getElementById('consola-ej1').innerHTML=''">Limpiar</button>
+                </div>
+                <div class="console-box" id="consola-ej1" style="height: calc(100vh - 120px); max-height: 600px; margin-top: 0;"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <button class="btn-scroll-top" id="btn-scroll-top" title="Ir arriba">^</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script type="module">
+        import { iniciarTema, toggleTema } from '../Context/tema.js';
+        import { iniciarScrollTop, getIniciales, mostrarToast, logConsole, limpiarConsole } from '../modules/utils.js';
+
+        iniciarTema();
+        iniciarScrollTop();
+        document.getElementById('btn-tema').addEventListener('click', toggleTema);
+
+        const API_URL = '/api/usuarios';
+
+        // renderizo los usuarios como tarjetas
+        function renderUsuarios(usuarios) {
+            const contenedor = document.getElementById('output-box');
+            contenedor.innerHTML = '';
+
+            if (!usuarios || usuarios.length === 0) {
+                contenedor.innerHTML = '<div class="output-empty">No hay usuarios para mostrar</div>';
+                return;
+            }
+
+            const grid = document.createElement('div');
+            grid.className = 'users-grid';
+
+            usuarios.forEach(usuario => {
+                const card = document.createElement('div');
+                card.className = 'user-card';
+                card.innerHTML = `
+                    <div class="user-avatar">${getIniciales(usuario.nombre)}</div>
+                    <div class="user-name">${usuario.nombre}</div>
+                    <div class="user-email">${usuario['correo electrónico']}</div>
+                `;
+                grid.appendChild(card);
+            });
+
+            contenedor.appendChild(grid);
+        }
+
+        // muestro un estado de carga
+        function mostrarCargando() {
+            document.getElementById('output-box').innerHTML = `
+                <div class="output-empty">
+                    <div class="spinner" style="border-color: rgba(99,102,241,0.3); border-top-color: var(--accent-1); margin: 0 auto 1rem;"></div>
+                    Cargando usuarios...
+                </div>
+            `;
+        }
+
+        // click en el botón de carga único
+        document.getElementById('btn-cargar').addEventListener('click', async () => {
+            const btn = document.getElementById('btn-cargar');
+            const metodo = document.querySelector('input[name="metodo_carga"]:checked').value;
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Cargando...';
+            mostrarCargando();
+            
+            limpiarConsole('consola-ej1');
+            logConsole('consola-ej1', `Iniciando request con ${metodo.toUpperCase()}...`, 'info');
+            logConsole('consola-ej1', `Endpoint: GET ${API_URL}`, 'info');
+
+            try {
+                let usuarios = [];
+
+                if (metodo === 'fetch') {
+                    const respuesta = await fetch(API_URL);
+                    logConsole('consola-ej1', `Response status: ${respuesta.status} ${respuesta.statusText}`, 'success');
+                    if (!respuesta.ok) throw new Error(`Error HTTP: ${respuesta.status}`);
+                    
+                    logConsole('consola-ej1', 'Parseando JSON (respuesta.json())...', 'info');
+                    usuarios = await respuesta.json();
+                } else {
+                    const respuesta = await axios.get(API_URL);
+                    logConsole('consola-ej1', `Response status: ${respuesta.status} ${respuesta.statusText}`, 'success');
+                    logConsole('consola-ej1', 'Axios parsea el JSON automaticamente (.data)', 'info');
+                    usuarios = respuesta.data;
+                }
+
+                logConsole('consola-ej1', `Se recibieron ${usuarios.length} usuarios. Renderizando UI.`, 'success');
+                renderUsuarios(usuarios);
+                mostrarToast(`Datos cargados usando ${metodo}`, 'success');
+
+            } catch (error) {
+                logConsole('consola-ej1', `Excepcion atrapada: ${error.message}`, 'error');
+                document.getElementById('output-box').innerHTML = `
+                    <div class="output-empty" style="color: var(--error);">
+                        Error al obtener los datos: ${error.message}
+                    </div>
+                `;
+                mostrarToast('Ocurrió un error', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Cargar usuarios';
+                logConsole('consola-ej1', 'Proceso terminado.', 'info');
+            }
+        });
+        // resetear al cambiar el metodo
+        document.querySelectorAll('input[name="metodo_carga"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                document.getElementById('output-box').innerHTML = '<div class="output-empty">Hace clic en el boton para obtener los usuarios</div>';
+                limpiarConsole('consola-ej1');
+                logConsole('consola-ej1', `Metodo cambiado a ${radio.value.toUpperCase()}. Listo para cargar.`, 'info');
+            });
+        });
+    </script>
+</body>
+</html>
