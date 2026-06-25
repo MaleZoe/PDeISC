@@ -39,8 +39,19 @@
 
             <div class="exercise-card" style="margin-top: 0; min-height: 500px; display: flex; flex-direction: column;">
                 
+                <div class="method-selector" style="margin: 0 auto 2rem; width: 100%; max-width: 500px;">
+                    <label>
+                        <input type="radio" name="metodo_busqueda" value="fetch" checked>
+                        <div class="method-toggle-btn">Fetch API</div>
+                    </label>
+                    <label>
+                        <input type="radio" name="metodo_busqueda" value="axios">
+                        <div class="method-toggle-btn">Axios</div>
+                    </label>
+                </div>
+
                 <!-- zona de carga (se oculta al cargar) -->
-                <div id="zona-carga" style="text-align: center; padding: 4rem 1rem; margin: auto;">
+                <div id="zona-carga" style="text-align: center; padding: 1rem 1rem 4rem; margin: auto;">
                     <div style="width: 64px; height: 64px; background: var(--bg-secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: var(--text-muted);">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                     </div>
@@ -48,19 +59,8 @@
                         Inicializar Búsqueda
                     </h2>
                     <p style="color: var(--text-secondary); margin-bottom: 2.5rem;">
-                        Elegí el método y cargá los datos iniciales en memoria.
+                        Cargá los datos iniciales en memoria con el método seleccionado.
                     </p>
-                    
-                    <div class="method-selector" style="margin: 0 auto 2rem;">
-                        <label>
-                            <input type="radio" name="metodo_busqueda" value="fetch" checked>
-                            <div class="method-toggle-btn">Fetch API</div>
-                        </label>
-                        <label>
-                            <input type="radio" name="metodo_busqueda" value="axios">
-                            <div class="method-toggle-btn">Axios</div>
-                        </label>
-                    </div>
 
                     <button class="btn btn-primary" id="btn-cargar" style="padding: 0.75rem 1.5rem;">
                         Cargar e Iniciar

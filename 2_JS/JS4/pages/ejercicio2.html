@@ -73,7 +73,7 @@
                                     minlength="3"
                                     maxlength="60"
                                 >
-                                <span class="form-error" id="err-nombre">Mínimo 3 caracteres, solo letras, sin repetir más de 2 veces consecutivas</span>
+                                <span class="form-error" id="err-nombre">Ingresá nombre y apellido (mínimo 2 palabras), solo letras.</span>
                             </div>
 
                             <div class="form-group">
@@ -136,10 +136,11 @@
 
         const API_URL = '/api/usuarios';
 
-        // valido que el nombre tenga solo letras, al menos 3 caracteres y no más de 2 letras consecutivas repetidas
+        // valido que el nombre tenga solo letras, al menos 2 palabras y no más de 2 letras consecutivas repetidas
         function nombreValido(nombre) {
             const soloLetras = /^[a-záéíóúüñA-ZÁÉÍÓÚÜÑ\s'-]+$/.test(nombre);
-            const longitudMinima = nombre.trim().length >= 3;
+            const palabras = nombre.trim().split(/\s+/);
+            const minimoDosPalabras = palabras.length >= 2 && palabras[0].length >= 2 && palabras[1].length >= 2;
             
             // Verifica que no haya 3 o más caracteres iguales consecutivos
             let noRepeticiones = true;
@@ -150,7 +151,7 @@
                 }
             }
             
-            return soloLetras && longitudMinima && noRepeticiones;
+            return soloLetras && minimoDosPalabras && noRepeticiones;
         }
 
         // valido el formato del email

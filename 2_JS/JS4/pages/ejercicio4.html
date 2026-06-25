@@ -59,7 +59,7 @@
                                 minlength="3"
                                 maxlength="60"
                             >
-                            <span class="form-error" id="err-nombre">Solo letras, mínimo 3 caracteres, máximo 2 letras consecutivas iguales.</span>
+                            <span class="form-error" id="err-nombre">Ingresá nombre y apellido (mínimo 2 palabras), solo letras.</span>
                         </div>
 
                         <div class="form-group">
@@ -196,7 +196,8 @@
         // valido el nombre
         function nombreValido(v) {
             const soloLetras = /^[a-záéíóúüñA-ZÁÉÍÓÚÜÑ\s'-]+$/.test(v);
-            const longitudMinima = v.trim().length >= 3;
+            const palabras = v.trim().split(/\s+/);
+            const minimoDosPalabras = palabras.length >= 2 && palabras[0].length >= 2 && palabras[1].length >= 2;
             
             let noRepeticiones = true;
             for (let i = 0; i < v.length - 2; i++) {
@@ -206,7 +207,7 @@
                 }
             }
             
-            return soloLetras && longitudMinima && noRepeticiones;
+            return soloLetras && minimoDosPalabras && noRepeticiones;
         }
 
         // valido el email
