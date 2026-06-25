@@ -13,11 +13,14 @@
 
     <!-- header -->
     <header class="site-header">
-        <a href="http://localhost:3001" class="header-brand">
+        <a href="/" class="header-brand">
+            <div class="logo-box">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+            </div>
             <span>JS4</span>
         </a>
         <div class="header-actions">
-            <button class="btn-theme" id="btn-tema">Oscuro</button>
+            <button class="btn-theme" id="btn-tema">Tema</button>
         </div>
     </header>
 
@@ -26,21 +29,21 @@
         <div class="hero-content">
             <div class="hero-badge">Ejercicio 4</div>
             <h1>API propia de alumnos</h1>
-            <p>CRUD completo con Node.js — agrega, edita y borra alumnos en <code style="background: rgba(255,255,255,0.2); padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.9em;">/api/alumnos</code></p>
+            <p>CRUD completo — agregá, editá y borrá alumnos de la base de datos local usando Node.js.</p>
         </div>
     </section>
 
     <!-- contenido -->
     <section class="section">
-        <div style="max-width: 1400px; margin: 0 auto;">
+        <div style="max-width: 1200px; margin: 0 auto; display: grid; gap: 2rem;">
 
             <!-- formulario para agregar o editar alumno -->
-            <div class="exercise-card" id="seccion-formulario">
+            <div class="exercise-card" id="seccion-formulario" style="margin-bottom: 0;">
                 <h2 class="section-title">
                     <span class="badge-num">+</span>
-                    Agregar nuevo alumno
+                    Gestionar Alumno
                 </h2>
-                <p class="section-subtitle" id="subtitulo-formulario">Completa todos los campos. Las validaciones son en tiempo real.</p>
+                <p class="section-subtitle" id="subtitulo-formulario">Completá todos los campos para registrar o actualizar un alumno.</p>
 
                 <form id="form-alumno" novalidate>
                     <div class="form-row">
@@ -51,38 +54,40 @@
                                 type="text"
                                 id="campo-nombre"
                                 autocomplete="off"
+                                placeholder="Ej. Ana García"
                                 required
                                 minlength="3"
                                 maxlength="60"
                             >
-                            <span class="form-error" id="err-nombre">Solo letras, minimo 3 caracteres, maximo 2 letras consecutivas iguales</span>
+                            <span class="form-error" id="err-nombre">Solo letras, mínimo 3 caracteres, máximo 2 letras consecutivas iguales.</span>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label" for="campo-email">Correo electronico</label>
+                            <label class="form-label" for="campo-email">Correo electrónico</label>
                             <input
                                 class="form-input"
                                 type="email"
                                 id="campo-email"
                                 autocomplete="off"
+                                placeholder="ana.garcia@mail.com"
                                 required
                             >
-                            <span class="form-error" id="err-email">Ingresa un email valido (ejemplo@mail.com)</span>
+                            <span class="form-error" id="err-email">Ingresá un email válido (ejemplo@mail.com).</span>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label" for="campo-carrera">Carrera</label>
-                            <select class="form-input" id="campo-carrera" required style="cursor: pointer;">
-                                <option value="" disabled selected>Selecciona una carrera</option>
+                            <select class="form-input" id="campo-carrera" required style="cursor: pointer; appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%239ca3af%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 1rem center; background-size: 1em;">
+                                <option value="" disabled selected>Seleccioná una carrera</option>
                                 <option value="Ingeniería en Sistemas">Ingeniería en Sistemas</option>
                                 <option value="Licenciatura en Computación">Licenciatura en Computación</option>
                                 <option value="Tecnicatura en Programación">Tecnicatura en Programación</option>
                                 <option value="Ingeniería Informática">Ingeniería Informática</option>
                                 <option value="Diseño Multimedia">Diseño Multimedia</option>
                             </select>
-                            <span class="form-error" id="err-carrera">Debes seleccionar una carrera de la lista</span>
+                            <span class="form-error" id="err-carrera">Debés seleccionar una carrera de la lista.</span>
                         </div>
 
                         <div class="form-group">
@@ -92,29 +97,31 @@
                                 type="text"
                                 id="campo-legajo"
                                 autocomplete="off"
+                                placeholder="Ej. S1001"
                                 required
                                 maxlength="5"
                             >
-                            <span class="form-error" id="err-legajo">Formato: 1 letra mayuscula + 4 numeros (ej: S1001)</span>
+                            <span class="form-error" id="err-legajo">Formato: 1 letra mayúscula + 4 números (ej: S1001).</span>
                         </div>
                     </div>
 
-                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
                         <button type="submit" class="btn btn-primary" id="btn-agregar">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                             Agregar alumno
                         </button>
                         <button type="button" class="btn btn-secondary" id="btn-cancelar-edicion" style="display: none;" onclick="cancelarEdicion()">
-                            Cancelar edicion
+                            Cancelar edición
                         </button>
                     </div>
                 </form>
             </div>
 
             <!-- tabla de alumnos registrados -->
-            <div class="exercise-card">
+            <div class="exercise-card" style="margin-bottom: 0;">
                 <h2 class="section-title">
-                    <span class="badge-num">R</span>
-                    Alumnos registrados
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.25rem;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Alumnos Registrados
                 </h2>
                 <p class="section-subtitle" id="subtitulo-tabla">Cargando...</p>
 
@@ -124,17 +131,18 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Nombre</th>
-                                <th>Correo electronico</th>
+                                <th>Correo electrónico</th>
                                 <th>Carrera</th>
                                 <th>Legajo</th>
                                 <th>Creado</th>
-                                <th>Acciones</th>
+                                <th style="text-align: right;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="tbody-alumnos">
                             <tr>
-                                <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem;">
-                                    Cargando alumnos...
+                                <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 3rem;">
+                                    <div class="spinner" style="margin-bottom: 1rem;"></div>
+                                    <div>Cargando alumnos...</div>
                                 </td>
                             </tr>
                         </tbody>
@@ -148,21 +156,28 @@
     <div class="modal-overlay" id="modal-borrar">
         <div class="modal">
             <div class="modal-header">
-                <span class="modal-title">Confirmar eliminacion</span>
-                <button class="modal-close" onclick="cerrarModal()" aria-label="Cerrar">X</button>
+                <span class="modal-title" style="display: flex; align-items: center; gap: 0.5rem; color: var(--error);">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    Confirmar eliminación
+                </span>
+                <button class="modal-close" onclick="cerrarModal()" aria-label="Cerrar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
             </div>
-            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
-                Estas seguro que queres eliminar a <strong id="nombre-a-borrar"></strong>?
-                Esta accion no se puede deshacer.
+            <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.95rem; line-height: 1.5;">
+                ¿Estás seguro que querés eliminar a <strong id="nombre-a-borrar" style="color: var(--text-primary);"></strong>?<br>
+                Esta acción no se puede deshacer.
             </p>
             <div style="display: flex; gap: 1rem; justify-content: flex-end;">
                 <button class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
-                <button class="btn btn-danger" id="btn-confirmar-borrar">Eliminar</button>
+                <button class="btn btn-danger" id="btn-confirmar-borrar">Sí, eliminar</button>
             </div>
         </div>
     </div>
 
-    <button class="btn-scroll-top" id="btn-scroll-top" title="Ir arriba">^</button>
+    <button class="btn-scroll-top" id="btn-scroll-top" aria-label="Ir arriba">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+    </button>
 
     <script type="module">
         import { iniciarTema, toggleTema } from '../Context/tema.js';
@@ -175,16 +190,14 @@
 
         const API = '/api/alumnos';
 
-        // guardo el id del alumno que estoy editando o que quiero borrar
         let idEnEdicion = null;
         let idABorrar = null;
 
-        // valido el nombre: solo letras, mínimo 3 caracteres y no más de 2 letras consecutivas repetidas
+        // valido el nombre
         function nombreValido(v) {
             const soloLetras = /^[a-záéíóúüñA-ZÁÉÍÓÚÜÑ\s'-]+$/.test(v);
             const longitudMinima = v.trim().length >= 3;
             
-            // Verifica que no haya 3 o más caracteres iguales consecutivos
             let noRepeticiones = true;
             for (let i = 0; i < v.length - 2; i++) {
                 if (v[i] === v[i+1] && v[i] === v[i+2]) {
@@ -201,12 +214,12 @@
             return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
         }
 
-        // valido la carrera: debe haber seleccionado una opción válida
+        // valido la carrera
         function carreraValida(v) {
             return v && v.trim().length > 0;
         }
 
-        // valido el legajo: letra mayúscula + 4 dígitos
+        // valido el legajo
         function legajoValido(v) {
             return /^[A-Z][0-9]{4}$/.test(v);
         }
@@ -235,26 +248,28 @@
             return nombreValido(nombre) && emailValido(email) && carreraValida(carrera) && legajoValido(legajo);
         }
 
-        // validaciones en tiempo real para cada campo
+        // validaciones en tiempo real
         document.getElementById('campo-nombre').addEventListener('input', function() {
-            marcarCampo('campo-nombre', 'err-nombre', !nombreValido(this.value));
+            if (this.value.trim().length > 0) marcarCampo('campo-nombre', 'err-nombre', !nombreValido(this.value));
+            else { this.classList.remove('error', 'success'); document.getElementById('err-nombre').classList.remove('visible'); }
         });
 
         document.getElementById('campo-email').addEventListener('input', function() {
-            marcarCampo('campo-email', 'err-email', !emailValido(this.value));
+            if (this.value.trim().length > 0) marcarCampo('campo-email', 'err-email', !emailValido(this.value));
+            else { this.classList.remove('error', 'success'); document.getElementById('err-email').classList.remove('visible'); }
         });
 
         document.getElementById('campo-carrera').addEventListener('change', function() {
             marcarCampo('campo-carrera', 'err-carrera', !carreraValida(this.value));
         });
 
-        // el legajo se fuerza a mayúsculas mientras el usuario escribe
         document.getElementById('campo-legajo').addEventListener('input', function() {
             this.value = this.value.toUpperCase();
-            marcarCampo('campo-legajo', 'err-legajo', !legajoValido(this.value));
+            if (this.value.trim().length > 0) marcarCampo('campo-legajo', 'err-legajo', !legajoValido(this.value));
+            else { this.classList.remove('error', 'success'); document.getElementById('err-legajo').classList.remove('visible'); }
         });
 
-        // renderizo la tabla con los alumnos recibidos
+        // renderizo la tabla
         function renderTabla(alumnos) {
             const tbody = document.getElementById('tbody-alumnos');
             const subtitulo = document.getElementById('subtitulo-tabla');
@@ -264,8 +279,13 @@
             if (alumnos.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem;">
-                            No hay alumnos registrados todavia
+                        <td colspan="7">
+                            <div class="empty-state">
+                                <div style="margin-bottom: 1rem; color: var(--border-hover);">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                </div>
+                                <div class="empty-state-text">No hay alumnos registrados todavía.</div>
+                            </div>
                         </td>
                     </tr>
                 `;
@@ -274,16 +294,20 @@
 
             tbody.innerHTML = alumnos.map(a => `
                 <tr id="fila-${a.id}">
-                    <td><span class="date-badge">#${a.id}</span></td>
+                    <td><span class="date-badge" style="background: transparent;">#${a.id}</span></td>
                     <td><strong>${a.nombre}</strong></td>
                     <td style="color: var(--text-muted);">${a.email}</td>
                     <td>${a.carrera}</td>
                     <td><span class="date-badge">${a.legajo}</span></td>
-                    <td><span class="date-badge">${a.creado}</span></td>
-                    <td>
-                        <div class="table-actions">
-                            <button class="btn btn-success" onclick="editarAlumno(${a.id})" id="btn-editar-${a.id}">Editar</button>
-                            <button class="btn btn-danger" onclick="confirmarBorrar(${a.id}, '${a.nombre}')" id="btn-borrar-${a.id}">Borrar</button>
+                    <td><span class="date-badge" style="background: transparent;">${a.creado}</span></td>
+                    <td style="text-align: right;">
+                        <div class="table-actions" style="justify-content: flex-end;">
+                            <button class="btn btn-secondary" onclick="editarAlumno(${a.id})" id="btn-editar-${a.id}" style="padding: 0.4rem 0.6rem; font-size: 0.75rem;" title="Editar">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                            </button>
+                            <button class="btn btn-danger" onclick="confirmarBorrar(${a.id}, '${a.nombre}')" id="btn-borrar-${a.id}" style="padding: 0.4rem 0.6rem; font-size: 0.75rem; background: transparent;" title="Eliminar">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                            </button>
                         </div>
                     </td>
                 </tr>
@@ -308,6 +332,7 @@
 
             const btn = document.getElementById('btn-agregar');
             btn.disabled = true;
+            const originalHtml = btn.innerHTML;
             btn.innerHTML = '<span class="spinner"></span> Guardando...';
 
             const datos = {
@@ -321,14 +346,12 @@
                 let resp, resultado;
 
                 if (idEnEdicion) {
-                    // edito el alumno con PUT
                     resp = await fetch(`${API}/${idEnEdicion}`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(datos)
                     });
                 } else {
-                    // creo uno nuevo con POST
                     resp = await fetch(API, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -343,19 +366,19 @@
                     return;
                 }
 
-                mostrarToast(idEnEdicion ? 'Alumno actualizado correctamente' : 'Alumno agregado correctamente', 'success');
+                mostrarToast(idEnEdicion ? 'Alumno actualizado correctamente' : 'Alumno registrado correctamente', 'success');
                 limpiarFormulario();
                 cargarAlumnos();
 
             } catch (error) {
-                mostrarToast('Error de conexion con el servidor', 'error');
+                mostrarToast('Error de conexión con el servidor', 'error');
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = idEnEdicion ? 'Guardar cambios' : 'Agregar alumno';
+                btn.innerHTML = originalHtml;
             }
         });
 
-        // cargo los datos del alumno a editar en el formulario
+        // cargo los datos del alumno a editar
         window.editarAlumno = async function(id) {
             try {
                 const resp = await fetch(API);
@@ -363,37 +386,36 @@
                 const alumno = datos.alumnos.find(a => a.id === id);
                 if (!alumno) return;
 
-                // lleno el formulario con los datos actuales del alumno
                 document.getElementById('campo-nombre').value = alumno.nombre;
                 document.getElementById('campo-email').value = alumno.email;
                 document.getElementById('campo-carrera').value = alumno.carrera;
                 document.getElementById('campo-legajo').value = alumno.legajo;
 
-                // pongo estado de éxito en todos los campos ya que tienen datos válidos
                 ['nombre', 'email', 'carrera', 'legajo'].forEach(campo => {
                     document.getElementById(`campo-${campo}`).classList.add('success');
                 });
 
                 idEnEdicion = id;
-                document.getElementById('btn-agregar').innerHTML = 'Guardar cambios';
+                document.getElementById('btn-agregar').innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Guardar cambios';
                 document.getElementById('btn-cancelar-edicion').style.display = 'inline-flex';
-                document.getElementById('seccion-formulario').scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('seccion-formulario').scrollIntoView({ behavior: 'smooth', block: 'start' });
 
             } catch (error) {
                 mostrarToast('No se pudo cargar el alumno', 'error');
             }
         };
 
-        // cancelo la edición y vuelvo al modo agregar
+        // cancelo la edición
         window.cancelarEdicion = function() {
             limpiarFormulario();
+            mostrarToast('Edición cancelada', 'info');
         };
 
-        // limpio el formulario y reseteo el estado
+        // limpio el formulario
         function limpiarFormulario() {
             document.getElementById('form-alumno').reset();
             idEnEdicion = null;
-            document.getElementById('btn-agregar').innerHTML = 'Agregar alumno';
+            document.getElementById('btn-agregar').innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Agregar alumno';
             document.getElementById('btn-cancelar-edicion').style.display = 'none';
 
             ['nombre', 'email', 'carrera', 'legajo'].forEach(campo => {
@@ -402,26 +424,24 @@
             });
         }
 
-        // muestro el modal de confirmación antes de borrar
+        // modal
         window.confirmarBorrar = function(id, nombre) {
             idABorrar = id;
             document.getElementById('nombre-a-borrar').textContent = nombre;
             document.getElementById('modal-borrar').classList.add('open');
         };
 
-        // cierro el modal sin borrar
         window.cerrarModal = function() {
             idABorrar = null;
             document.getElementById('modal-borrar').classList.remove('open');
         };
 
-        // confirmo el borrado y lo mando al servidor
         document.getElementById('btn-confirmar-borrar').addEventListener('click', async () => {
             if (!idABorrar) return;
 
             const btn = document.getElementById('btn-confirmar-borrar');
             btn.disabled = true;
-            btn.innerHTML = '<span class="spinner" style="border-color: rgba(255,255,255,0.3); border-top-color: white;"></span>';
+            btn.innerHTML = '<span class="spinner" style="border-width: 2px;"></span>';
 
             try {
                 const resp = await fetch(`${API}/${idABorrar}`, { method: 'DELETE' });
@@ -437,17 +457,16 @@
                 mostrarToast('Error al eliminar', 'error');
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = 'Eliminar';
+                btn.innerHTML = 'Sí, eliminar';
                 cerrarModal();
             }
         });
 
-        // cierro el modal si el usuario hace clic en el fondo oscuro
         document.getElementById('modal-borrar').addEventListener('click', (e) => {
             if (e.target === document.getElementById('modal-borrar')) cerrarModal();
         });
 
-        // cargo los alumnos al iniciar la página
+        // cargar inicial
         cargarAlumnos();
     </script>
 </body>

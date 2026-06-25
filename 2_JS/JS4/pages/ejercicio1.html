@@ -13,11 +13,14 @@
 
     <!-- header -->
     <header class="site-header">
-        <a href="http://localhost:3001" class="header-brand">
+        <a href="/" class="header-brand">
+            <div class="logo-box">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+            </div>
             <span>JS4</span>
         </a>
         <div class="header-actions">
-            <button class="btn-theme" id="btn-tema">Oscuro</button>
+            <button class="btn-theme" id="btn-tema">Tema</button>
         </div>
     </header>
 
@@ -26,7 +29,7 @@
         <div class="hero-content">
             <div class="hero-badge">Ejercicio 1</div>
             <h1>GET con Fetch y Axios</h1>
-            <p>Obtener los usuarios de la API local seleccionando el metodo de preferencia</p>
+            <p>Obtener los usuarios de la API local seleccionando el método de preferencia.</p>
         </div>
     </section>
 
@@ -39,7 +42,7 @@
                     <span class="badge-num">1</span>
                     Cargar lista de usuarios
                 </h2>
-                <p class="section-subtitle">Elegi la libreria y presiona el boton para disparar el request</p>
+                <p class="section-subtitle">Elegí la librería y presioná el botón para disparar el request.</p>
 
                 <!-- Selector de método -->
                 <div class="method-selector">
@@ -53,30 +56,33 @@
                     </label>
                 </div>
 
-                <div style="text-align: center; margin-bottom: 2rem;">
+                <div style="margin-bottom: 2rem;">
                     <button class="btn btn-primary" id="btn-cargar">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                         Cargar usuarios
                     </button>
                 </div>
 
-                <div class="output-box" id="output-box" style="padding: 1.5rem; background: var(--bg-primary);">
-                    <div class="output-empty">Hace clic en el boton para obtener los usuarios</div>
+                <div class="output-box" id="output-box">
+                    <div class="output-empty">Hacé clic en el botón para obtener los usuarios</div>
                 </div>
             </div>
 
             <!-- Consola afuera -->
-            <div class="console-sidebar" style="position: sticky; top: 2rem;">
+            <div class="console-sidebar">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                    <h3 style="font-size: 0.9rem; margin: 0; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Consola de red</h3>
+                    <h3 style="font-size: 0.75rem; font-weight: 600; margin: 0; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Consola de red</h3>
                     <button class="btn-clear-console" onclick="document.getElementById('consola-ej1').innerHTML=''">Limpiar</button>
                 </div>
-                <div class="console-box" id="consola-ej1" style="height: calc(100vh - 120px); max-height: 600px; margin-top: 0;"></div>
+                <div class="console-box" id="consola-ej1"></div>
             </div>
 
         </div>
     </section>
 
-    <button class="btn-scroll-top" id="btn-scroll-top" title="Ir arriba">^</button>
+    <button class="btn-scroll-top" id="btn-scroll-top" aria-label="Ir arriba">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+    </button>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
@@ -94,8 +100,16 @@
         function renderUsuarios(usuarios) {
             const contenedor = document.getElementById('output-box');
             contenedor.innerHTML = '';
+            
+            // Le quitamos el padding para que la grilla ocupe todo el ancho sin verse encerrada en la caja si hay resultados
+            contenedor.style.padding = '0';
+            contenedor.style.border = 'none';
+            contenedor.style.background = 'transparent';
 
             if (!usuarios || usuarios.length === 0) {
+                contenedor.style.padding = '2rem';
+                contenedor.style.border = '1px dashed var(--border)';
+                contenedor.style.background = 'var(--bg-secondary)';
                 contenedor.innerHTML = '<div class="output-empty">No hay usuarios para mostrar</div>';
                 return;
             }
@@ -119,10 +133,14 @@
 
         // muestro un estado de carga
         function mostrarCargando() {
-            document.getElementById('output-box').innerHTML = `
+            const contenedor = document.getElementById('output-box');
+            contenedor.style.padding = '2rem';
+            contenedor.style.border = '1px dashed var(--border)';
+            contenedor.style.background = 'var(--bg-secondary)';
+            contenedor.innerHTML = `
                 <div class="output-empty">
-                    <div class="spinner" style="border-color: rgba(99,102,241,0.3); border-top-color: var(--accent-1); margin: 0 auto 1rem;"></div>
-                    Cargando usuarios...
+                    <div class="spinner" style="margin: 0 auto 1rem; width: 20px; height: 20px;"></div>
+                    <div>Cargando usuarios...</div>
                 </div>
             `;
         }
@@ -163,7 +181,11 @@
 
             } catch (error) {
                 logConsole('consola-ej1', `Excepcion atrapada: ${error.message}`, 'error');
-                document.getElementById('output-box').innerHTML = `
+                const contenedor = document.getElementById('output-box');
+                contenedor.style.padding = '2rem';
+                contenedor.style.border = '1px dashed var(--error)';
+                contenedor.style.background = 'var(--error-bg)';
+                contenedor.innerHTML = `
                     <div class="output-empty" style="color: var(--error);">
                         Error al obtener los datos: ${error.message}
                     </div>
@@ -171,14 +193,19 @@
                 mostrarToast('Ocurrió un error', 'error');
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = 'Cargar usuarios';
+                btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Cargar usuarios';
                 logConsole('consola-ej1', 'Proceso terminado.', 'info');
             }
         });
+        
         // resetear al cambiar el metodo
         document.querySelectorAll('input[name="metodo_carga"]').forEach(radio => {
             radio.addEventListener('change', () => {
-                document.getElementById('output-box').innerHTML = '<div class="output-empty">Hace clic en el boton para obtener los usuarios</div>';
+                const contenedor = document.getElementById('output-box');
+                contenedor.style.padding = '2rem';
+                contenedor.style.border = '1px dashed var(--border)';
+                contenedor.style.background = 'var(--bg-secondary)';
+                contenedor.innerHTML = '<div class="output-empty">Hacé clic en el botón para obtener los usuarios</div>';
                 limpiarConsole('consola-ej1');
                 logConsole('consola-ej1', `Metodo cambiado a ${radio.value.toUpperCase()}. Listo para cargar.`, 'info');
             });

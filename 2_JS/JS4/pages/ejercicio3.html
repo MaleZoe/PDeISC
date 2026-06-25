@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Ejercicio 3 - Busqueda en tiempo real de usuarios de la API local">
-    <title>Ejercicio 3 — Busqueda en tiempo real</title>
+    <meta name="description" content="Ejercicio 3 - Búsqueda en tiempo real de usuarios de la API local">
+    <title>Ejercicio 3 — Búsqueda en tiempo real</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles/global.css">
@@ -13,11 +13,14 @@
 
     <!-- header -->
     <header class="site-header">
-        <a href="http://localhost:3003" class="header-brand">
+        <a href="/" class="header-brand">
+            <div class="logo-box">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+            </div>
             <span>JS4</span>
         </a>
         <div class="header-actions">
-            <button class="btn-theme" id="btn-tema">Oscuro</button>
+            <button class="btn-theme" id="btn-tema">Tema</button>
         </div>
     </header>
 
@@ -25,8 +28,8 @@
     <section class="hero">
         <div class="hero-content">
             <div class="hero-badge">Ejercicio 3</div>
-            <h1>Busqueda en tiempo real</h1>
-            <p>Carga los usuarios y filtra por nombre usando fetch o axios</p>
+            <h1>Búsqueda en tiempo real</h1>
+            <p>Cargá los usuarios iniciales y filtrá por nombre al instante.</p>
         </div>
     </section>
 
@@ -34,19 +37,21 @@
     <section class="section">
         <div class="exercise-grid">
 
-            <div class="exercise-card" style="margin-top: 0;">
+            <div class="exercise-card" style="margin-top: 0; min-height: 500px; display: flex; flex-direction: column;">
                 
                 <!-- zona de carga (se oculta al cargar) -->
-                <div id="zona-carga" style="text-align: center; padding: 2rem 0;">
-                    <h2 class="section-title" style="justify-content: center;">
-                        <span class="badge-num">3</span>
-                        Iniciador
+                <div id="zona-carga" style="text-align: center; padding: 4rem 1rem; margin: auto;">
+                    <div style="width: 64px; height: 64px; background: var(--bg-secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: var(--text-muted);">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </div>
+                    <h2 class="section-title" style="justify-content: center; font-size: 1.5rem;">
+                        Inicializar Búsqueda
                     </h2>
-                    <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">
-                        Elegi el metodo y cargá los datos iniciales para poder buscar
+                    <p style="color: var(--text-secondary); margin-bottom: 2.5rem;">
+                        Elegí el método y cargá los datos iniciales en memoria.
                     </p>
                     
-                    <div class="method-selector" style="max-width: 500px; margin: 0 auto 2rem;">
+                    <div class="method-selector" style="margin: 0 auto 2rem;">
                         <label>
                             <input type="radio" name="metodo_busqueda" value="fetch" checked>
                             <div class="method-toggle-btn">Fetch API</div>
@@ -57,35 +62,32 @@
                         </label>
                     </div>
 
-                    <button class="btn btn-primary" id="btn-cargar">
+                    <button class="btn btn-primary" id="btn-cargar" style="padding: 0.75rem 1.5rem;">
                         Cargar e Iniciar
                     </button>
                 </div>
 
                 <!-- zona de busqueda (oculta al inicio) -->
-                <div id="zona-busqueda" style="display: none;">
-                    <h2 class="section-title">
-                        <span class="badge-num">3</span>
-                        Buscador
-                    </h2>
+                <div id="zona-busqueda" style="display: none; height: 100%; display: none; flex-direction: column;">
                     
-                    <div class="search-bar">
-                        <label class="form-label" for="input-buscador">Escribi el nombre para filtrar</label>
+                    <div class="search-bar" style="margin-bottom: 2rem;">
+                        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                         <input
                             class="search-input"
                             type="text"
                             id="input-buscador"
                             autocomplete="off"
-                            placeholder="Ej. Leanne..."
+                            placeholder="Escribí un nombre para buscar... (ej. Leanne)"
+                            style="padding-left: 2.75rem; font-size: 1.05rem;"
                         >
                     </div>
                     
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                        <span class="results-count" id="lbl-count" style="margin-bottom: 0;">Mostrando 0 resultados</span>
-                        <span class="date-badge" id="lbl-metodo-activo">Usando FETCH</span>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);">
+                        <span class="results-count" id="lbl-count">Mostrando 0 resultados</span>
+                        <span class="date-badge" id="lbl-metodo-activo" style="background: var(--bg-secondary); border: 1px solid var(--border);">Usando FETCH</span>
                     </div>
 
-                    <div id="contenedor-lista" style="padding: 1.5rem; background: var(--bg-primary); border-radius: 12px; border: 1px solid var(--border);">
+                    <div id="contenedor-lista" style="flex: 1;">
                         <!-- Lista de tarjetas renderizadas -->
                     </div>
                 </div>
@@ -93,18 +95,20 @@
             </div>
 
             <!-- Consola de Log -->
-            <div class="console-sidebar" style="position: sticky; top: 2rem;">
+            <div class="console-sidebar">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                    <h3 style="font-size: 0.9rem; margin: 0; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Consola de red & Filtros</h3>
+                    <h3 style="font-size: 0.75rem; font-weight: 600; margin: 0; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Consola y Filtros</h3>
                     <button class="btn-clear-console" onclick="document.getElementById('consola-ej3').innerHTML=''">Limpiar</button>
                 </div>
-                <div class="console-box" id="consola-ej3" style="height: calc(100vh - 120px); max-height: 600px; margin-top: 0;"></div>
+                <div class="console-box" id="consola-ej3"></div>
             </div>
 
         </div>
     </section>
 
-    <button class="btn-scroll-top" id="btn-scroll-top" title="Ir arriba">^</button>
+    <button class="btn-scroll-top" id="btn-scroll-top" aria-label="Ir arriba">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+    </button>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
@@ -128,8 +132,11 @@
 
             if (usuarios.length === 0) {
                 contenedor.innerHTML = `
-                    <div class="empty-state" style="padding: 1rem;">
-                        <div class="empty-state-text">No se encontraron usuarios</div>
+                    <div class="empty-state">
+                        <div style="margin-bottom: 1rem; color: var(--border-hover);">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                        </div>
+                        <div class="empty-state-text">No se encontraron usuarios que coincidan con tu búsqueda.</div>
                     </div>
                 `;
                 return;
@@ -141,7 +148,6 @@
             usuarios.forEach(u => {
                 const card = document.createElement('div');
                 card.className = 'user-card';
-                card.style.background = 'var(--bg-card)';
                 card.innerHTML = `
                     <div class="user-avatar">${getIniciales(u.nombre)}</div>
                     <div class="user-name">${u.nombre}</div>
@@ -160,12 +166,12 @@
             const metodo = document.querySelector('input[name="metodo_busqueda"]:checked').value;
             
             btn.disabled = true;
-            btn.innerHTML = '<span class="spinner"></span> Cargando...';
+            btn.innerHTML = '<span class="spinner" style="border-width: 2px;"></span> Cargando...';
 
             try {
                 // muestro primero la consola y zona de busqueda para que el log se vea
                 document.getElementById('zona-carga').style.display = 'none';
-                document.getElementById('zona-busqueda').style.display = 'block';
+                document.getElementById('zona-busqueda').style.display = 'flex';
 
                 limpiarConsole('consola-ej3');
                 logConsole('consola-ej3', `Cargando datos iniciales con ${metodo.toUpperCase()}`, 'info');
@@ -187,8 +193,11 @@
                 renderLista(usuariosCargados);
                 
                 // configuro UI
-                document.getElementById('lbl-metodo-activo').textContent = `Datos de ${metodo.toUpperCase()}`;
+                document.getElementById('lbl-metodo-activo').textContent = `Datos cargados vía ${metodo.toUpperCase()}`;
                 mostrarToast('Datos listos para buscar', 'success');
+
+                // foco en el buscador
+                setTimeout(() => document.getElementById('input-buscador').focus(), 100);
 
             } catch (error) {
                 logConsole('consola-ej3', `Error: ${error.message}`, 'error');
@@ -218,9 +227,14 @@
             logConsole('consola-ej3', `Filtro "${busqueda}" => Encontró ${filtrados.length} coincidencia(s)`, 'info');
             renderLista(filtrados);
         });
+
         // resetear al cambiar el metodo
         document.querySelectorAll('input[name="metodo_busqueda"]').forEach(radio => {
             radio.addEventListener('change', () => {
+                const btn = document.getElementById('btn-cargar');
+                btn.disabled = false;
+                btn.innerHTML = 'Cargar e Iniciar';
+                
                 document.getElementById('zona-carga').style.display = 'block';
                 document.getElementById('zona-busqueda').style.display = 'none';
                 document.getElementById('input-buscador').value = '';

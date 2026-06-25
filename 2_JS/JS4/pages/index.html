@@ -14,7 +14,9 @@
     <!-- header -->
     <header class="site-header">
         <a href="/" class="header-brand">
-            <div class="logo-icon">🚀</div>
+            <div class="logo-box">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+            </div>
             <span>JS4 — APIs</span>
         </a>
 
@@ -26,7 +28,7 @@
         </nav>
 
         <div class="header-actions">
-            <button class="btn-theme" id="btn-tema" title="Cambiar tema">🌙</button>
+            <button class="btn-theme" id="btn-tema" title="Cambiar tema">Tema</button>
             <button class="btn-hamburger" id="btn-hamburger" aria-label="Menú">
                 <span></span><span></span><span></span>
             </button>
@@ -44,7 +46,10 @@
     <!-- hero -->
     <section class="hero">
         <div class="hero-content">
-            <div class="hero-badge">📡 Trabajo Práctico</div>
+            <div class="hero-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m12 16 4-4-4-4"/><path d="M8 12h8"/></svg>
+                Trabajo Práctico
+            </div>
             <h1>Consumo de APIs<br>con JS</h1>
             <p>Fetch vs Axios — JSONPlaceholder — API propia con Node.js & Express</p>
         </div>
@@ -54,37 +59,47 @@
     <section class="section">
         <div class="cards-grid">
             <a href="/ejercicio1" class="nav-card" id="card-ej1">
-                <div class="nav-card-icon">🔍</div>
+                <div class="nav-card-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                </div>
                 <div class="nav-card-num">Ejercicio 1</div>
                 <div class="nav-card-title">GET con Fetch & Axios</div>
-                <div class="nav-card-desc">Obtener y mostrar usuarios de una API pública usando los dos métodos</div>
+                <div class="nav-card-desc">Obtener y mostrar usuarios de una API pública usando los dos métodos.</div>
             </a>
 
             <a href="/ejercicio2" class="nav-card" id="card-ej2">
-                <div class="nav-card-icon">📤</div>
+                <div class="nav-card-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                </div>
                 <div class="nav-card-num">Ejercicio 2</div>
                 <div class="nav-card-title">POST con Formulario</div>
-                <div class="nav-card-desc">Enviar datos con un formulario HTML usando fetch POST y axios POST</div>
+                <div class="nav-card-desc">Enviar datos con un formulario HTML usando fetch POST y axios POST.</div>
             </a>
 
             <a href="/ejercicio3" class="nav-card" id="card-ej3">
-                <div class="nav-card-icon">🔎</div>
+                <div class="nav-card-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </div>
                 <div class="nav-card-num">Ejercicio 3</div>
                 <div class="nav-card-title">Búsqueda en tiempo real</div>
-                <div class="nav-card-desc">Filtrar usuarios por nombre mientras escribís en un campo de texto</div>
+                <div class="nav-card-desc">Filtrar usuarios por nombre mientras escribís en un campo de texto.</div>
             </a>
 
             <a href="/ejercicio4" class="nav-card" id="card-ej4">
-                <div class="nav-card-icon">🗄️</div>
+                <div class="nav-card-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                </div>
                 <div class="nav-card-num">Ejercicio 4</div>
                 <div class="nav-card-title">API propia de alumnos</div>
-                <div class="nav-card-desc">CRUD completo con Node.js — agregar, editar y borrar alumnos</div>
+                <div class="nav-card-desc">CRUD completo con Node.js — agregar, editar y borrar alumnos.</div>
             </a>
         </div>
     </section>
 
     <!-- botón ir arriba -->
-    <button class="btn-scroll-top" id="btn-scroll-top" title="Ir arriba">↑</button>
+    <button class="btn-scroll-top" id="btn-scroll-top" aria-label="Ir arriba">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+    </button>
 
     <script type="module">
         import { iniciarTema, toggleTema } from '../Context/tema.js';

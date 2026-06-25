@@ -13,11 +13,14 @@
 
     <!-- header -->
     <header class="site-header">
-        <a href="http://localhost:3002" class="header-brand">
+        <a href="/" class="header-brand">
+            <div class="logo-box">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+            </div>
             <span>JS4</span>
         </a>
         <div class="header-actions">
-            <button class="btn-theme" id="btn-tema">Oscuro</button>
+            <button class="btn-theme" id="btn-tema">Tema</button>
         </div>
     </header>
 
@@ -26,7 +29,7 @@
         <div class="hero-content">
             <div class="hero-badge">Ejercicio 2</div>
             <h1>POST con Formulario</h1>
-            <p>Envia datos con un formulario HTML seleccionando el metodo a utilizar</p>
+            <p>Enviá datos de forma segura seleccionando el método de tu preferencia.</p>
         </div>
     </section>
 
@@ -39,7 +42,7 @@
                     <span class="badge-num">2</span>
                     Agregar nuevo usuario
                 </h2>
-                <p class="section-subtitle">Elegi el metodo y completa los datos</p>
+                <p class="section-subtitle">Completá los datos para enviar un POST request.</p>
 
                 <!-- Selector de método -->
                 <div class="method-selector">
@@ -53,48 +56,51 @@
                     </label>
                 </div>
 
-                <div class="form-row" style="grid-template-columns: 1fr; align-items: start;">
+                <div class="form-row" style="grid-template-columns: 1fr; align-items: start; margin-bottom: 0;">
                     
                     <!-- Formulario Unico -->
                     <div>
                         <form id="form-unico" novalidate>
                             <div class="form-group">
-                                <label class="form-label" for="campo-nombre">Nombre</label>
+                                <label class="form-label" for="campo-nombre">Nombre completo</label>
                                 <input
                                     class="form-input"
                                     type="text"
                                     id="campo-nombre"
                                     autocomplete="off"
+                                    placeholder="Ej. Jane Doe"
                                     required
                                     minlength="3"
                                     maxlength="60"
                                 >
-                                <span class="form-error" id="err-nombre">Solo letras, minimo 3 caracteres, maximo 2 letras consecutivas iguales</span>
+                                <span class="form-error" id="err-nombre">Mínimo 3 caracteres, solo letras, sin repetir más de 2 veces consecutivas</span>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label" for="campo-email">Correo electronico</label>
+                                <label class="form-label" for="campo-email">Correo electrónico</label>
                                 <input
                                     class="form-input"
                                     type="email"
                                     id="campo-email"
                                     autocomplete="off"
+                                    placeholder="correo@ejemplo.com"
                                     required
                                 >
-                                <span class="form-error" id="err-email">Ingresa un email valido (ejemplo@mail.com)</span>
+                                <span class="form-error" id="err-email">Ingresá un email válido</span>
                             </div>
 
-                            <button type="submit" class="btn btn-primary" id="btn-submit" style="width: 100%; justify-content: center; padding: 0.8rem;">
-                                Enviar
+                            <button type="submit" class="btn btn-primary" id="btn-submit" style="width: 100%; justify-content: center; padding: 0.75rem; margin-top: 0.5rem;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                Enviar Datos
                             </button>
                         </form>
 
                         <!-- Respuesta -->
                         <div class="response-id-box" id="resp-box">
-                            <div class="response-id-label">ID devuelto por <span id="lbl-metodo-usado"></span></div>
+                            <div class="response-id-label">ID asignado por <span id="lbl-metodo-usado"></span></div>
                             <div class="response-id-value" id="id-valor">—</div>
                             <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">
-                                Este es el ID asignado al nuevo usuario en la API
+                                El usuario ha sido creado exitosamente en la API
                             </p>
                         </div>
                     </div>
@@ -102,18 +108,20 @@
             </div>
 
             <!-- Consola de Log -->
-            <div class="console-sidebar" style="position: sticky; top: 2rem;">
+            <div class="console-sidebar">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                    <h3 style="font-size: 0.9rem; margin: 0; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Consola de red (POST)</h3>
+                    <h3 style="font-size: 0.75rem; font-weight: 600; margin: 0; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Consola POST</h3>
                     <button class="btn-clear-console" onclick="document.getElementById('consola-ej2').innerHTML=''">Limpiar</button>
                 </div>
-                <div class="console-box" id="consola-ej2" style="height: calc(100vh - 120px); max-height: 600px; margin-top: 0;"></div>
+                <div class="console-box" id="consola-ej2"></div>
             </div>
 
         </div>
     </section>
 
-    <button class="btn-scroll-top" id="btn-scroll-top" title="Ir arriba">^</button>
+    <button class="btn-scroll-top" id="btn-scroll-top" aria-label="Ir arriba">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+    </button>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
@@ -175,11 +183,21 @@
 
         // validaciones en tiempo real
         document.getElementById('campo-nombre').addEventListener('input', function() {
-            marcarCampo('campo-nombre', 'err-nombre', !nombreValido(this.value));
+            if (this.value.trim().length > 0) {
+                marcarCampo('campo-nombre', 'err-nombre', !nombreValido(this.value));
+            } else {
+                this.classList.remove('error', 'success');
+                document.getElementById('err-nombre').classList.remove('visible');
+            }
         });
 
         document.getElementById('campo-email').addEventListener('input', function() {
-            marcarCampo('campo-email', 'err-email', !emailValido(this.value));
+            if (this.value.trim().length > 0) {
+                marcarCampo('campo-email', 'err-email', !emailValido(this.value));
+            } else {
+                this.classList.remove('error', 'success');
+                document.getElementById('err-email').classList.remove('visible');
+            }
         });
 
         // limpio el formulario
@@ -202,7 +220,7 @@
             const metodo = document.querySelector('input[name="metodo_envio"]:checked').value;
             
             btn.disabled = true;
-            btn.innerHTML = '<span class="spinner"></span> Enviando...';
+            btn.innerHTML = '<span class="spinner" style="border-width: 2px;"></span> Procesando...';
 
             const datos = {
                 nombre: document.getElementById('campo-nombre').value.trim(),
@@ -246,7 +264,7 @@
                 document.getElementById('lbl-metodo-usado').textContent = metodo.toUpperCase();
                 document.getElementById('resp-box').classList.add('visible');
                 
-                mostrarToast(`Enviado con ${metodo} correctamente`, 'success');
+                mostrarToast(`Enviado exitosamente usando ${metodo}`, 'success');
                 limpiarFormulario();
 
             } catch (error) {
@@ -254,10 +272,11 @@
                 mostrarToast(`Error al enviar: ${error.message}`, 'error');
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = 'Enviar';
+                btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Enviar Datos';
                 logConsole('consola-ej2', 'Transaccion finalizada.', 'info');
             }
         });
+        
         // resetear al cambiar el metodo
         document.querySelectorAll('input[name="metodo_envio"]').forEach(radio => {
             radio.addEventListener('change', () => {
