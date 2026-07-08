@@ -1,15 +1,22 @@
 
+// Importar la función para inicializar el tema claro/oscuro
 import { inicializarTema } from '../Context/theme.js';
 
+// Array global para almacenar números únicos
 let numeros = [5, 10, 15];
 
+// Inicializar la aplicación cuando el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', () => {
     inicializarTema();
     configurarValidaciones();
     configurarEventos();
 });
 
+/**
+ * Configura la validación en tiempo real de los campos
+ */
 function configurarValidaciones() {
+    // Punto 3: Números
     const inputNum = document.getElementById('p3-numero');
     inputNum.addEventListener('input', () => {
         const val = inputNum.value;
@@ -24,15 +31,28 @@ function configurarValidaciones() {
     });
 }
 
+/**
+ * Asigna eventos a los botones y entradas de texto de los 3 puntos del ejercicio
+ */
 function configurarEventos() {
+    // Punto 1: Verificar valor en array
     const btn1 = document.getElementById('p1-btn-includes');
-    btn1.addEventListener('click', verificarAdmin);
-    btn1.addEventListener('dblclick', verificarAdmin);
+    const p1ValorInput = document.getElementById('p1-valor');
+    btn1.addEventListener('click', verificarValor1);
+    p1ValorInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') verificarValor1();
+    });
 
+    // Punto 2: Verificar valor en array
     const btn2 = document.getElementById('p2-btn-includes');
-    btn2.addEventListener('click', verificarVerde);
-    btn2.addEventListener('mouseenter', verificarVerde);
+    const p2ValorInput = document.getElementById('p2-valor');
+    btn2.addEventListener('click', verificarValor2);
+    btn2.addEventListener('mouseenter', verificarValor2);
+    p2ValorInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') verificarValor2();
+    });
 
+    // Punto 3: Agregar número único
     const btn3 = document.getElementById('p3-btn-includes');
     const inputNum = document.getElementById('p3-numero');
     btn3.addEventListener('click', agregarNumeroUnico);
@@ -41,49 +61,84 @@ function configurarEventos() {
     });
 }
 
-async function verificarAdmin() {
+/**
+ * Verifica si un valor existe en el array del punto 1
+ */
+async function verificarValor1() {
+    const valorInput = document.getElementById('p1-valor');
+    const valor = valorInput.value.trim();
+
+    if (valor === '') {
+        document.getElementById('p1-valor-error').innerText = 'el valor no puede estar vacío';
+        valorInput.classList.add('input-error');
+        return;
+    }
+
     try {
-        const res = await fetch('/api/includes/admin', { method: 'POST' });
+        const res = await fetch('/api/includes/verificar1', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ valor })
+        });
         const data = await res.json();
         if (data.ok) {
-            document.getElementById('p1-resultado').innerText = data.resultado ? 'Sí, contiene admin' : 'No contiene admin';
-            document.getElementById('p1-btn-includes').classList.add('d-none');
+            document.getElementById('p1-resultado').innerText = data.resultado ? 'Sí, contiene el valor' : 'No contiene el valor';
         }
     } catch(e) {
         console.error(e);
     }
 }
 
-async function verificarVerde() {
+/**
+ * Verifica si un valor existe en el array del punto 2
+ */
+async function verificarValor2() {
+    const valorInput = document.getElementById('p2-valor');
+    const valor = valorInput.value.trim();
+
+    if (valor === '') {
+        document.getElementById('p2-valor-error').innerText = 'el valor no puede estar vacío';
+        valorInput.classList.add('input-error');
+        return;
+    }
+
     try {
-        const res = await fetch('/api/includes/verde', { method: 'POST' });
+        const res = await fetch('/api/includes/verificar2', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ valor })
+        });
         const data = await res.json();
         if (data.ok) {
-            document.getElementById('p2-resultado').innerText = data.resultado ? 'Sí, existe verde' : 'No existe verde';
-            document.getElementById('p2-btn-includes').classList.add('d-none');
+            document.getElementById('p2-resultado').innerText = data.resultado ? 'Sí, contiene el valor' : 'No contiene el valor';
         }
     } catch(e) {
         console.error(e);
     }
 }
 
+/**
+ * Agrega un número al array, pero solo si no existe previamente (evita duplicados)
+ * Endpoint: POST /api/includes/numero
+ */
 async function agregarNumeroUnico() {
     const input = document.getElementById('p3-numero');
     if (input.classList.contains('input-error') || input.value === '') return;
+    const arrayFijo = [5, 10, 15];
     try {
         const res = await fetch('/api/includes/numero', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ numero: input.value, numeros })
+            body: JSON.stringify({ numero: input.value, numeros: arrayFijo })
         });
         const data = await res.json();
-        if (data.ok) {
-            numeros = data.resultado;
-            input.value = '';
-            document.getElementById('p3-resultado').innerText = JSON.stringify(numeros);
+        const resDiv = document.getElementById('p3-resultado');
+        if (res.ok && data.ok) {
+            resDiv.innerText = `Único. Se agregaría: ${JSON.stringify(data.resultado)}`;
+            resDiv.className = 'fs-6 text-center p-2 bg-light rounded text-success';
         } else {
-            document.getElementById('p3-numero-error').innerText = data.error;
-            input.classList.add('input-error');
+            resDiv.innerText = `Duplicado: Ya existe en el array`;
+            resDiv.className = 'fs-6 text-center p-2 bg-light rounded text-danger';
         }
     } catch(e) {
         console.error(e);
@@ -91,16 +146,20 @@ async function agregarNumeroUnico() {
 }
         
 
+/**
+ * Restablece el estado de un punto del ejercicio
+ * @param {number} punto - Número del punto a reiniciar (1, 2 o 3)
+ */
 window.reiniciarPunto = function(punto) {
     if (punto === 1) {
         document.getElementById('p1-resultado').innerText = '-';
-        document.getElementById('p1-btn-includes').classList.remove('d-none');
+        document.getElementById('p1-valor').value = 'admin';
     } else if (punto === 2) {
         document.getElementById('p2-resultado').innerText = '-';
-        document.getElementById('p2-btn-includes').classList.remove('d-none');
+        document.getElementById('p2-valor').value = 'verde';
     } else if (punto === 3) {
-        numeros = [5, 10, 15];
-        document.getElementById('p3-resultado').innerText = JSON.stringify(numeros);
+        document.getElementById('p3-resultado').innerText = '-';
+        document.getElementById('p3-resultado').className = 'fs-6 text-center p-2 bg-light rounded text-success';
         const p3Input = document.getElementById('p3-numero');
         if (p3Input) {
             p3Input.value = '';
@@ -110,4 +169,3 @@ window.reiniciarPunto = function(punto) {
         if (p3Err) p3Err.innerText = '';
     }
 };
-

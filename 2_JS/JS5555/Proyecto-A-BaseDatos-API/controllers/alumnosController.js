@@ -1,0 +1,81 @@
+import pool from '../database/conexion.js';
+import { validarAlumno } from '../validaciones/validaciones.js';
+
+// Acá inserto un alumno nuevo en la tabla alumnos de MySQL
+export async function crearAlumno(req, res) {
+  try {
+    const { nombre, apellido, edad } = req.body;
+
+    const errores = validarAlumno({ nombre, apellido, edad });
+
+    if (Object.keys(errores).length > 0) {
+      return res.status(400).json({
+        success: false,
+        errores
+      });
+    }
+
+    const [resultado] = await pool.execute(
+      'INSERT INTO alumnos (nombre, apellido, edad) VALUES (?, ?, ?)',
+      [nombre.trim(), apellido.trim(), Number(edad)]
+    );
+
+    return res.status(201).json({
+      success: true,
+      id: resultado.insertId
+    });
+  } catch (error) {
+    console.error('Error al crear alumno:', error);
+    return res.status(500).json({
+      success: false,
+      mensaje: 'Error interno del servidor al registrar el alumno.'
+    });
+  }
+}
+
+// Acá obtengo todos los alumnos de la base de datos para devolverlos como JSON
+export async function listarAlumnos(req, res) {
+  try {
+    const [filas] = await pool.execute(
+      'SELECT id, nombre, apellido, edad FROM alumnos ORDER BY id ASC'
+    );
+
+    return res.status(200).json(filas);
+  } catch (error) {
+    console.error('Error al listar alumnos:', error);
+    return res.status(500).json({
+      success: false,
+      mensaje: 'Error interno del servidor al obtener los alumnos.'
+    });
+  }
+}
+
+// Acá elimino un alumno de la base de datos por su ID
+export async function eliminarAlumno(req, res) {
+  try {
+    const { id } = req.params;
+
+    const idNum = Number(id);
+    if (!Number.isInteger(idNum) || idNum <= 0) {
+      return res.status(400).json({ success: false, mensaje: 'ID inválido.' });
+    }
+
+    const [resultado] = await pool.execute(
+      'DELETE FROM alumnos WHERE id = ?',
+      [idNum]
+    );
+
+    if (resultado.affectedRows === 0) {
+      return res.status(404).json({ success: false, mensaje: 'Alumno no encontrado.' });
+    }
+
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    console.error('Error al eliminar alumno:', error);
+    return res.status(500).json({
+      success: false,
+      mensaje: 'Error interno del servidor al eliminar el alumno.'
+    });
+  }
+}
+

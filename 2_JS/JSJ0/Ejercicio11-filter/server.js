@@ -33,26 +33,38 @@ app.get('/', (req, res) => {
 
     // endpoint para filtrar mayores a 10
     app.post('/api/filter/mayores10', (req, res) => {
-        const numeros = [3, 11, 8, 20, 5, 14];
+        const { numerosStr } = req.body;
+        
+        if (!numerosStr || !Array.isArray(numerosStr) || numerosStr.length === 0) {
+            return res.status(400).json({ ok: false, error: 'el array de numeros es invalido' });
+        }
+        
+        const numeros = numerosStr.map(n => Number(n));
         const filtrados = numeros.filter(num => num > 10);
         res.json({ ok: true, resultado: filtrados });
     });
 
     // endpoint para filtrar palabras de mas de 5 letras
     app.post('/api/filter/palabras', (req, res) => {
-        const lista = ['termo', 'mate', 'carpincho', 'milanesa', 'sol', 'javascript'];
-        const filtrados = lista.filter(pal => pal.length > 5);
+        const { palabras } = req.body;
+        
+        if (!palabras || !Array.isArray(palabras) || palabras.length === 0) {
+            return res.status(400).json({ ok: false, error: 'el array de palabras es invalido' });
+        }
+        
+        const filtrados = palabras.filter(pal => pal.length > 5);
         res.json({ ok: true, resultado: filtrados });
     });
 
     // endpoint para filtrar usuarios activos
     app.post('/api/filter/activos', (req, res) => {
-        const usuarios = [
-            { nombre: 'Ana', activo: true },
-            { nombre: 'Mati', activo: false },
-            { nombre: 'Santi', activo: true }
-        ];
-        const filtrados = usuarios.filter(u => u.activo);
+        const { usuarios } = req.body;
+        
+        if (!usuarios || !Array.isArray(usuarios) || usuarios.length === 0) {
+            return res.status(400).json({ ok: false, error: 'el array de usuarios es invalido' });
+        }
+        
+        const filtrados = usuarios.filter(u => u.activo === true);
         res.json({ ok: true, resultado: filtrados });
     });
         

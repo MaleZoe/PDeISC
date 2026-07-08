@@ -152,3 +152,10 @@
     }
 }
 
+
+/* Estado vacío del catálogo */
+.panel-estado-vacio {
+    background-color: var(--color-panel-bg) !important;
+    border-color: var(--color-borde) !important;
+    color: var(--color-texto) !important;
+}

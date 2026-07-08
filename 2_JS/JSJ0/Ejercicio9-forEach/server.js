@@ -33,7 +33,12 @@ app.get('/', (req, res) => {
 
     // endpoint para saludar nombres con foreach
     app.post('/api/foreach/saludar', (req, res) => {
-        const nombres = ['Ana', 'Beto', 'Cecilia'];
+        const { nombres } = req.body;
+        
+        if (!nombres || !Array.isArray(nombres) || nombres.length === 0) {
+            return res.status(400).json({ ok: false, error: 'el array de nombres es invalido' });
+        }
+        
         const saludos = [];
         nombres.forEach(n => {
             saludos.push('¡Hola ' + n + ', cómo va la vida!');
@@ -43,7 +48,13 @@ app.get('/', (req, res) => {
 
     // endpoint para doblar numeros con foreach
     app.post('/api/foreach/dobles', (req, res) => {
-        const numeros = [2, 4, 8, 16];
+        const { numerosStr } = req.body;
+        
+        if (!numerosStr || !Array.isArray(numerosStr) || numerosStr.length === 0) {
+            return res.status(400).json({ ok: false, error: 'el array de numeros es invalido' });
+        }
+        
+        const numeros = numerosStr.map(n => Number(n));
         const dobles = [];
         numeros.forEach(num => {
             dobles.push(num * 2);
@@ -51,14 +62,16 @@ app.get('/', (req, res) => {
         res.json({ ok: true, resultado: dobles });
     });
 
-    // endpoint para personas y edades
-    app.post('/api/foreach/personas', (req, res) => {
-        const personas = [
-            { nombre: 'Gaby', edad: 20 },
-            { nombre: 'Lucas', edad: 35 }
-        ];
+    // endpoint para procesar personas {nombre, edad} con forEach
+    app.post('/api/foreach/procesar', (req, res) => {
+        const { personas } = req.body;
+        
+        if (!personas || !Array.isArray(personas) || personas.length === 0) {
+            return res.status(400).json({ ok: false, error: 'el array de personas es invalido' });
+        }
+        
         const listado = [];
-        personas.forEach(p => {
+        personas.forEach((p, i) => {
             listado.push(p.nombre + ' tiene ' + p.edad + ' años');
         });
         res.json({ ok: true, resultado: listado });

@@ -1,5 +1,4 @@
 
-
 window.Formulario = (() => {
 
     const contenedorHijos = document.getElementById('contenedorCantidadHijos');

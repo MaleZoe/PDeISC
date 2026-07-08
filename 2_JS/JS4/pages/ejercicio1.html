@@ -86,15 +86,234 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <script type="module">
-        import { iniciarTema, toggleTema } from '../Context/tema.js';
-        import { iniciarScrollTop, getIniciales, mostrarToast, logConsole, limpiarConsole } from '../modules/utils.js';
+    <script>
+        /* =============================================================
+           EJERCICIO 1 — GET con Fetch y Axios
+           Toda la lógica está contenida en este único bloque <script>.
+           No depende de módulos externos.
+        ============================================================= */
+
+        /* ---------- TEMA (oscuro / claro) ---------- */
+
+        // aplico el tema guardado en localStorage o el preferido por el sistema
+        function iniciarTema() {
+            const temaGuardado = localStorage.getItem('tema');
+            const prefierOscuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const tema = temaGuardado || (prefierOscuro ? 'dark' : 'light');
+            aplicarTema(tema);
+        }
+
+        // cambio entre tema oscuro y claro al hacer click en el botón
+        function toggleTema() {
+            const actual = document.documentElement.getAttribute('data-theme') || 'light';
+            const nuevo = actual === 'dark' ? 'light' : 'dark';
+            aplicarTema(nuevo);
+            localStorage.setItem('tema', nuevo);
+        }
+
+        // aplico el atributo data-theme al <html> y actualizo el icono del botón
+        function aplicarTema(tema) {
+            document.documentElement.setAttribute('data-theme', tema);
+            const btn = document.getElementById('btn-tema');
+            if (btn) {
+                const iconoSol  = `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 4V2C12 1.45 11.55 1 11 1C10.45 1 10 1.45 10 2V4C10 4.55 10.45 5 11 5C11.55 5 12 4.55 12 4ZM19 11H21C21.55 11 22 10.55 22 10C22 9.45 21.55 9 21 9H19C18.45 9 18 9.45 18 10C18 10.55 18.45 11 19 11ZM20.71 4.71C20.32 4.32 19.69 4.32 19.3 4.71L17.89 6.12C17.5 6.51 17.5 7.14 17.89 7.53C18.28 7.92 18.91 7.92 19.3 7.53L20.71 6.12C21.1 5.73 21.1 5.1 20.71 4.71ZM7.53 17.89C7.14 17.5 6.51 17.5 6.12 17.89L4.71 19.3C4.32 19.69 4.32 20.32 4.71 20.71C5.1 21.1 5.73 21.1 6.12 20.71L7.53 19.3C7.92 18.91 7.92 18.28 7.53 17.89ZM6.12 6.12L4.71 4.71C4.32 4.32 3.69 4.32 3.3 4.71C2.91 5.1 2.91 5.73 3.3 6.12L4.71 7.53C5.1 7.92 5.73 7.92 6.12 7.53C6.51 7.14 6.51 6.51 6.12 6.12ZM17.89 16.47L19.3 17.88C19.69 18.27 20.32 18.27 20.71 17.88C21.1 17.49 21.1 16.86 20.71 16.47L19.3 15.06C18.91 14.67 18.28 14.67 17.89 15.06C17.5 15.45 17.5 16.08 17.89 16.47ZM12 7C9.24 7 7 9.24 7 12C7 14.76 9.24 17 12 17C14.76 17 17 14.76 17 12C17 9.24 14.76 7 12 7ZM12 19V21C12 21.55 12.45 22 13 22C13.55 22 14 21.55 14 21V19C14 18.45 13.55 18 13 18C12.45 18 12 18.45 12 19ZM4 11H2C1.45 11 1 11.45 1 12C1 12.55 1.45 13 2 13H4C4.55 13 5 12.55 5 12C5 11.45 4.55 11 4 11Z"/></svg>`;
+                const iconoLuna = `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3C7.03 3 3 7.03 3 12C3 16.97 7.03 21 12 21C12.8 21 13.58 20.9 14.32 20.71C10.74 19.56 8 16.11 8 12C8 7.89 10.74 4.44 14.32 3.29C13.58 3.1 12.8 3 12 3Z"/></svg>`;
+                btn.innerHTML = tema === 'dark' ? iconoSol : iconoLuna;
+                btn.title = tema === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro';
+            }
+        }
+
+        /* ---------- SCROLL TOP ---------- */
+
+        // muestra el botón flotante "ir arriba" cuando se scrollea más de 300px
+        function iniciarScrollTop() {
+            const btn = document.getElementById('btn-scroll-top');
+            if (!btn) return;
+            window.addEventListener('scroll', () => {
+                btn.classList.toggle('visible', window.scrollY > 300);
+            });
+            btn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        /* ---------- TOAST (mensaje flotante) ---------- */
+
+        // muestra una notificación flotante de éxito, error o info
+        function mostrarToast(mensaje, tipo = 'success') {
+            let toast = document.getElementById('toast-ej1');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toast-ej1';
+                toast.className = 'toast';
+                document.body.appendChild(toast);
+            }
+            toast.className = `toast ${tipo}`;
+            toast.textContent = mensaje;
+            toast.classList.add('show');
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        /* ---------- CONSOLA SIMULADA ---------- */
+
+        // agrega una línea de log a la consola visual con hora y color según tipo
+        function logConsole(consoleId, mensaje, tipo = 'info') {
+            const cons = document.getElementById(consoleId);
+            if (!cons) return;
+            const time = new Date().toLocaleTimeString('es-AR', { hour12: false });
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            let cls = 'log-info';
+            if (tipo === 'success') cls = 'log-success';
+            if (tipo === 'error')   cls = 'log-error';
+            if (tipo === 'warning') cls = 'log-warning';
+            entry.innerHTML = `<span class="log-time">[${time}]</span> <span class="${cls}">${mensaje}</span>`;
+            cons.appendChild(entry);
+            // auto-scroll al final para ver siempre el último mensaje
+            cons.scrollTop = cons.scrollHeight;
+        }
+
+        // limpia todo el contenido de la consola visual
+        function limpiarConsole(consoleId) {
+            const cons = document.getElementById(consoleId);
+            if (cons) cons.innerHTML = '';
+        }
+
+        /* ---------- INICIALES DEL AVATAR ---------- */
+
+        // obtiene las 2 primeras iniciales del nombre para mostrar en el avatar
+        function getIniciales(nombre) {
+            return nombre.split(' ').slice(0, 2).map(p => p[0]).join('').toUpperCase();
+        }
+
+        /* ---------- INICIALIZACIÓN ---------- */
 
         iniciarTema();
         iniciarScrollTop();
         document.getElementById('btn-tema').addEventListener('click', toggleTema);
 
         const API_URL = '/api/usuarios';
+
+        /* ---------- RENDERIZADO ---------- */
+
+        // renderizo la lista de usuarios recibida como tarjetas en el output-box
+        function renderUsuarios(usuarios) {
+            const contenedor = document.getElementById('output-box');
+            contenedor.innerHTML = '';
+            contenedor.style.padding = '0';
+            contenedor.style.border = 'none';
+            contenedor.style.background = 'transparent';
+
+            if (!usuarios || usuarios.length === 0) {
+                contenedor.style.padding = '2rem';
+                contenedor.style.border = '1px dashed var(--border)';
+                contenedor.style.background = 'var(--bg-secondary)';
+                contenedor.innerHTML = '<div class="output-empty">No hay usuarios para mostrar</div>';
+                return;
+            }
+
+            const grid = document.createElement('div');
+            grid.className = 'users-grid';
+
+            usuarios.forEach(usuario => {
+                const card = document.createElement('div');
+                card.className = 'user-card';
+                card.innerHTML = `
+                    <div class="user-avatar">${getIniciales(usuario.nombre)}</div>
+                    <div class="user-name">${usuario.nombre}</div>
+                    <div class="user-email">${usuario['correo electrónico']}</div>
+                `;
+                grid.appendChild(card);
+            });
+
+            contenedor.appendChild(grid);
+        }
+
+        // muestro un estado de carga mientras espero la respuesta de la API
+        function mostrarCargando() {
+            const contenedor = document.getElementById('output-box');
+            contenedor.style.padding = '2rem';
+            contenedor.style.border = '1px dashed var(--border)';
+            contenedor.style.background = 'var(--bg-secondary)';
+            contenedor.innerHTML = `
+                <div class="output-empty">
+                    <div class="spinner" style="margin: 0 auto 1rem; width: 20px; height: 20px;"></div>
+                    <div>Cargando usuarios...</div>
+                </div>
+            `;
+        }
+
+        /* ---------- EVENTO: click en "Cargar usuarios" ---------- */
+
+        document.getElementById('btn-cargar').addEventListener('click', async () => {
+            const btn = document.getElementById('btn-cargar');
+            const metodo = document.querySelector('input[name="metodo_carga"]:checked').value;
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Cargando...';
+            mostrarCargando();
+            
+            limpiarConsole('consola-ej1');
+            logConsole('consola-ej1', `Iniciando request con ${metodo.toUpperCase()}...`, 'info');
+            logConsole('consola-ej1', `Endpoint: GET ${API_URL}`, 'info');
+
+            try {
+                let usuarios = [];
+
+                if (metodo === 'fetch') {
+                    // con Fetch: debo parsear el JSON manualmente con .json()
+                    const respuesta = await fetch(API_URL);
+                    logConsole('consola-ej1', `Response status: ${respuesta.status} ${respuesta.statusText}`, 'success');
+                    if (!respuesta.ok) throw new Error(`Error HTTP: ${respuesta.status}`);
+                    logConsole('consola-ej1', 'Parseando JSON (respuesta.json())...', 'info');
+                    usuarios = await respuesta.json();
+                } else {
+                    // con Axios: el JSON ya viene parseado automáticamente en .data
+                    const respuesta = await axios.get(API_URL);
+                    logConsole('consola-ej1', `Response status: ${respuesta.status} ${respuesta.statusText}`, 'success');
+                    logConsole('consola-ej1', 'Axios parsea el JSON automaticamente (.data)', 'info');
+                    usuarios = respuesta.data;
+                }
+
+                logConsole('consola-ej1', `Se recibieron ${usuarios.length} usuarios. Renderizando UI.`, 'success');
+                renderUsuarios(usuarios);
+                mostrarToast(`Datos cargados usando ${metodo}`, 'success');
+
+            } catch (error) {
+                logConsole('consola-ej1', `Excepcion atrapada: ${error.message}`, 'error');
+                const contenedor = document.getElementById('output-box');
+                contenedor.style.padding = '2rem';
+                contenedor.style.border = '1px dashed var(--error)';
+                contenedor.style.background = 'var(--error-bg)';
+                contenedor.innerHTML = `<div class="output-empty" style="color: var(--error);">Error al obtener los datos: ${error.message}</div>`;
+                mostrarToast('Ocurrió un error', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Cargar usuarios';
+                logConsole('consola-ej1', 'Proceso terminado.', 'info');
+            }
+        });
+        
+        /* ---------- EVENTO: cambio de método ---------- */
+
+        // al cambiar de Fetch a Axios (o viceversa) limpio la vista y la consola
+        document.querySelectorAll('input[name="metodo_carga"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                const contenedor = document.getElementById('output-box');
+                contenedor.style.padding = '2rem';
+                contenedor.style.border = '1px dashed var(--border)';
+                contenedor.style.background = 'var(--bg-secondary)';
+                contenedor.innerHTML = '<div class="output-empty">Hacé clic en el botón para obtener los usuarios</div>';
+                limpiarConsole('consola-ej1');
+                logConsole('consola-ej1', `Metodo cambiado a ${radio.value.toUpperCase()}. Listo para cargar.`, 'info');
+            });
+        });
+    </script>
+
+</body>
+</html>
+
 
         // renderizo los usuarios como tarjetas
         function renderUsuarios(usuarios) {

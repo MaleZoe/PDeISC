@@ -31,17 +31,29 @@ app.get('/', (req, res) => {
 });
 
 
-    // endpoint para verificar admin
-    app.post('/api/includes/admin', (req, res) => {
-        const roles = ['user', 'editor', 'moderator'];
-        const contiene = roles.includes('admin');
+    // endpoint para verificar valor en array del punto 1
+    app.post('/api/includes/verificar1', (req, res) => {
+        const { valor } = req.body;
+        
+        if (valor === undefined || valor === null || valor === '') {
+            return res.status(400).json({ ok: false, error: 'el valor es invalido' });
+        }
+        
+        const array = ['user', 'editor', 'moderator'];
+        const contiene = array.includes(valor);
         res.json({ ok: true, resultado: contiene });
     });
 
-    // endpoint para buscar color verde
-    app.post('/api/includes/verde', (req, res) => {
-        const colores = ['azul', 'amarillo', 'verde', 'rojo'];
-        const contiene = colores.includes('verde');
+    // endpoint para verificar valor en array del punto 2
+    app.post('/api/includes/verificar2', (req, res) => {
+        const { valor } = req.body;
+        
+        if (valor === undefined || valor === null || valor === '') {
+            return res.status(400).json({ ok: false, error: 'el valor es invalido' });
+        }
+        
+        const array = ['azul', 'amarillo', 'verde', 'rojo'];
+        const contiene = array.includes(valor);
         res.json({ ok: true, resultado: contiene });
     });
 

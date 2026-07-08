@@ -46,19 +46,28 @@
         
         <!-- articles -->
         <div class="row g-4">
-            <!-- punto 1: admin -->
+            <!-- punto 1: verificar valor en array -->
             <div class="col-md-4">
                 <div class="card card-personalizada h-100">
                     <div class="d-flex justify-content-between align-items-start mb-3">
-                        <h3 class="h5 mb-0">1. Verificar "admin"</h3>
+                        <h3 class="h5 mb-0">1. Verificar Valor en Array</h3>
                         <button class="btn btn-sm btn-outline-danger" onclick="reiniciarPunto(1)">Reiniciar</button>
                     </div>
-                    <p class="text-secondary small">Indica si existe "admin" en los roles.</p>
+                    <p class="text-secondary small">Indica si un valor existe en el array.</p>
+
                     <div class="mb-3">
-                        <h5>Roles del Sistema:</h5>
-                        <div class="fs-6 bg-light p-2 rounded text-dark">[ 'user', 'editor', 'moderator' ]</div>
+                        <label for="p1-valor" class="form-label-personalizado">Valor a buscar</label>
+                        <input type="text" id="p1-valor" class="form-control" value="admin">
+                        <span id="p1-valor-error" class="mensaje-error"></span>
                     </div>
-                    <button id="p1-btn-includes" class="btn btn-primary w-100">Verificar Roles (Click / Enter)</button>
+
+                    <div class="mb-3">
+                        <h5>Array Actual:</h5>
+                        <div id="p1-array-actual" class="fs-6 bg-light p-2 rounded text-dark">[ 'user', 'editor', 'moderator' ]</div>
+                    </div>
+
+                    <button id="p1-btn-includes" class="btn btn-primary w-100">Verificar (Click / Enter)</button>
+
                     <div class="mt-4">
                         <h5>Resultado:</h5>
                         <div id="p1-resultado" class="fs-4 text-center p-2 bg-light rounded text-success">-</div>
@@ -66,19 +75,28 @@
                 </div>
             </div>
 
-            <!-- punto 2: color verde -->
+            <!-- punto 2: verificar valor en array -->
             <div class="col-md-4">
                 <div class="card card-personalizada h-100">
                     <div class="d-flex justify-content-between align-items-start mb-3">
-                        <h3 class="h5 mb-0">2. Buscar color "verde"</h3>
+                        <h3 class="h5 mb-0">2. Verificar Valor en Array</h3>
                         <button class="btn btn-sm btn-outline-danger" onclick="reiniciarPunto(2)">Reiniciar</button>
                     </div>
-                    <p class="text-secondary small">Comprueba si existe el color "verde".</p>
+                    <p class="text-secondary small">Comprueba si un valor existe en el array.</p>
+
                     <div class="mb-3">
-                        <h5>Colores cargados:</h5>
-                        <div class="fs-6 bg-light p-2 rounded text-dark">[ 'azul', 'amarillo', 'verde', 'rojo' ]</div>
+                        <label for="p2-valor" class="form-label-personalizado">Valor a buscar</label>
+                        <input type="text" id="p2-valor" class="form-control" value="verde">
+                        <span id="p2-valor-error" class="mensaje-error"></span>
                     </div>
-                    <button id="p2-btn-includes" class="btn btn-warning w-100">Buscar Color (Click / Hover)</button>
+
+                    <div class="mb-3">
+                        <h5>Array Actual:</h5>
+                        <div id="p2-array-actual" class="fs-6 bg-light p-2 rounded text-dark">[ 'azul', 'amarillo', 'verde', 'rojo' ]</div>
+                    </div>
+
+                    <button id="p2-btn-includes" class="btn btn-warning w-100">Verificar (Click / Hover)</button>
+
                     <div class="mt-4">
                         <h5>Resultado:</h5>
                         <div id="p2-resultado" class="fs-4 text-center p-2 bg-light rounded text-success">-</div>
@@ -93,18 +111,24 @@
                         <h3 class="h5 mb-0">3. Evitar Duplicar Números</h3>
                         <button class="btn btn-sm btn-outline-danger" onclick="reiniciarPunto(3)">Reiniciar</button>
                     </div>
-                    <p class="text-secondary small">Agrega un número solo si no existe en el array.</p>
+                    <p class="text-secondary small">Verifica si un número está presente para evitar duplicarlo.</p>
                     
                     <div class="mb-3">
                         <label for="p3-numero" class="form-label-personalizado">Ingresa un número</label>
                         <input type="number" id="p3-numero" class="form-control" required>
                         <span id="p3-numero-error" class="mensaje-error"></span>
                     </div>
-                    <button id="p3-btn-includes" class="btn btn-success w-100">Agregar si no esta (Click / Enter)</button>
+
+                    <div class="mb-3">
+                        <h5>Array Fijo:</h5>
+                        <div class="fs-6 bg-light p-2 rounded text-dark">[ 5, 10, 15 ]</div>
+                    </div>
+
+                    <button id="p3-btn-includes" class="btn btn-success w-100">Verificar Duplicado (Click / Enter)</button>
 
                     <div class="mt-4">
-                        <h5>Numeros en Array:</h5>
-                        <div id="p3-resultado" class="fs-5 text-center p-2 bg-light rounded text-dark">[ 5, 10, 15 ]</div>
+                        <h5>Resultado:</h5>
+                        <div id="p3-resultado" class="fs-6 text-center p-2 bg-light rounded text-success">-</div>
                     </div>
                 </div>
             </div>

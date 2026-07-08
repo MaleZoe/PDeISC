@@ -46,18 +46,25 @@
         
         <!-- articles -->
         <div class="row g-4">
-            <!-- punto 1: mult por 3 -->
+            <!-- punto 1: multiplicar por 3 -->
             <div class="col-md-4">
                 <div class="card card-personalizada h-100">
                     <div class="d-flex justify-content-between align-items-start mb-3">
                         <h3 class="h5 mb-0">1. Multiplicar por 3</h3>
                         <button class="btn btn-sm btn-outline-danger" onclick="reiniciarPunto(1)">Reiniciar</button>
                     </div>
-                    <p class="text-secondary small">Devuelve los numeros del array triplicados.</p>
+                    <p class="text-secondary small">Crea un nuevo array con cada número multiplicado por 3.</p>
+                    
                     <div class="mb-3">
-                        <h5>Numeros Originales:</h5>
-                        <div class="fs-6 bg-light p-2 rounded text-dark">[ 1, 3, 5, 7 ]</div>
+                        <label for="p1-array" class="form-label-personalizado">Números (separados por coma)</label>
+                        <input type="text" id="p1-array" class="form-control" value="1,3,5,7">
                     </div>
+
+                    <div class="mb-3">
+                        <h5>Array Actual:</h5>
+                        <div id="p1-array-actual" class="fs-6 bg-light p-2 rounded text-dark">[ 1, 3, 5, 7 ]</div>
+                    </div>
+
                     <button id="p1-btn-map" class="btn btn-primary w-100">Triplicar (Click / Doble Click)</button>
                     <div class="mt-4">
                         <h5>Resultado:</h5>
@@ -66,18 +73,25 @@
                 </div>
             </div>
 
-            <!-- punto 2: nombres mayus -->
+            <!-- punto 2: nombres a mayusculas -->
             <div class="col-md-4">
                 <div class="card card-personalizada h-100">
                     <div class="d-flex justify-content-between align-items-start mb-3">
                         <h3 class="h5 mb-0">2. Nombres a Mayúsculas</h3>
                         <button class="btn btn-sm btn-outline-danger" onclick="reiniciarPunto(2)">Reiniciar</button>
                     </div>
-                    <p class="text-secondary small">Convierte los nombres a letras mayusculas.</p>
+                    <p class="text-secondary small">Convierte un array de nombres en mayúsculas.</p>
+                    
                     <div class="mb-3">
-                        <h5>Nombres Originales:</h5>
-                        <div class="fs-6 bg-light p-2 rounded text-dark">[ 'tito', 'cacho', 'pepe' ]</div>
+                        <label for="p2-array" class="form-label-personalizado">Nombres (separados por coma)</label>
+                        <input type="text" id="p2-array" class="form-control" value="tito,cacho,pepe">
                     </div>
+
+                    <div class="mb-3">
+                        <h5>Array Actual:</h5>
+                        <div id="p2-array-actual" class="fs-6 bg-light p-2 rounded text-dark">[ 'tito', 'cacho', 'pepe' ]</div>
+                    </div>
+
                     <button id="p2-btn-map" class="btn btn-warning w-100">Pasar a Mayúsculas (Click / Hover)</button>
                     <div class="mt-4">
                         <h5>Resultado:</h5>
@@ -86,18 +100,23 @@
                 </div>
             </div>
 
-            <!-- punto 3: iva 21% -->
+            <!-- punto 3: precios con iva -->
             <div class="col-md-4">
                 <div class="card card-personalizada h-100">
                     <div class="d-flex justify-content-between align-items-start mb-3">
                         <h3 class="h5 mb-0">3. Precios con IVA (21%)</h3>
                         <button class="btn btn-sm btn-outline-danger" onclick="reiniciarPunto(3)">Reiniciar</button>
                     </div>
-                    <p class="text-secondary small">Calcula el precio final con el impuesto de 21%.</p>
+                    <p class="text-secondary small">A un array de precios, agrégale el 21% de IVA y crea un nuevo array.</p>
                     
                     <div class="mb-3">
+                        <label for="p3-array" class="form-label-personalizado">Precios (separados por coma)</label>
+                        <input type="text" id="p3-array" class="form-control" value="100,200,500,1000">
+                    </div>
+
+                    <div class="mb-3">
                         <h5>Precios Originales:</h5>
-                        <div id="p3-originales" class="fs-6 bg-light p-2 rounded text-dark">[ 100, 200, 500, 1000 ]</div>
+                        <div id="p3-array-actual" class="fs-6 bg-light p-2 rounded text-dark">[ 100, 200, 500, 1000 ]</div>
                     </div>
                     
                     <button id="p3-btn-map" class="btn btn-success w-100">Calcular IVA (Click / Enter)</button>

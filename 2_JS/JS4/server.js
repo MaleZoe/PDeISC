@@ -1,4 +1,12 @@
-// importo las dependencias necesarias
+/**
+ * ============================================================================
+ * ARCHIVO PRINCIPAL DEL SERVIDOR (Entry Point)
+ * ============================================================================
+ * Este archivo inicializa el servidor Express, configura las rutas para servir
+ * las páginas HTML estáticas y monta la API RESTful para el Ejercicio 4.
+ */
+
+// importo las dependencias necesarias de Node.js
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';

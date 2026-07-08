@@ -112,9 +112,99 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <script type="module">
-        import { iniciarTema, toggleTema } from '../Context/tema.js';
-        import { iniciarScrollTop, getIniciales, mostrarToast, logConsole, limpiarConsole } from '../modules/utils.js';
+    <script>
+        /* =============================================================
+           EJERCICIO 3 — Búsqueda en tiempo real (Fetch y Axios)
+           Toda la lógica está contenida en este único bloque <script>.
+           No depende de módulos externos.
+        ============================================================= */
+
+        /* ---------- TEMA (oscuro / claro) ---------- */
+
+        function iniciarTema() {
+            const temaGuardado = localStorage.getItem('tema');
+            const prefierOscuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const tema = temaGuardado || (prefierOscuro ? 'dark' : 'light');
+            aplicarTema(tema);
+        }
+
+        function toggleTema() {
+            const actual = document.documentElement.getAttribute('data-theme') || 'light';
+            const nuevo = actual === 'dark' ? 'light' : 'dark';
+            aplicarTema(nuevo);
+            localStorage.setItem('tema', nuevo);
+        }
+
+        function aplicarTema(tema) {
+            document.documentElement.setAttribute('data-theme', tema);
+            const btn = document.getElementById('btn-tema');
+            if (btn) {
+                const iconoSol  = `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 4V2C12 1.45 11.55 1 11 1C10.45 1 10 1.45 10 2V4C10 4.55 10.45 5 11 5C11.55 5 12 4.55 12 4ZM19 11H21C21.55 11 22 10.55 22 10C22 9.45 21.55 9 21 9H19C18.45 9 18 9.45 18 10C18 10.55 18.45 11 19 11ZM12 7C9.24 7 7 9.24 7 12C7 14.76 9.24 17 12 17C14.76 17 17 14.76 17 12C17 9.24 14.76 7 12 7ZM12 19V21C12 21.55 12.45 22 13 22C13.55 22 14 21.55 14 21V19C14 18.45 13.55 18 13 18C12.45 18 12 18.45 12 19ZM4 11H2C1.45 11 1 11.45 1 12C1 12.55 1.45 13 2 13H4C4.55 13 5 12.55 5 12C5 11.45 4.55 11 4 11Z"/></svg>`;
+                const iconoLuna = `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3C7.03 3 3 7.03 3 12C3 16.97 7.03 21 12 21C12.8 21 13.58 20.9 14.32 20.71C10.74 19.56 8 16.11 8 12C8 7.89 10.74 4.44 14.32 3.29C13.58 3.1 12.8 3 12 3Z"/></svg>`;
+                btn.innerHTML = tema === 'dark' ? iconoSol : iconoLuna;
+                btn.title = tema === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro';
+            }
+        }
+
+        /* ---------- SCROLL TOP ---------- */
+
+        function iniciarScrollTop() {
+            const btn = document.getElementById('btn-scroll-top');
+            if (!btn) return;
+            window.addEventListener('scroll', () => btn.classList.toggle('visible', window.scrollY > 300));
+            btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        }
+
+        /* ---------- TOAST ---------- */
+
+        // muestra una notificación flotante de éxito, error o info
+        function mostrarToast(mensaje, tipo = 'success') {
+            let toast = document.getElementById('toast-ej3');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toast-ej3';
+                toast.className = 'toast';
+                document.body.appendChild(toast);
+            }
+            toast.className = `toast ${tipo}`;
+            toast.textContent = mensaje;
+            toast.classList.add('show');
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        /* ---------- CONSOLA SIMULADA ---------- */
+
+        // agrega una línea de log a la consola visual con hora y color según tipo
+        function logConsole(consoleId, mensaje, tipo = 'info') {
+            const cons = document.getElementById(consoleId);
+            if (!cons) return;
+            const time = new Date().toLocaleTimeString('es-AR', { hour12: false });
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            let cls = 'log-info';
+            if (tipo === 'success') cls = 'log-success';
+            if (tipo === 'error')   cls = 'log-error';
+            if (tipo === 'warning') cls = 'log-warning';
+            entry.innerHTML = `<span class="log-time">[${time}]</span> <span class="${cls}">${mensaje}</span>`;
+            cons.appendChild(entry);
+            cons.scrollTop = cons.scrollHeight;
+        }
+
+        // limpia todo el contenido de la consola visual
+        function limpiarConsole(consoleId) {
+            const cons = document.getElementById(consoleId);
+            if (cons) cons.innerHTML = '';
+        }
+
+        /* ---------- INICIALES DEL AVATAR ---------- */
+
+        // obtiene las 2 primeras iniciales del nombre para mostrar en el avatar
+        function getIniciales(nombre) {
+            return nombre.split(' ').slice(0, 2).map(p => p[0]).join('').toUpperCase();
+        }
+
+        /* ---------- INICIALIZACIÓN ---------- */
 
         iniciarTema();
         iniciarScrollTop();
@@ -122,6 +212,7 @@
 
         const API_URL = '/api/usuarios';
         let usuariosCargados = [];
+
 
         // renderizo la lista filtrada
         function renderLista(usuarios) {

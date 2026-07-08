@@ -43,8 +43,8 @@ window.Validador = (() => {
             requerido: true,
             tipo: 'numero',
             min: 1,
-            max: 200000,
-            mensajeError: 'El precio excede el límite permitido (máx 200.000 USD).'
+            max: 150000,
+            mensajeError: 'El precio excede el límite permitido (máx 150.000 USD).'
         },
         'inp-descripcion': {
             requerido: false,

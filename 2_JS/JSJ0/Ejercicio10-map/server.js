@@ -31,23 +31,40 @@ app.get('/', (req, res) => {
 });
 
 
-    // endpoint para map por 3
+    // endpoint para map por 3 con numeros personalizados
     app.post('/api/map/triplicar', (req, res) => {
-        const numeros = [1, 3, 5, 7];
+        const { numerosStr } = req.body;
+        
+        if (!numerosStr || !Array.isArray(numerosStr) || numerosStr.length === 0) {
+            return res.status(400).json({ ok: false, error: 'el array de numeros es invalido' });
+        }
+        
+        const numeros = numerosStr.map(n => Number(n));
         const resultado = numeros.map(n => n * 3);
         res.json({ ok: true, resultado });
     });
 
-    // endpoint para map nombres en mayusculas
+    // endpoint para map nombres en mayusculas personalizados
     app.post('/api/map/mayusculas', (req, res) => {
-        const nombres = ['tito', 'cacho', 'pepe'];
+        const { nombres } = req.body;
+        
+        if (!nombres || !Array.isArray(nombres) || nombres.length === 0) {
+            return res.status(400).json({ ok: false, error: 'el array de nombres es invalido' });
+        }
+        
         const resultado = nombres.map(n => n.toUpperCase());
         res.json({ ok: true, resultado });
     });
 
-    // endpoint para agregar precio con 21% de IVA
+    // endpoint para agregar precio con 21% de IVA personalizados
     app.post('/api/map/iva', (req, res) => {
-        const precios = [100, 200, 500, 1000];
+        const { preciosStr } = req.body;
+        
+        if (!preciosStr || !Array.isArray(preciosStr) || preciosStr.length === 0) {
+            return res.status(400).json({ ok: false, error: 'el array de precios es invalido' });
+        }
+        
+        const precios = preciosStr.map(p => Number(p));
         const preciosConIva = precios.map(p => (p * 1.21).toFixed(2));
         res.json({ ok: true, resultado: preciosConIva });
     });
