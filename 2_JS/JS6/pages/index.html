@@ -43,7 +43,7 @@
           </li>
           <li class="nav-item">
             <a class="nav-link nav-link-custom d-flex align-items-center gap-2" href="/instrucciones">
-              <i data-lucide="book-open" class="icon-sm"></i> Guía Académica
+              <i data-lucide="book-open" class="icon-sm"></i> Instrucciones
             </a>
           </li>
         </ul>
@@ -156,13 +156,14 @@
 
             <!-- Autocompletar / Escribir palabra completa si ya se sabe -->
             <div class="word-autocomplete-wrapper my-3 w-100 max-w-lg mx-auto">
-              <form id="form-palabra-completa" class="d-flex gap-2 align-items-center justify-content-center">
-                <div class="input-group input-group-sm shadow-sm rounded-pill overflow-hidden border border-warning-subtle">
-                  <span class="input-group-text bg-warning-subtle text-warning-emphasis border-0 px-3 fw-bold">
+              <form id="form-palabra-completa" class="d-flex flex-column gap-2 align-items-center justify-content-center">
+                <label class="fw-bold text-warning-emphasis mb-0 d-md-none">¿Ya la sabes?</label>
+                <div class="input-group input-group-sm shadow-sm rounded-pill overflow-hidden border border-warning-subtle flex-nowrap w-100">
+                  <span class="input-group-text bg-warning-subtle text-warning-emphasis border-0 px-3 fw-bold d-none d-md-flex">
                     ¿Ya la sabes?
                   </span>
-                  <input type="text" id="input-palabra-completa" class="form-control border-0 text-center text-uppercase fw-bold letter-spacing-md py-2" placeholder="Escribe la palabra o frase completa aquí..." autocomplete="off">
-                  <button type="submit" class="btn btn-warning fw-extrabold px-4 border-0 d-flex align-items-center gap-1">
+                  <input type="text" id="input-palabra-completa" class="form-control border-0 text-center text-uppercase fw-bold letter-spacing-md py-2" placeholder="Escribe la palabra..." autocomplete="off">
+                  <button type="submit" class="btn btn-warning fw-extrabold px-3 px-md-4 border-0 d-flex align-items-center gap-1">
                     <span>Adivinar</span> <i data-lucide="arrow-right" class="icon-sm"></i>
                   </button>
                 </div>
@@ -211,13 +212,9 @@
   <!-- Pie de Página (Footer) -->
   <footer class="app-footer py-4 text-center text-body-secondary mt-auto">
     <div class="container">
-      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
-        <div class="d-flex align-items-center gap-2">
-          <i data-lucide="code-2" class="text-primary"></i>
-          <span class="fw-semibold">Desarrollado con ES Modules, Express & MySQL</span>
-        </div>
+      <div class="d-flex flex-column align-items-center gap-3">
         <div class="small">
-          Ahorcado PRO &copy; 2026 | Arquitectura MVC sin `alert()` ni `require`
+          Ahorcado PRO &copy; 2026
         </div>
       </div>
     </div>
