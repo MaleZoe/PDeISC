@@ -315,7 +315,7 @@ function conectarBotonesUI() {
       if (res.esCorrecta) {
         ui.renderizarPalabra(juego.obtenerPalabraMapeada());
         ui.actualizarInfoPanel(juego.pista, juego.categoria, juego.intentosRestantes);
-        ui.mostrarToast('¡MANDAMAS! Has adivinado la palabra completa de un solo golpe. ⚡🏆', 'success');
+        ui.mostrarToast('¡EXCELENTE! Has adivinado la palabra completa de un solo golpe. ⚡🏆', 'success');
         procesarVictoria();
       } else {
         const erroresCometidos = juego.intentosMaximos - juego.intentosRestantes;
