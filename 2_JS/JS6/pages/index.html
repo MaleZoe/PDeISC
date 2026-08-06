@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego del Ahorcado Full Stack | ES Modules, Express & MySQL</title>
+  <meta name="description" content="Trabajo Práctico Profesional de Desarrollo Senior Full Stack con Node.js, Express (ES Modules), MySQL, Clases en JavaScript, Bootstrap y jsPDF.">
+  
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Hojas de estilo modulares personalizadas -->
+  <link rel="stylesheet" href="/styles/main.css">
+  <link rel="stylesheet" href="/styles/dark-theme.css">
+  <link rel="stylesheet" href="/styles/components.css">
+  <link rel="stylesheet" href="/styles/animations.css">
+</head>
+<body>
+
+  <!-- Barra de Navegación Principal -->
+  <nav class="navbar navbar-expand-lg app-navbar sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2 fw-bold fs-4 text-primary" href="/">
+        <i data-lucide="terminal" class="icon-lg"></i>
+        <span>Ahorcado<span class="text-body-secondary fw-light">PRO</span></span>
+      </a>
+      
+      <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Menú de navegación">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1">
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom active d-flex align-items-center gap-2" aria-current="page" href="/">
+              <i data-lucide="gamepad-2" class="icon-sm"></i> Jugar
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom d-flex align-items-center gap-2" href="/ranking">
+              <i data-lucide="trophy" class="icon-sm"></i> Tabla de Posiciones
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom d-flex align-items-center gap-2" href="/instrucciones">
+              <i data-lucide="book-open" class="icon-sm"></i> Guía Académica
+            </a>
+          </li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-2">
+          <!-- Botón flotante para alternar Modo Claro / Oscuro -->
+          <button type="button" id="btn-toggle-theme" class="btn btn-outline-warning rounded-pill px-3 py-2 shadow-sm d-flex align-items-center justify-content-center" title="Cambiar tema">
+            <i data-lucide="sun" class="icon-theme"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenedor Principal flexible -->
+  <main class="main-wrapper container">
+    <!-- Encabezado de la Sección -->
+    <header class="text-center mb-4">
+      <h1 class="fw-extrabold display-5 mb-2">Desafío Lógico del Ahorcado</h1>
+      <p class="text-body-secondary max-w-lg mx-auto">
+        Obtén palabras en tiempo real desde la API REST, usa tu teclado físico o virtual y guarda tu récord en MySQL.
+      </p>
+    </header>
+
+    <!-- Rejilla Principal del Juego (2 Columnas en pantallas medianas y grandes) -->
+    <div class="row g-4 align-items-stretch position-relative">
+      
+      <!-- Spinner de Carga (Overlay mientras se consulta el endpoint GET /api/palabra) -->
+      <div id="loading-spinner" class="loading-overlay rounded-4" style="display: none;">
+        <div class="text-center p-4 rounded-4 bg-body border shadow-lg">
+          <div class="spinner-border text-primary mb-3" style="width: 3.5rem; height: 3.5rem;" role="status">
+            <span class="visually-hidden">Cargando palabra...</span>
+          </div>
+          <h5 class="fw-bold mb-1">Consultando API de Palabras...</h5>
+          <p class="small text-body-secondary mb-0">Conectando con el servidor REST backend</p>
+        </div>
+      </div>
+
+      <!-- COLUMNA IZQUIERDA: Gráfico SVG del Ahorcado, Cronómetro e Intentos -->
+      <div class="col-lg-4 d-flex flex-column gap-4">
+        
+        <!-- Tarjeta del Ahorcado (SVG Progresivo) -->
+        <div class="custom-card p-4 flex-grow-1 d-flex flex-column align-items-center justify-content-center text-center">
+          <div class="d-flex flex-wrap justify-content-between w-100 mb-2 align-items-center gap-2">
+            <span class="stat-badge bg-body-secondary text-body fw-bold">
+              <i data-lucide="heart" class="text-danger icon-sm"></i>
+              Intentos: <strong id="remaining-attempts" class="ms-1 badge bg-success fs-6">6</strong> / 6
+            </span>
+            <div class="d-flex align-items-center gap-2">
+              <span class="stat-badge bg-body-secondary text-body fw-bold">
+                <i data-lucide="clock" class="text-info icon-sm"></i>
+                <span id="timer-display" class="font-mono">00:00</span>
+              </span>
+              <button type="button" id="btn-start-timer" class="btn btn-warning btn-sm px-3 py-1 rounded-pill fw-bold d-flex align-items-center gap-1 shadow">
+                <i data-lucide="play" class="icon-sm"></i> Iniciar Cronómetro
+              </button>
+            </div>
+          </div>
+
+          <!-- Contenedor SVG Escalable y Responsive -->
+          <div class="hangman-wrapper my-3">
+            <svg id="hangman-svg" viewBox="0 0 200 220" class="w-100 h-100" xmlns="http://www.w3.org/2000/svg">
+              <!-- Base y Horca (Estructura fija siempre visible) -->
+              <g id="svg-horca">
+                <line x1="20" y1="200" x2="180" y2="200" class="hangman-line" />
+                <line x1="50" y1="200" x2="50" y2="20" class="hangman-line" />
+                <line x1="50" y1="20" x2="130" y2="20" class="hangman-line" />
+                <line x1="50" y1="50" x2="80" y2="20" class="hangman-line" />
+                <line x1="130" y1="20" x2="130" y2="50" class="hangman-line" />
+              </g>
+
+              <!-- Partes del cuerpo ocultas (se hacen visibles por opacidad mediante UI.js según errores) -->
+              <circle id="svg-cabeza" cx="130" cy="70" r="20" class="hangman-head" style="opacity: 0;" />
+              <line id="svg-torso" x1="130" y1="90" x2="130" y2="145" class="hangman-line" style="opacity: 0;" />
+              <line id="svg-brazo-izquierdo" x1="130" y1="105" x2="100" y2="130" class="hangman-line" style="opacity: 0;" />
+              <line id="svg-brazo-derecho" x1="130" y1="105" x2="160" y2="130" class="hangman-line" style="opacity: 0;" />
+              <line id="svg-pierna-izquierd" x1="130" y1="145" x2="105" y2="185" class="hangman-line" style="opacity: 0;" />
+              <line id="svg-pierna-derecha" x1="130" y1="145" x2="155" y2="185" class="hangman-line" style="opacity: 0;" />
+            </svg>
+          </div>
+
+          <!-- Panel de Pista y Categoría -->
+          <div class="w-100 mt-2 p-3 rounded-3 bg-body-tertiary border text-start">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="small text-muted text-uppercase fw-bold letter-spacing-md">Categoría</span>
+              <span id="category-badge" class="badge bg-primary-subtle text-primary border border-primary-subtle">General</span>
+            </div>
+            <div class="d-flex align-items-start gap-2 mt-2">
+              <i data-lucide="lightbulb" class="text-warning icon-md flex-shrink-0 mt-1"></i>
+              <p id="clue-text" class="mb-0 small fw-medium text-body">Pista pedagógica del servidor...</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- COLUMNA DERECHA: Palabra Oculta, Teclado Virtual y Botones de Acción -->
+      <div class="col-lg-8 d-flex flex-column gap-4">
+        
+        <!-- Tarjeta Principal del Tablero -->
+        <div class="custom-card p-4 p-md-5 flex-grow-1 d-flex flex-column justify-content-between">
+          
+          <div class="text-center">
+            <h5 class="text-body-secondary fw-semibold mb-3">PALABRA A ADIVINAR</h5>
+            
+            <!-- Contenedor donde se insertan las casillas de la palabra (.letter-box) -->
+            <div id="word-display" aria-live="polite" aria-label="Palabra oculta">
+              <!-- Se generará dinámicamente vía UI.renderizarPalabra() -->
+            </div>
+
+            <!-- Autocompletar / Escribir palabra completa si ya se sabe -->
+            <div class="word-autocomplete-wrapper my-3 w-100 max-w-lg mx-auto">
+              <form id="form-palabra-completa" class="d-flex gap-2 align-items-center justify-content-center">
+                <div class="input-group input-group-sm shadow-sm rounded-pill overflow-hidden border border-warning-subtle">
+                  <span class="input-group-text bg-warning-subtle text-warning-emphasis border-0 px-3 fw-bold">
+                    ¿Ya la sabes?
+                  </span>
+                  <input type="text" id="input-palabra-completa" class="form-control border-0 text-center text-uppercase fw-bold letter-spacing-md py-2" placeholder="Escribe la palabra o frase completa aquí..." autocomplete="off">
+                  <button type="submit" class="btn btn-warning fw-extrabold px-4 border-0 d-flex align-items-center gap-1">
+                    <span>Adivinar</span> <i data-lucide="arrow-right" class="icon-sm"></i>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <hr class="border-secondary-subtle my-3">
+
+          <div class="text-center">
+            <div class="d-flex justify-content-between align-items-center mb-3 px-2">
+              <span class="small text-muted fw-bold">TECLADO INTERACTIVO / FÍSICO</span>
+              <span class="small text-muted"><i data-lucide="keyboard" class="icon-sm me-1"></i>Puedes presionar letras en tu teclado</span>
+            </div>
+
+            <!-- Teclado Virtual Alfabético QWERTY/A-Z -->
+            <div id="keyboard-container">
+              <!-- Botones generados dinámicamente vía UI.renderizarTecladoVirtual() -->
+            </div>
+          </div>
+
+          <!-- Botones de Control de Partida -->
+          <div class="d-flex flex-wrap gap-3 justify-content-center mt-4 pt-3 border-top">
+            <button type="button" id="btn-restart" class="btn btn-outline-secondary px-4 py-2 d-flex align-items-center gap-2 fw-semibold rounded-pill">
+              <i data-lucide="rotate-ccw" class="icon-sm"></i> Reiniciar Partida Actual
+            </button>
+            <button type="button" id="btn-new-word" class="btn btn-primary px-4 py-2 d-flex align-items-center gap-2 fw-bold rounded-pill shadow">
+              <i data-lucide="sparkles" class="icon-sm"></i> Pedir Nueva Palabra (API)
+            </button>
+            <button type="button" id="btn-download-last-diploma" class="btn btn-outline-success px-4 py-2 d-flex align-items-center gap-2 fw-semibold rounded-pill">
+              <i data-lucide="file-check" class="icon-sm"></i> Descargar Diploma PDF
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Botón Flotante "Volver Arriba" con Ícono Lucide -->
+  <a href="#" id="btn-back-to-top" class="btn btn-primary shadow d-none" aria-label="Volver arriba">
+    <i data-lucide="arrow-up"></i>
+  </a>
+
+  <!-- Pie de Página (Footer) -->
+  <footer class="app-footer py-4 text-center text-body-secondary mt-auto">
+    <div class="container">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+        <div class="d-flex align-items-center gap-2">
+          <i data-lucide="code-2" class="text-primary"></i>
+          <span class="fw-semibold">Desarrollado con ES Modules, Express & MySQL</span>
+        </div>
+        <div class="small">
+          Ahorcado PRO &copy; 2026 | Arquitectura MVC sin `alert()` ni `require`
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- LIBRERÍAS DE TERCEROS DESDE CDN -->
+  <!-- 1. Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- 2. Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <!-- 3. jsPDF para la descarga de reportes -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- MÓDULOS DE JAVASCRIPT DEL CLIENTE (ES Modules) -->
+  <script type="module" src="/scripts/themeManager.js"></script>
+  <script type="module" src="/scripts/app.js"></script>
+  
+  <script>
+    // Renderizado instantáneo de iconos Lucide al arrancar el DOM
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>

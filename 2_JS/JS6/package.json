@@ -1,0 +1,29 @@
+{
+  "name": "tp-juego-del-ahorcado-fullstack",
+  "version": "1.0.0",
+  "description": "Trabajo Práctico Profesional: Juego del Ahorcado Full Stack con ES Modules, Node.js, Express, MySQL, Clases JS, Bootstrap y jsPDF.",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "ahorcado",
+    "es-modules",
+    "express",
+    "mysql",
+    "clases",
+    "fullstack",
+    "bootstrap",
+    "jspdf"
+  ],
+  "author": "Desarrollador Senior Full Stack (Trabajo Académico Profesional)",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mysql2": "^3.10.0"
+  }
+}
