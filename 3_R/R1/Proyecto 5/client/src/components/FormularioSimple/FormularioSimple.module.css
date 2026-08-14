@@ -1,0 +1,53 @@
+/* client/src/components/FormularioSimple/FormularioSimple.module.css */
+
+.formularioContenedor {
+  background: rgba(var(--card-bg-rgb, 255, 255, 255), 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .formularioContenedor {
+  background: rgba(30, 30, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+.inputFormulario {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border-color: var(--border-color);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.inputFormulario:focus {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem var(--accent-bg, rgba(79, 70, 229, 0.25));
+}
+
+.inputFormulario::placeholder {
+  color: var(--text-muted);
+}
+
+.mensajeBienvenida {
+  background-color: var(--bg-color);
+  border: 2px dashed var(--border-color);
+  animation: fadeInScale 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,169 @@
+/* client/src/components/TicTacToe/TicTacToe.module.css */
+
+.gameWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (min-width: 992px) {
+  .gameWrapper {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.boardContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.historyContainer {
+  flex: 0 0 300px;
+  max-width: 100%;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  background: rgba(var(--card-bg-rgb, 255, 255, 255), 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  padding: 10px;
+  gap: 10px;
+}
+
+[data-theme="dark"] .board {
+  background: rgba(30, 30, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+.boardRow {
+  display: flex;
+  gap: 10px;
+}
+
+.square {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  color: var(--text-color);
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1;
+  height: 100px;
+  width: 100px;
+  padding: 0;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.markerX {
+  color: #f43f5e;
+  text-shadow: 0 0 15px rgba(244, 63, 94, 0.4);
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.markerO {
+  color: #0ea5e9;
+  text-shadow: 0 0 15px rgba(14, 165, 233, 0.4);
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 576px) {
+  .square {
+    height: 85px;
+    width: 85px;
+    font-size: 3rem;
+  }
+}
+
+.square:hover:not(.occupied) {
+  background-color: var(--card-bg);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+}
+
+.square:active:not(.occupied) {
+  transform: scale(0.92);
+}
+
+.winningSquare {
+  background-color: var(--accent-bg, #e0f2fe);
+  color: var(--primary-color, #0369a1);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.gameStatus {
+  padding: 1rem 2rem;
+  background-color: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  text-align: center;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.statusTurn {
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+
+.statusWinner {
+  background-color: var(--primary-color);
+  color: #fff;
+  border-color: var(--primary-color);
+  transform: scale(1.05);
+}
+
+.statusDraw {
+  background-color: #6c757d;
+  color: #fff;
+  border-color: #6c757d;
+}
+
+.historyCard {
+  background-color: var(--card-bg);
+  border-radius: 16px;
+}
+
+.historyList {
+  list-style-type: none;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+/* Custom scrollbar para historial */
+.historyList::-webkit-scrollbar {
+  width: 6px;
+}
+.historyList::-webkit-scrollbar-track {
+  background: var(--bg-color);
+  border-radius: 4px;
+}
+.historyList::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}

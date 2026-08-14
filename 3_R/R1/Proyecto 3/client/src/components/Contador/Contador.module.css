@@ -1,0 +1,66 @@
+/* client/src/components/Contador/Contador.module.css */
+
+.contadorContenedor {
+  background: rgba(var(--card-bg-rgb, 255, 255, 255), 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .contadorContenedor {
+  background: rgba(30, 30, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+.valorWrapper {
+  min-width: 200px;
+  min-height: 150px;
+  background: var(--bg-color);
+  border-radius: 24px;
+  border: 2px dashed var(--border-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.contadorValor {
+  color: var(--text-color);
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+  transition: color 0.3s ease;
+  user-select: none;
+}
+
+.historialContainer {
+  flex-grow: 1;
+  overflow-y: auto;
+  max-height: 250px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+}
+
+.historialContainer::-webkit-scrollbar {
+  width: 6px;
+}
+.historialContainer::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+[data-theme="dark"] .historialContainer::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+}
+
+.historialItem {
+  background-color: var(--bg-color);
+  border-color: var(--border-color);
+}
+
+/* Ajustes adicionales en móviles para los botones */
+@media (max-width: 576px) {
+  .contadorBotones button {
+    width: 100%;
+  }
+}

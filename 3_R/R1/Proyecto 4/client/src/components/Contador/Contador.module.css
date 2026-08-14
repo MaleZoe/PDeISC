@@ -1,0 +1,36 @@
+/* client/src/components/Contador/Contador.module.css */
+
+.contadorContenedor {
+  background-color: var(--card-bg, #ffffff);
+  border-radius: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  border: 1px solid var(--border-color, rgba(0,0,0,0.05));
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+}
+
+.valorWrapper {
+  /* Ancho mínimo reservado para que los dígitos negativos o de 3 cifras no causen saltos de layout */
+  min-width: 250px;
+  min-height: 150px;
+  background: var(--bg-color);
+  border-radius: 16px;
+  border: 2px dashed var(--border-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.contadorValor {
+  color: var(--text-color);
+  font-feature-settings: "tnum"; /* Tabular numbers para evitar temblores al cambiar de dígito */
+  font-variant-numeric: tabular-nums;
+  transition: color 0.3s ease;
+  user-select: none;
+}
+
+/* Ajustes adicionales en móviles para los botones */
+@media (max-width: 576px) {
+  .contadorBotones button {
+    width: 100%; /* Botones de ancho completo en celular para fácil toque */
+  }
+}

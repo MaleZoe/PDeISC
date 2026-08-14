@@ -1,0 +1,138 @@
+/* client/src/components/TicTacToe/TicTacToe.module.css */
+
+.gameWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (min-width: 992px) {
+  .gameWrapper {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.boardContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.historyContainer {
+  flex: 0 0 300px;
+  max-width: 100%;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--border-color, #dee2e6);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  border: 4px solid var(--border-color, #dee2e6);
+}
+
+.boardRow {
+  display: flex;
+}
+
+.square {
+  background-color: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #dee2e6);
+  color: var(--text-color);
+  font-size: 3rem;
+  font-weight: bold;
+  line-height: 1;
+  height: 100px;
+  width: 100px;
+  padding: 0;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 576px) {
+  .square {
+    height: 85px;
+    width: 85px;
+    font-size: 2.5rem;
+  }
+}
+
+.square:hover:not(.occupied) {
+  background-color: var(--bg-color);
+}
+
+.square:active:not(.occupied) {
+  transform: scale(0.95);
+}
+
+.winningSquare {
+  background-color: var(--accent-bg, #e0f2fe);
+  color: var(--primary-color, #0369a1);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.gameStatus {
+  padding: 1rem 2rem;
+  background-color: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  text-align: center;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.statusTurn {
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+
+.statusWinner {
+  background-color: var(--primary-color);
+  color: #fff;
+  border-color: var(--primary-color);
+  transform: scale(1.05);
+}
+
+.statusDraw {
+  background-color: #6c757d;
+  color: #fff;
+  border-color: #6c757d;
+}
+
+.historyCard {
+  background-color: var(--card-bg);
+  border-radius: 16px;
+}
+
+.historyList {
+  list-style-type: none;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+/* Custom scrollbar para historial */
+.historyList::-webkit-scrollbar {
+  width: 6px;
+}
+.historyList::-webkit-scrollbar-track {
+  background: var(--bg-color);
+  border-radius: 4px;
+}
+.historyList::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
