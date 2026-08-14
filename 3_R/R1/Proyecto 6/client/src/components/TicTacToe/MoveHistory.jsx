@@ -9,7 +9,7 @@ const MoveHistory = ({ history, currentMove, jumpTo }) => {
         <h5 className="fw-bold m-0" style={{ color: 'var(--text-color)' }}>Historial de Movimientos</h5>
       </div>
       <div className="card-body">
-        <ol className={`${styles.historyList} ps-3 m-0`}>
+        <ul className={`${styles.historyList} p-0 m-0`}>
           {history.map((step, move) => {
             const isCurrentMove = move === currentMove;
             const description = move > 0 
@@ -28,7 +28,7 @@ const MoveHistory = ({ history, currentMove, jumpTo }) => {
               </li>
             );
           })}
-        </ol>
+        </ul>
       </div>
     </div>
   );
