@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Board from './Board';
 import GameStatus from './GameStatus';
 import MoveHistory from './MoveHistory';
@@ -6,9 +6,10 @@ import GameControls from './GameControls';
 import { calcularGanador, calcularEmpate } from './utils/logic';
 import styles from './TicTacToe.module.css';
 
-const Game = () => {
+const Game = ({ onGameEnd }) => {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
+  const savedRef = useRef(false);
 
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
@@ -20,7 +21,8 @@ const Game = () => {
 
   // Guardar partida en el backend al terminar
   useEffect(() => {
-    if (winner || isDraw) {
+    if ((winner || isDraw) && !savedRef.current) {
+      savedRef.current = true;
       const guardarPartida = async () => {
         try {
           const resultado = winner ? winner : 'Empate';
@@ -32,13 +34,16 @@ const Game = () => {
               total_movimientos: currentMove
             })
           });
+          if (onGameEnd) {
+            onGameEnd();
+          }
         } catch (error) {
           console.error("No se pudo guardar la partida en la BD:", error);
         }
       };
       guardarPartida();
     }
-  }, [winner, isDraw, currentMove]);
+  }, [winner, isDraw, currentMove, onGameEnd]);
 
   const handlePlay = (nextSquares) => {
     // Branching: corta el futuro si estábamos en el pasado y hacemos un nuevo movimiento
@@ -54,6 +59,7 @@ const Game = () => {
   const restart = () => {
     setHistory([Array(9).fill(null)]);
     setCurrentMove(0);
+    savedRef.current = false;
   };
 
   return (

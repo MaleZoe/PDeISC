@@ -11,19 +11,15 @@ const Contador = () => {
   };
 
   const incrementar = () => {
-    setValor(prev => {
-      const v = prev + 1;
-      agregarHistorial('Incremento', v);
-      return v;
-    });
+    const nuevoValor = valor + 1;
+    setValor(nuevoValor);
+    agregarHistorial('Incremento', nuevoValor);
   };
 
   const decrementar = () => {
-    setValor(prev => {
-      const v = prev - 1;
-      agregarHistorial('Decremento', v);
-      return v;
-    });
+    const nuevoValor = valor - 1;
+    setValor(nuevoValor);
+    agregarHistorial('Decremento', nuevoValor);
   };
 
   const reiniciar = () => {

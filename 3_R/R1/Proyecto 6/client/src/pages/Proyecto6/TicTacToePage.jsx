@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Game from '../../components/TicTacToe/Game';
+import styles from '../../components/TicTacToe/TicTacToe.module.css';
 
 const TicTacToePage = ({ onVolver }) => {
   const [partidasAnteriores, setPartidasAnteriores] = useState([]);
@@ -47,19 +48,12 @@ const TicTacToePage = ({ onVolver }) => {
 
       <div className="row justify-content-center flex-grow-1 align-items-start gap-4">
         <div className="col-12 col-xl-7">
-          <Game />
+          <Game onGameEnd={cargarPartidas} />
         </div>
 
         {/* Sección Opcional: Leaderboard desde BD */}
         <div className="col-12 col-xl-4 mt-5 mt-xl-0">
-          <div className="card shadow-sm border-0 h-100" style={{ 
-            background: 'rgba(var(--card-bg-rgb, 255, 255, 255), 0.7)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            borderRadius: '24px',
-            overflow: 'hidden'
-          }}>
+          <div className={`card shadow-sm border-0 h-100 ${styles.glassCard}`}>
             <div className="card-body p-4 d-flex flex-column">
               <div className="d-flex justify-content-between align-items-center mb-2">
                 <h5 className="fw-bold m-0" style={{ color: 'var(--text-color)' }}>
@@ -89,7 +83,7 @@ const TicTacToePage = ({ onVolver }) => {
                   {partidasAnteriores.map(p => (
                     <li key={p.id} className="list-group-item bg-transparent px-2 py-3 d-flex justify-content-between align-items-center" style={{ color: 'var(--text-color)', borderColor: 'var(--border-color)' }}>
                       <div className="d-flex align-items-center">
-                        <span className="badge bg-dark rounded-circle me-3 p-2" style={{ width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <span className="badge rounded-circle me-3 p-2" style={{ backgroundColor: 'rgba(128, 128, 128, 0.2)', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                           <i className="bi bi-trophy-fill text-warning"></i>
                         </span>
                         <span>

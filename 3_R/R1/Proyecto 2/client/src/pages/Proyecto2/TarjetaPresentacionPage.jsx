@@ -64,14 +64,16 @@ const TarjetaPresentacionPage = () => {
 
       <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4 g-xl-5 justify-content-center">
         {profesionales.map((pro) => (
-          <div className="col px-4 px-sm-2 px-lg-0" key={pro.id}>
-            <TarjetaPresentacion 
-              nombre={pro.nombre}
-              apellido={pro.apellido}
-              profesion={pro.profesion}
-              imagen={pro.imagen}
-              objectPosition={pro.objectPosition}
-            />
+          <div className="col" key={pro.id}>
+            <div className="px-4 px-sm-0 h-100">
+              <TarjetaPresentacion 
+                nombre={pro.nombre}
+                apellido={pro.apellido}
+                profesion={pro.profesion}
+                imagen={pro.imagen}
+                objectPosition={pro.objectPosition}
+              />
+            </div>
           </div>
         ))}
       </div>
