@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Variables base para tema claro Premium */
+  --bg-app: #f1f5f9; /* Un tono más suave y menos impactante que el blanco/gris puro */
+  --bg-card: #ffffff;
+  --bg-glass: rgba(241, 245, 249, 0.85);
+  
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  
+  --border-color: rgba(0, 0, 0, 0.06);
+  --dashed-border: #d1d5db;
+  
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+  --primary-accent: #4f46e5;
+  --primary-hover: #4338ca;
+}
+
+[data-bs-theme='dark'] {
+  /* Variables base para tema oscuro Premium */
+  --bg-app: #0f172a;
+  --bg-card: #1e293b;
+  --bg-glass: rgba(15, 23, 42, 0.85);
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  
+  --border-color: rgba(255, 255, 255, 0.08);
+  --dashed-border: #334155;
+  
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  
+  --primary-accent: #6366f1;
+  --primary-hover: #818cf8;
+}
+
+body {
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Glassmorphism Navbar */
+.navbar-glass {
+  background-color: var(--bg-glass) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.4s ease;
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.theme-toggle-btn:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-card);
+}
+
+.theme-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+/* Tarjetas (Cards) Premium */
+.card-premium {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 1rem !important;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+}
+
+.task-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--primary-accent) !important;
+}
+
+/* Botones Premium */
+.btn-primary {
+  background-color: var(--primary-accent) !important;
+  border-color: var(--primary-accent) !important;
+  box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
+  box-shadow: 0 6px 12px rgba(79, 70, 229, 0.3);
+  transform: translateY(-1px);
+}
+
+[data-bs-theme='dark'] .btn-light {
+  background-color: #334155;
+  color: #f8fafc;
+  border-color: transparent;
+}
+
+[data-bs-theme='dark'] .btn-light:hover {
+  background-color: #475569;
+}
+
+/* Estilos de Texto */
+.text-body-emphasis {
+  color: var(--text-primary) !important;
+}
+
+.text-body-secondary {
+  color: var(--text-secondary) !important;
+}
+
+/* Form inputs (Inputs y Textareas) */
+.form-control {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border-color: var(--primary-accent);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+}
+
+[data-bs-theme='dark'] .form-control {
+  background-color: #0f172a;
+}
+
+[data-bs-theme='dark'] .form-control:focus {
+  background-color: #0f172a;
+}
+
+[data-bs-theme='dark'] .form-control::placeholder {
+  color: #64748b;
+}
+
+/* Empty State / Borde punteado */
+.border-dashed {
+  border: 2px dashed var(--dashed-border);
+}
