@@ -1,3 +1,8 @@
+/**
+ * Archivo: App.jsx
+ * Propósito: Define la lógica y funcionalidad asociada a App.
+ */
+
 ﻿import React from 'react';
 import HolaMundo from './pages/Proyecto1/HolaMundo';
 import ThemeToggle from './components/ThemeToggle/ThemeToggle';

@@ -1,3 +1,8 @@
+/**
+ * Archivo: Tarea.jsx
+ * Propósito: Define la lógica y funcionalidad asociada a Tarea.
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './ListaTareas.module.css';

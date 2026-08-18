@@ -1,3 +1,8 @@
+/**
+ * Archivo: ThemeToggle.jsx
+ * Propósito: Define la lógica y funcionalidad asociada a ThemeToggle.
+ */
+
 import React, { useEffect, useState } from 'react';
 
 const ThemeToggle = () => {

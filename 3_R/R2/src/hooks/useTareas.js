@@ -1,3 +1,8 @@
+/**
+ * useTareas.js
+ * Hook personalizado para facilitar el acceso al TareasContext.
+ */
+
 import { useContext } from 'react';
 import { TareasContext } from '../context/TareasContext';
 

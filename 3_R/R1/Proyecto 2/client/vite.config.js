@@ -1,3 +1,8 @@
+/**
+ * Archivo: vite.config.js
+ * Propósito: Define la lógica y funcionalidad asociada a vite.config.
+ */
+
 ﻿import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 

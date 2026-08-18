@@ -1,3 +1,8 @@
+/**
+ * Archivo: GameControls.jsx
+ * Propósito: Define la lógica y funcionalidad asociada a GameControls.
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 

@@ -1,3 +1,8 @@
+/**
+ * Archivo: Game.jsx
+ * Propósito: Define la lógica y funcionalidad asociada a Game.
+ */
+
 import React, { useState, useEffect } from 'react';
 import Board from './Board';
 import GameStatus from './GameStatus';

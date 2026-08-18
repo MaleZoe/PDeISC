@@ -1,3 +1,8 @@
+/**
+ * Archivo: FormularioSimplePage.jsx
+ * Propósito: Define la lógica y funcionalidad asociada a FormularioSimplePage.
+ */
+
 import React from 'react';
 import FormularioSimple from '../../components/FormularioSimple/FormularioSimple';
 

@@ -1,3 +1,8 @@
+/**
+ * Archivo: TarjetaPresentacion.jsx
+ * Propósito: Define la lógica y funcionalidad asociada a TarjetaPresentacion.
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './TarjetaPresentacion.module.css';

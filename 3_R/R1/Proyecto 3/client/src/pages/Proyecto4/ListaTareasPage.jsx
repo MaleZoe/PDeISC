@@ -1,3 +1,8 @@
+/**
+ * Archivo: ListaTareasPage.jsx
+ * Propósito: Define la lógica y funcionalidad asociada a ListaTareasPage.
+ */
+
 import React from 'react';
 import ListaTareas from '../../components/ListaTareas/ListaTareas';
 

@@ -1,3 +1,8 @@
+/**
+ * Archivo: FormularioSimple.jsx
+ * Propósito: Define la lógica y funcionalidad asociada a FormularioSimple.
+ */
+
 import React, { useState } from 'react';
 import styles from './FormularioSimple.module.css';
 

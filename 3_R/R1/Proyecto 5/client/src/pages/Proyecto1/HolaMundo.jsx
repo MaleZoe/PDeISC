@@ -1,3 +1,8 @@
+/**
+ * Archivo: HolaMundo.jsx
+ * Propósito: Define la lógica y funcionalidad asociada a HolaMundo.
+ */
+
 import React from 'react';
 import styles from './HolaMundo.module.css';
 

@@ -1,3 +1,8 @@
+/**
+ * InicioPage.jsx
+ * Vista principal que muestra el listado de todas las tareas.
+ */
+
 import { Link } from 'react-router-dom';
 import { useTareas } from '../hooks/useTareas';
 import { TareaCard } from '../components/TareaCard';

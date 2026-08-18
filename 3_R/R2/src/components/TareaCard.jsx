@@ -1,3 +1,8 @@
+/**
+ * TareaCard.jsx
+ * Componente de tarjeta para renderizar un resumen de la tarea en la lista.
+ */
+
 import { Link } from 'react-router-dom';
 import { TareaEstadoBadge } from './TareaEstadoBadge';
 

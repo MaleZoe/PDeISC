@@ -1,3 +1,8 @@
+/**
+ * Navbar.jsx
+ * Barra de navegación superior con el toggle de temas claro/oscuro.
+ */
+
 import { Link, NavLink } from 'react-router-dom';
 import { useTareas } from '../hooks/useTareas';
 import { useState, useEffect } from 'react';

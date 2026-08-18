@@ -1,3 +1,8 @@
+/**
+ * Archivo: ContadorPage.jsx
+ * Propósito: Define la lógica y funcionalidad asociada a ContadorPage.
+ */
+
 import React from 'react';
 import Contador from '../../components/Contador/Contador';
 

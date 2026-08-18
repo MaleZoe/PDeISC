@@ -1,3 +1,8 @@
+/**
+ * CrearTareaPage.jsx
+ * Vista con el formulario para crear una nueva tarea con validación.
+ */
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTareas } from '../hooks/useTareas';

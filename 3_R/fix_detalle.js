@@ -1,4 +1,6 @@
-/**
+const fs = require('fs');
+
+const code = `/**
  * DetalleTareaPage.jsx
  * Vista que muestra la información completa de una tarea específica.
  */
@@ -84,14 +86,14 @@ export const DetalleTareaPage = () => {
                 <i className="bi bi-trash3"></i> Eliminar
               </button>
               <Link 
-                to={`/editar/${tarea.id}`}
+                to={\`/editar/\${tarea.id}\`}
                 className="btn btn-outline-primary shadow-sm rounded-pill px-4 d-flex align-items-center justify-content-center gap-2"
               >
                 <i className="bi bi-pencil"></i> Editar
               </Link>
               <button 
                 onClick={handleToggleEstado}
-                className={`btn btn-${tarea.completada ? 'outline-warning' : 'success'} shadow-sm rounded-pill px-4 d-flex align-items-center justify-content-center gap-2`}
+                className={\`btn btn-\${tarea.completada ? 'outline-warning' : 'success'} shadow-sm rounded-pill px-4 d-flex align-items-center justify-content-center gap-2\`}
               >
                 {tarea.completada ? (
                   <><i className="bi bi-arrow-counterclockwise"></i> Marcar como pendiente</>
@@ -112,13 +114,13 @@ export const DetalleTareaPage = () => {
                 <button type="button" className="btn-close" onClick={() => setModalAction(null)} aria-label="Close"></button>
               </div>
               <div className="modal-body py-4 text-center">
-                <div className={`mb-3 text-${modalAction === 'delete' ? 'danger' : (tarea.completada ? 'warning' : 'success')}`}>
-                  <i className={`bi ${modalAction === 'delete' ? 'bi-exclamation-triangle-fill' : (tarea.completada ? 'bi-arrow-counterclockwise' : 'bi-check-circle-fill')}`} style={{ fontSize: '3rem' }}></i>
+                <div className={\`mb-3 text-\${modalAction === 'delete' ? 'danger' : (tarea.completada ? 'warning' : 'success')}\`}>
+                  <i className={\`bi \${modalAction === 'delete' ? 'bi-exclamation-triangle-fill' : (tarea.completada ? 'bi-arrow-counterclockwise' : 'bi-check-circle-fill')}\`} style={{ fontSize: '3rem' }}></i>
                 </div>
                 <p className="fs-5 mb-0">
                   {modalAction === 'delete' 
                     ? "¿Estás seguro de que deseas eliminar esta tarea definitivamente?" 
-                    : `¿Estás seguro de que deseas ${tarea.completada ? "marcar como pendiente" : "marcar como completada"} esta tarea?`
+                    : \`¿Estás seguro de que deseas \${tarea.completada ? "marcar como pendiente" : "marcar como completada"} esta tarea?\`
                   }
                 </p>
               </div>
@@ -128,7 +130,7 @@ export const DetalleTareaPage = () => {
                 </button>
                 <button 
                   type="button" 
-                  className={`btn btn-${modalAction === 'delete' ? 'danger' : (tarea.completada ? 'warning' : 'success')} rounded-pill px-4 shadow-sm text-white`} 
+                  className={\`btn btn-\${modalAction === 'delete' ? 'danger' : (tarea.completada ? 'warning' : 'success')} rounded-pill px-4 shadow-sm text-white\`} 
                   onClick={confirmarCambio}
                 >
                   {modalAction === 'delete' ? 'Eliminar' : 'Confirmar'}
@@ -141,3 +143,7 @@ export const DetalleTareaPage = () => {
     </div>
   );
 };
+`;
+
+fs.writeFileSync('c:/Users/salvi/Documents/GitHub/PDeISC/3_R/R2/src/pages/DetalleTareaPage.jsx', code);
+console.log('Done');

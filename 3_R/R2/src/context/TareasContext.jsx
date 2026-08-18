@@ -1,3 +1,8 @@
+/**
+ * TareasContext.jsx
+ * Contexto global para manejar el estado de las tareas y el tema (claro/oscuro).
+ */
+
 import { createContext, useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { tareasIniciales } from '../data/tareasIniciales';
@@ -50,8 +55,12 @@ export const TareasProvider = ({ children }) => {
     ));
   };
 
+  const eliminarTarea = (id) => {
+    setTareas(tareas.filter(tarea => tarea.id !== id));
+  };
+
   return (
-    <TareasContext.Provider value={{ tareas, agregarTarea, editarTarea, cambiarEstadoTarea, tema, toggleTema }}>
+    <TareasContext.Provider value={{ tareas, agregarTarea, editarTarea, eliminarTarea, cambiarEstadoTarea, tema, toggleTema }}>
       {children}
     </TareasContext.Provider>
   );

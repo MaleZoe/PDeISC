@@ -1,3 +1,8 @@
+/**
+ * Archivo: GameStatus.jsx
+ * Propósito: Define la lógica y funcionalidad asociada a GameStatus.
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './TicTacToe.module.css';

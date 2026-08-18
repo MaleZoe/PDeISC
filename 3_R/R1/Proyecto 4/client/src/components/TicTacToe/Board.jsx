@@ -1,3 +1,8 @@
+/**
+ * Archivo: Board.jsx
+ * Propósito: Define la lógica y funcionalidad asociada a Board.
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Square from './Square';

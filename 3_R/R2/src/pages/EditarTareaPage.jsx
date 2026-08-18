@@ -1,3 +1,8 @@
+/**
+ * EditarTareaPage.jsx
+ * Vista con el formulario para editar los detalles de una tarea existente.
+ */
+
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTareas } from '../hooks/useTareas';

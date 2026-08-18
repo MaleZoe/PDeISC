@@ -1,3 +1,8 @@
+/**
+ * Archivo: Contador.jsx
+ * Propósito: Define la lógica y funcionalidad asociada a Contador.
+ */
+
 import React, { useState } from 'react';
 import styles from './Contador.module.css';
 

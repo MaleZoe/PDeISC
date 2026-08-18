@@ -1,3 +1,8 @@
+/**
+ * Archivo: db.js
+ * Propósito: Define la lógica y funcionalidad asociada a db.
+ */
+
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 

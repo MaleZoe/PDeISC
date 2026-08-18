@@ -4,10 +4,11 @@ Aplicación web de Lista de Tareas tipo Single Page Application (SPA), construid
 
 ## Características
 
-- **Enrutamiento del lado del cliente**: Navegación sin recargas usando React Router (`/`, `/tarea/:id`, `/crear`).
+- **Enrutamiento del lado del cliente**: Navegación sin recargas usando React Router (`/`, `/tarea/:id`, `/crear`, `/editar/:id`).
 - **Estado Global**: Manejo de tareas en memoria mediante React Context (`TareasContext`).
-- **Diseño Responsivo y Temas**: Interfaz adaptable a móviles con soporte para modo claro y oscuro (Dark/Light Mode).
-- **Validación de Formularios**: Creación de tareas con validación en cliente.
+- **Diseño Responsivo y Temas Premium**: Interfaz adaptable a móviles con un rediseño que soporta modo oscuro elegante y modo claro suavizado (Glassmorphism, iconos Sol/Luna).
+- **Validación de Formularios**: Creación y edición de tareas con validaciones de longitud mínima.
+- **Interacciones personalizadas**: Modales en React para confirmar acciones (ej. cambiar el estado de la tarea) sin usar alertas del sistema.
 
 ## Tecnologías
 

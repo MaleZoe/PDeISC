@@ -1,3 +1,8 @@
+/**
+ * Archivo: server.js
+ * Propósito: Define la lógica y funcionalidad asociada a server.
+ */
+
 const express = require('express');
 const cors = require('cors');
 const db = require('./db');

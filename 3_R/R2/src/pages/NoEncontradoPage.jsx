@@ -1,3 +1,8 @@
+/**
+ * NoEncontradoPage.jsx
+ * Vista de fallback para manejar errores 404 (rutas no encontradas).
+ */
+
 import { Link } from 'react-router-dom';
 
 export const NoEncontradoPage = () => {

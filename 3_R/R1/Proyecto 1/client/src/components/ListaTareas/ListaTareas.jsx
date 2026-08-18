@@ -1,3 +1,8 @@
+/**
+ * Archivo: ListaTareas.jsx
+ * Propósito: Define la lógica y funcionalidad asociada a ListaTareas.
+ */
+
 import React, { useState, useEffect } from 'react';
 import Tarea from './Tarea';
 import styles from './ListaTareas.module.css';

@@ -1,3 +1,8 @@
+/**
+ * Archivo: App.jsx
+ * Propósito: Define la lógica y funcionalidad asociada a App.
+ */
+
 ﻿import React from 'react';
 import ListaTareasPage from './pages/Proyecto4/ListaTareasPage';
 import ThemeToggle from './components/ThemeToggle/ThemeToggle';

@@ -1,3 +1,8 @@
+/**
+ * App.jsx
+ * Componente principal de enrutamiento. Define las rutas de la aplicación.
+ */
+
 import { Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { InicioPage } from './pages/InicioPage';

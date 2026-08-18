@@ -1,3 +1,8 @@
+/**
+ * main.jsx
+ * Punto de entrada de la aplicación React. Inicializa el Contexto y el Router.
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';

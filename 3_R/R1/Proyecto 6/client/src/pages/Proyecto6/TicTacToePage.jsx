@@ -1,3 +1,8 @@
+/**
+ * Archivo: TicTacToePage.jsx
+ * Propósito: Define la lógica y funcionalidad asociada a TicTacToePage.
+ */
+
 import React, { useState, useEffect } from 'react';
 import Game from '../../components/TicTacToe/Game';
 import styles from '../../components/TicTacToe/TicTacToe.module.css';
