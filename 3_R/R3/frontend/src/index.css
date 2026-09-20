@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Merriweather", "Georgia", serif;
+  --font-sans: "Inter", "system-ui", sans-serif;
+}
+
+@layer base {
+  :root {
+    --bg-base: #f8f9fa;
+    --bg-card: #ffffff;
+    --text-main: #111827;
+    --text-muted: #6b7280;
+    --accent: #4f46e5;
+    --accent-hover: #4338ca;
+    --border-color: #e5e7eb;
+  }
+
+  .dark {
+    --bg-base: #09090b;
+    --bg-card: #18181b;
+    --text-main: #f9fafb;
+    --text-muted: #a1a1aa;
+    --accent: #818cf8;
+    --accent-hover: #6366f1;
+    --border-color: #27272a;
+  }
+
+  body {
+    background-color: var(--bg-base);
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+@layer utilities {
+  .distinctive-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px -2px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .distinctive-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+  }
+
+  .btn-primary {
+    background-color: var(--accent);
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--accent-hover);
+    transform: scale(1.02);
+  }
+  
+  .input-styled {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    background-color: transparent;
+    border: 2px solid var(--border-color);
+    color: var(--text-main);
+    transition: border-color 0.2s;
+  }
+  
+  .input-styled:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  
+  .input-styled option {
+    background-color: var(--bg-card);
+    color: var(--text-main);
+  }
+  
+  .title-serif {
+    font-family: var(--font-serif);
+    letter-spacing: -0.02em;
+  }
+}
