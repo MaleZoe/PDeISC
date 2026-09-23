@@ -1,0 +1,8 @@
+- [x] Pedir credenciales de Firebase al usuario (Cambiado a TiDB MySQL)
+- [x] Instalar el SDK de firebase en el proyecto (Cambiado a `mysql2`, `jsonwebtoken`)
+- [x] Crear endpoints Vercel (`api/login.ts` y `api/projects.ts`)
+- [x] Modificar `src/lib/data.ts` para usar la API en lugar de `localStorage`
+- [x] Modificar `src/components/AdminLogin.tsx` para usar la API
+- [x] Modificar `src/components/AdminDashboard.tsx` para usar la API y JWT
+- [x] Modificar `src/components/Projects.tsx` para leer de la API
+- [x] Testear la base de datos MySQL inicializándola

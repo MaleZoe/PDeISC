@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0c0b09;
+  --color-surface: #181612;
+  --color-surface-high: #201e19;
+  --color-cream: #edeadb;
+  --color-amber: #c8903a;
+  --color-muted: #7d7568;
+  --color-border: #2c2924;
+
+  --font-family-display: "Bricolage Grotesque", sans-serif;
+  --font-family-sans: "Figtree", system-ui, sans-serif;
+}
+
+body.light-mode {
+  /* Soften the pure whites into a warm creamy tone and reduce harsh contrast */
+  filter: invert(1) hue-rotate(180deg) sepia(0.2) contrast(0.92) brightness(0.96);
+  background-color: #fff;
+}
+
+/* Double-invert images so they don't look like x-ray negatives */
+body.light-mode img,
+body.light-mode video,
+body.light-mode .project-wide-media svg {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Hide or reduce dark-mode specific overlays that look like white fog in light mode */
+body.light-mode .noise-overlay {
+  display: none;
+}
+body.light-mode .hero-vignette {
+  opacity: 0.15; /* keep just a tiny bit so it's not totally gone, but removes the thick fog */
+}
+body.light-mode .dot-grid {
+  opacity: 0.1;
+}
+
+/* Keep hero text white/light so it contrasts against the dark photo in light mode */
+body.light-mode .keep-light {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Scroll offset para StickyNav (72px) ──────────────── */
+
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* ── Accesibilidad: focus rings ───────────────────────── */
+
+:focus-visible {
+  outline: 2px solid #c8903a;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #c8903a;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ── Reduced motion: desactiva animaciones ────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-cream);
+  font-family: var(--font-family-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Marquee animation ────────────────────────────── */
+
+@keyframes marquee-left {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes marquee-right {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.marquee-track-left {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 28s linear infinite;
+}
+.marquee-track-right {
+  display: flex;
+  width: max-content;
+  animation: marquee-right 32s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track-left,
+  .marquee-track-right { animation: none; }
+}
+
+/* ── Dot grid background ──────────────────────────── */
+
+.dot-grid {
+  background-image: radial-gradient(circle, rgba(237,234,219,0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* ── Responsive overrides ─────────────────────────────
+   Ordenado de más ancho a más angosto: los breakpoints
+   más chicos van al final para ganar por orden de cascada
+   cuando varios @media coinciden a la vez.
+──────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .projects-featured-grid { grid-template-columns: 1fr !important; }
+  .project-wide { flex-direction: column !important; }
+  .project-wide-media { min-height: 220px !important; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .stats-grid > div:last-child { grid-column: span 2; }
+  .cert-grid { grid-template-columns: 1fr !important; }
+  .cert-grid > * { grid-column: span 1 !important; }
+}
+
+@media (max-width: 640px) {
+  .desktop-nav { display: none !important; }
+  .mobile-nav { display: flex !important; }
+  .mobile-nav-menu { display: flex !important; }
+  .nav-links { display: none !important; }
+  #hero { padding: 0.5rem !important; }
+  #hero > div { border-radius: 1.25rem !important; }
+  .hero-grid { grid-template-columns: 1fr !important; }
+  .cert-grid { grid-template-columns: 1fr !important; }
+  .cert-grid > * { grid-column: span 1 !important; }
+  .skills-grid { grid-template-columns: 1fr !important; }
+  .skill-group {
+    border-right: none !important;
+    border-bottom: 1px solid #2c2924 !important;
+  }
+  .skill-group:last-child { border-bottom: none !important; }
+}
+
+@media (min-width: 641px) {
+  .desktop-nav { display: flex !important; }
+  .mobile-nav { display: none !important; }
+  .mobile-nav-menu { display: none !important; }
+}
+
