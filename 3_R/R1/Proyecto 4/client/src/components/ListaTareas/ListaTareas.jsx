@@ -62,6 +62,12 @@ const ListaTareas = () => {
     setTareas(prev => prev.filter(tarea => tarea.id !== id));
   };
 
+  const editarTarea = (id, nuevoTexto) => {
+    setTareas(prev => prev.map(tarea => 
+      tarea.id === id ? { ...tarea, texto: nuevoTexto } : tarea
+    ));
+  };
+
   const pendientes = tareas.filter(t => !t.completada);
   const completadas = tareas.filter(t => t.completada);
 
@@ -123,6 +129,7 @@ const ListaTareas = () => {
                       tarea={tarea} 
                       onToggle={alternarCompletada} 
                       onEliminar={eliminarTarea} 
+                      onEditar={editarTarea}
                     />
                   ))}
                 </ul>
@@ -152,6 +159,7 @@ const ListaTareas = () => {
                       tarea={tarea} 
                       onToggle={alternarCompletada} 
                       onEliminar={eliminarTarea} 
+                      onEditar={editarTarea}
                     />
                   ))}
                 </ul>
