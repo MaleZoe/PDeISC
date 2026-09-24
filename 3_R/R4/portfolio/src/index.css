@@ -31,7 +31,7 @@ body.light-mode .noise-overlay {
   display: none;
 }
 body.light-mode .hero-vignette {
-  opacity: 0.15; /* keep just a tiny bit so it's not totally gone, but removes the thick fog */
+  opacity: 0.7; /* increased opacity to darken the background and make light text readable */
 }
 body.light-mode .dot-grid {
   opacity: 0.1;

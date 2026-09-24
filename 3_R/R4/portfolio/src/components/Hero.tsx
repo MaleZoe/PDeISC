@@ -294,8 +294,7 @@ export default function Hero() {
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
-                objectPosition: '85% 0%',
-                transform: 'scale(1.1)',
+                objectPosition: 'center bottom',
               }}
             />
           )}
@@ -357,11 +356,13 @@ export default function Hero() {
 
         {/* ─── Bottom content ─────────────────────── */}
         <div
+          className="keep-light"
           style={{
             position: 'absolute',
             bottom: 0,
             left: 0,
             right: 0,
+            paddingBottom: 'clamp(0.5rem, 2vw, 1.5rem)',
           }}
         >
           {/* 8-col / 4-col grid */}
