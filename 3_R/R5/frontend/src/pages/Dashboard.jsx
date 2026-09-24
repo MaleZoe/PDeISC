@@ -209,6 +209,11 @@ export default function Dashboard() {
                                             {user.role_id !== 3 && (
                                                 <p className="text-sm mt-1" style={{color: 'var(--text-muted)'}}>Lector: {l.user_name}</p>
                                             )}
+                                            {l.created_at && (
+                                                <p className="text-xs mt-1" style={{color: 'var(--text-muted)'}}>
+                                                    {new Date(l.created_at).toLocaleString('es-ES', { dateStyle: 'medium', timeStyle: 'short' })}
+                                                </p>
+                                            )}
                                         </div>
                                         <span className="text-[10px] uppercase tracking-widest px-2 py-1 rounded font-bold border" style={{borderColor: 'var(--border-color)', color: l.status === 'ACTIVE' ? 'var(--accent)' : l.status === 'REJECTED' ? 'red' : 'inherit'}}>
                                             {l.status === 'PENDING' ? 'Pendiente' : l.status === 'ACTIVE' ? 'Activo' : l.status === 'REJECTED' ? 'Rechazado' : 'Finalizado'}

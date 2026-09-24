@@ -34,8 +34,8 @@
       "HTML5 Canvas",
       "CSS3"
     ],
-    "link": "#",
-    "github": null,
+    "link": "https://github.com/SaraWillersLohr/juegosestaga",
+    "github": "https://github.com/SaraWillersLohr/juegosestaga",
     "imageUrl": "/projects/juegos.jpg"
   },
   {
@@ -47,8 +47,8 @@
       "CSS",
       "JavaScript"
     ],
-    "link": "#",
-    "github": null,
+    "link": "https://github.com/MaleZoe/web-escolar",
+    "github": "https://github.com/MaleZoe/web-escolar",
     "imageUrl": "/projects/tecnica.png"
   }
 ]

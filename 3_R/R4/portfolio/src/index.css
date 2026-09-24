@@ -22,7 +22,8 @@ body.light-mode {
 /* Double-invert images so they don't look like x-ray negatives */
 body.light-mode img,
 body.light-mode video,
-body.light-mode .project-wide-media svg {
+body.light-mode .project-wide-media svg,
+body.light-mode .hero-vignette {
   filter: invert(1) hue-rotate(180deg);
 }
 
@@ -31,7 +32,7 @@ body.light-mode .noise-overlay {
   display: none;
 }
 body.light-mode .hero-vignette {
-  opacity: 0.7; /* increased opacity to darken the background and make light text readable */
+  opacity: 1; /* Keep vignette fully opaque so the dark gradient protects the light text */
 }
 body.light-mode .dot-grid {
   opacity: 0.1;

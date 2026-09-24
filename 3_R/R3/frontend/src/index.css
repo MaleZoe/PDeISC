@@ -7,13 +7,13 @@
 
 @layer base {
   :root {
-    --bg-base: #f8f9fa;
-    --bg-card: #ffffff;
-    --text-main: #111827;
-    --text-muted: #6b7280;
-    --accent: #4f46e5;
-    --accent-hover: #4338ca;
-    --border-color: #e5e7eb;
+    --bg-base: #f2efe9;
+    --bg-card: #e9e4d9;
+    --text-main: #1f1c18;
+    --text-muted: #5c5851;
+    --accent: #1f1c18;
+    --accent-hover: #3d3730;
+    --border-color: #d8d3c7;
   }
 
   .dark {
