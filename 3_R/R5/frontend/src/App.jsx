@@ -2,10 +2,39 @@ import { useState } from 'react';
 import RouterApp from './pages/RouterApp';
 import StateApp from './pages/StateApp';
 import { AuthProvider } from './context/AuthContext';
-import { ThemeProvider } from './context/ThemeContext';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
+import { Moon, Sun } from 'lucide-react';
+
+const ThemeToggleButton = () => {
+    const { isDark, toggleTheme } = useTheme();
+    return (
+        <button 
+            onClick={toggleTheme} 
+            className="absolute top-6 right-6 p-3 rounded-xl transition-all shadow-sm border hover:-translate-y-0.5 z-50"
+            style={{backgroundColor: 'var(--bg-base)', borderColor: 'var(--border-color)', color: 'var(--text-main)'}}
+            title="Alternar Tema"
+        >
+            {isDark ? <Sun size={20} /> : <Moon size={20} />}
+        </button>
+    );
+};
 
 export default function App() {
-    const [mode, setModeState] = useState(() => localStorage.getItem('appMode') || null);
+    const [mode, setModeState] = useState(() => {
+        // Si estamos regresando de Auth0 (URL tiene parámetros 'code', 'error', o 'state')
+        // conservamos el modo seleccionado para no interrumpir el flujo.
+        const isAuth0Callback = window.location.search.includes('code=') || 
+                                window.location.search.includes('error=') || 
+                                window.location.search.includes('state=');
+                                
+        if (isAuth0Callback) {
+            return localStorage.getItem('appMode') || null;
+        } else {
+            // Si es una visita fresca, limpiamos y mostramos la pantalla inicial obligatoriamente
+            localStorage.removeItem('appMode');
+            return null;
+        }
+    });
 
     const setMode = (newMode) => {
         localStorage.setItem('appMode', newMode);
@@ -15,7 +44,8 @@ export default function App() {
     if (!mode) {
         return (
             <ThemeProvider>
-                <div className="min-h-screen flex flex-col justify-center items-center px-4" style={{backgroundColor: 'var(--bg-base)'}}>
+                <div className="min-h-screen flex flex-col justify-center items-center px-4 relative" style={{backgroundColor: 'var(--bg-base)'}}>
+                    <ThemeToggleButton />
                     <div className="text-center mb-16 animate-fade-in-up">
                         <h1 className="text-5xl md:text-7xl font-bold title-serif mb-4" style={{color: 'var(--text-main)'}}>
                             BiblioTech
