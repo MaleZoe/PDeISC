@@ -1,0 +1,20 @@
+name: Hello
+
+on:
+  push:
+    branches: ['main']
+
+jobs:
+  greet:
+    outputs:
+      greeting: ${{ steps.set_greeting.outputs.greeting }}
+    steps:
+      - id: set_greeting
+        run: set-output greeting "Hello from EAS Workflows"
+  show_info:
+    needs: [greet]
+    type: doc
+    params:
+      md: |
+        # Workflow Output
+        **${{ needs.greet.outputs.greeting }}**

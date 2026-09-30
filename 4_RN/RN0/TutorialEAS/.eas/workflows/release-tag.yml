@@ -1,0 +1,21 @@
+name: Tagged Release & Submit
+
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  build_android:
+    name: Build Android App Bundle
+    type: build
+    params:
+      platform: android
+      profile: production
+
+  submit_android:
+    name: Submit to Google Play Store
+    needs: [build_android]
+    type: submit
+    params:
+      platform: android
+      build_id: ${{ needs.build_android.outputs.build_id }}

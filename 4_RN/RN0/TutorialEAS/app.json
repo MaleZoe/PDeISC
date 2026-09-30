@@ -1,0 +1,31 @@
+{
+  "expo": {
+    "name": "TutorialEAS",
+    "slug": "TutorialEAS",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.malesalvia.tutorialeas"
+    },
+    "android": {
+      "package": "com.malesalvia.tutorialeas",
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "cfc78868-6c30-4849-a2d9-fa20e635cc04"
+      }
+    }
+  }
+}
