@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { ExternalLink, Award } from 'lucide-react'
 import WordsPullUp from './WordsPullUp'
@@ -183,6 +183,27 @@ function CertCard({ cert, index }: { cert: Certificate; index: number }) {
 export default function Certificates() {
   const ref = useRef<HTMLElement>(null)
   const isInView = useInView(ref as React.RefObject<Element>, { once: true, margin: '-60px' })
+  const [items, setItems] = useState<Certificate[]>(certificates)
+
+  useEffect(() => {
+    fetch('/api/certificates')
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setItems(data.map(d => ({
+            id: String(d.id),
+            year: d.year || '',
+            platform: d.platform,
+            platformColor: d.platform_color || d.platformColor || '#c8903a',
+            title: d.title,
+            description: d.description || '',
+            url: d.url,
+            featured: Boolean(d.featured),
+          })))
+        }
+      })
+      .catch(() => {})
+  }, [])
 
   return (
     <section
@@ -235,7 +256,7 @@ export default function Certificates() {
             gap: '0.75rem',
           }}
         >
-          {certificates.map((cert, i) => (
+          {items.map((cert, i) => (
             <CertCard key={cert.id} cert={cert} index={i} />
           ))}
         </div>

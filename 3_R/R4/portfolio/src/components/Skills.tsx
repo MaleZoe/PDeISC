@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
 import {
   siHtml5,
@@ -19,6 +19,23 @@ import {
 import WordsPullUp from './WordsPullUp'
 import TechIcon from './TechIcon'
 import { EASE } from '../lib/constants'
+
+const iconMap: Record<string, any> = {
+  siHtml5,
+  siCss,
+  siJavascript,
+  siReact,
+  siTypescript,
+  siCplusplus,
+  siPhp,
+  siMysql,
+  siAnthropic,
+  siChatbot,
+  siOpencode,
+  siGit,
+  siGithub,
+  siJira
+}
 
 const skillGroups = [
   {
@@ -61,6 +78,26 @@ const skillGroups = [
 export default function Skills() {
   const ref = useRef<HTMLElement>(null)
   const isInView = useInView(ref as React.RefObject<Element>, { once: true, margin: '-60px' })
+  const [groups, setGroups] = useState(skillGroups)
+
+  useEffect(() => {
+    fetch('/api/skills')
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          const catMap: Record<string, { name: string; icon: any }[]> = {}
+          data.forEach((item: any) => {
+            if (!catMap[item.category]) catMap[item.category] = []
+            catMap[item.category].push({
+              name: item.name,
+              icon: iconMap[item.icon_key] || siChatbot,
+            })
+          })
+          setGroups(Object.entries(catMap).map(([category, items]) => ({ category, items })))
+        }
+      })
+      .catch(() => {})
+  }, [])
 
   return (
     <section
@@ -117,7 +154,7 @@ export default function Skills() {
           gridTemplateColumns: 'repeat(2, 1fr)',
           gap: '0',
         }}>
-          {skillGroups.map((group, gi) => (
+          {groups.map((group, gi) => (
             <motion.div
               key={group.category}
               className="skill-group"

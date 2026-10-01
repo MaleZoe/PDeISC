@@ -1,9 +1,9 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import WordsPullUp from './WordsPullUp'
 import { EASE } from '../lib/constants'
 
-const ABOUT_TEXT = "Este portfolio reúne mi recorrido académico y técnico, junto con una selección de proyectos. A través de estos trabajos, reflejo mi perfil integral: aunque mi especialidad y mayor interés es el Front-End, también desarrollo y tengo sólidos conocimientos en Back-End, combinando diseño, funcionalidad, bases de datos y herramientas de IA en cada desarrollo."
+const DEFAULT_ABOUT_TEXT = "Este portfolio reúne mi recorrido académico y técnico, junto con una selección de proyectos. A través de estos trabajos, reflejo mi perfil integral: aunque mi especialidad y mayor interés es el Front-End, también desarrollo y tengo sólidos conocimientos en Back-End, combinando diseño, funcionalidad, bases de datos y herramientas de IA en cada desarrollo."
 
 function AnimatedChar({ char, index, total, scrollYProgress }: {
   char: string
@@ -17,13 +17,13 @@ function AnimatedChar({ char, index, total, scrollYProgress }: {
   return <motion.span style={{ opacity }}>{char}</motion.span>
 }
 
-function AnimatedParagraph() {
+function AnimatedParagraph({ text }: { text: string }) {
   const ref = useRef<HTMLParagraphElement>(null)
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start 0.9', 'end 0.55'],
   })
-  const chars = ABOUT_TEXT.split('')
+  const chars = text.split('')
 
   return (
     <p
@@ -36,7 +36,7 @@ function AnimatedParagraph() {
         margin: '0 auto',
         textAlign: 'center',
       }}
-      aria-label={ABOUT_TEXT}
+      aria-label={text}
     >
       {chars.map((char, i) => (
         <AnimatedChar
@@ -51,15 +51,36 @@ function AnimatedParagraph() {
   )
 }
 
-const stats = [
-  { value: '15+', label: 'Proyectos' },
-  { value: 'IA', label: 'Integrada' },
-  { value: '+2', label: 'Años Exp.' },
-]
-
 export default function About() {
   const ref = useRef<HTMLElement>(null)
   const isInView = useInView(ref as React.RefObject<Element>, { once: true, margin: '-80px' })
+
+  const [name, setName] = useState('Soy Malena Salvia,')
+  const [subtitle, setSubtitle] = useState('Estudiante de Informática.')
+  const [aboutText, setAboutText] = useState(DEFAULT_ABOUT_TEXT)
+  const [stats, setStats] = useState([
+    { value: '15+', label: 'Proyectos' },
+    { value: 'IA', label: 'Integrada' },
+    { value: '+2', label: 'Años Exp.' },
+  ])
+
+  useEffect(() => {
+    fetch('/api/content')
+      .then(r => r.json())
+      .then(d => {
+        if (d.about_name) setName(d.about_name.startsWith('Soy ') ? d.about_name : `Soy ${d.about_name}`)
+        if (d.about_subtitle) setSubtitle(d.about_subtitle)
+        if (d.about_text) setAboutText(d.about_text)
+        if (d.stat_1_value || d.stat_2_value || d.stat_3_value) {
+          setStats([
+            { value: d.stat_1_value || '15+', label: d.stat_1_label || 'Proyectos' },
+            { value: d.stat_2_value || 'IA', label: d.stat_2_label || 'Integrada' },
+            { value: d.stat_3_value || '+2', label: d.stat_3_label || 'Años Exp.' },
+          ])
+        }
+      })
+      .catch(() => {})
+  }, [])
 
   return (
     <section
@@ -90,7 +111,8 @@ export default function About() {
         {/* Headline */}
         <div style={{ marginBottom: '4rem' }}>
           <WordsPullUp
-            text="Soy Malena Salvia,"
+            key={name}
+            text={name}
             as="h2"
             delay={0.05}
             style={{
@@ -104,7 +126,8 @@ export default function About() {
             }}
           />
           <WordsPullUp
-            text="Estudiante de Informática."
+            key={subtitle}
+            text={subtitle}
             as="h2"
             delay={0.2}
             style={{
@@ -120,7 +143,7 @@ export default function About() {
 
         {/* Scroll-animated paragraph */}
         <div style={{ marginBottom: '4.5rem' }}>
-          <AnimatedParagraph />
+          <AnimatedParagraph text={aboutText} />
         </div>
 
         {/* Stats */}

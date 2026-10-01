@@ -233,6 +233,18 @@ function PullUpWord({ word, delay }: { word: string; delay: number }) {
 
 export default function Hero() {
   const [isLight, setIsLight] = useState(false)
+  const [tagline, setTagline] = useState('Full-Stack Developer Jr. | AI-Assisted Development.')
+  const [desc, setDesc] = useState('Estudiante de Informática. Especializada en Front-End, pero con capacidad y experiencia desarrollando en Back-End. Creo aplicaciones completas integrando herramientas de IA.')
+
+  useEffect(() => {
+    fetch('/api/content')
+      .then(r => r.json())
+      .then(d => {
+        if (d.hero_tagline) setTagline(d.hero_tagline)
+        if (d.hero_description) setDesc(d.hero_description)
+      })
+      .catch(() => {})
+  }, [])
 
   return (
     <section
@@ -417,9 +429,9 @@ export default function Hero() {
                   margin: 0,
                 }}
               >
-                Full-Stack Developer Jr. | AI-Assisted Development.
+                {tagline}
                 <br/>
-                Estudiante de Informática. Especializada en Front-End, pero con capacidad y experiencia desarrollando en Back-End. Creo aplicaciones completas integrando herramientas de IA.
+                {desc}
               </motion.p>
 
               <motion.div
