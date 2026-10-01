@@ -233,8 +233,8 @@ function PullUpWord({ word, delay }: { word: string; delay: number }) {
 
 export default function Hero() {
   const [isLight, setIsLight] = useState(false)
-  const [tagline, setTagline] = useState('Full-Stack Developer Jr. | AI-Assisted Development.')
-  const [desc, setDesc] = useState('Estudiante de Informática. Especializada en Front-End, pero con capacidad y experiencia desarrollando en Back-End. Creo aplicaciones completas integrando herramientas de IA.')
+  const [tagline, setTagline] = useState('Front-End Developer Jr. | AI-Assisted Development.')
+  const [desc, setDesc] = useState('Estudiante de Informática. Especializada en Front-End con conocimientos en Back-End. Creo aplicaciones completas integrando herramientas de IA.')
 
   useEffect(() => {
     fetch('/api/content')

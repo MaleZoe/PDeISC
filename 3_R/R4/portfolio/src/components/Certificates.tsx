@@ -22,8 +22,8 @@ const certificates: Certificate[] = [
     year: '2020 — Presente',
     platform: 'Escuela Técnica N.º 5',
     platformColor: '#049fd9',
-    title: 'Técnico en Informática Personal y Profesional',
-    description: 'Educación secundaria técnica. Formación adicional: Diseño Web, Marketing Digital, Inteligencia Artificial. Idiomas: Inglés (C1 avanzado).',
+    title: 'Estudiante en Informática Personal y Profesional',
+    description: 'Educación secundaria técnica en curso. Formación adicional: Diseño Web, Marketing Digital, Inteligencia Artificial. Idiomas: Inglés (C1 avanzado).',
     featured: true,
   },
   {

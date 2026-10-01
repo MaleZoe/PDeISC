@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import WordsPullUp from './WordsPullUp'
 import { EASE } from '../lib/constants'
 
-const DEFAULT_ABOUT_TEXT = "Este portfolio reúne mi recorrido académico y técnico, junto con una selección de proyectos. A través de estos trabajos, reflejo mi perfil integral: aunque mi especialidad y mayor interés es el Front-End, también desarrollo y tengo sólidos conocimientos en Back-End, combinando diseño, funcionalidad, bases de datos y herramientas de IA en cada desarrollo."
+const DEFAULT_ABOUT_TEXT = "Este portfolio reúne mi recorrido académico y formativo, junto con una selección de proyectos. A través de estos trabajos, reflejo mi perfil: mi especialidad y mayor interés es el Front-End, y cuento además con conocimientos en Back-End, combinando diseño, funcionalidad, bases de datos y herramientas de IA en cada desarrollo."
 
 function AnimatedChar({ char, index, total, scrollYProgress }: {
   char: string
