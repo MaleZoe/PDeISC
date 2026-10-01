@@ -1,29 +1,32 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 
-export default function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   const { username, password } = req.body;
-  const adminPassword = process.env.ADMIN_PASSWORD || 'admin';
+  const adminPasswordHash = process.env.ADMIN_PASSWORD || '';
   const adminUser = process.env.ADMIN_USER || 'admin';
 
-  const validUser = !username || username.toLowerCase() === adminUser.toLowerCase() || username.toLowerCase() === 'malena';
-
-  if (validUser && password === adminPassword) {
-    const token = jwt.sign(
-      { admin: true, user: username || 'admin' },
-      process.env.JWT_SECRET || 'secret',
-      { expiresIn: '7d' }
-    );
-    return res.status(200).json({ token });
-  }
-
+  // Validate username
+  const validUser = !username || username.toLowerCase() === adminUser.toLowerCase();
   if (!validUser) {
     return res.status(401).json({ error: 'Usuario incorrecto' });
   }
 
-  return res.status(401).json({ error: 'Contraseña incorrecta' });
+  // Compare password against bcrypt hash
+  const validPassword = await bcrypt.compare(password || '', adminPasswordHash);
+  if (!validPassword) {
+    return res.status(401).json({ error: 'Contraseña incorrecta' });
+  }
+
+  const token = jwt.sign(
+    { admin: true, user: username || 'admin' },
+    process.env.JWT_SECRET || 'secret',
+    { expiresIn: '7d' }
+  );
+  return res.status(200).json({ token });
 }
