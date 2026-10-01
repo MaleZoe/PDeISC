@@ -265,6 +265,19 @@ function ContentTab({ showNotification }: { showNotification: (t: string, ty: 's
         </div>
       </div>
 
+      {/* Contact */}
+      <div>
+        <h3 style={{ color: '#c8903a', fontSize: '1rem', marginBottom: '1rem' }}>📬 Contacto & Redes</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <label style={{ fontSize: '0.75rem', color: '#a19a8c' }}>Correo electrónico de contacto</label>
+          <input value={content.contact_email || ''} onChange={e => update('contact_email', e.target.value)} placeholder="salviamale08@gmail.com" style={inputStyle} />
+          <label style={{ fontSize: '0.75rem', color: '#a19a8c' }}>URL perfil de GitHub</label>
+          <input value={content.contact_github || ''} onChange={e => update('contact_github', e.target.value)} placeholder="https://github.com/MaleZoe" style={inputStyle} />
+          <label style={{ fontSize: '0.75rem', color: '#a19a8c' }}>URL perfil de LinkedIn</label>
+          <input value={content.contact_linkedin || ''} onChange={e => update('contact_linkedin', e.target.value)} placeholder="https://www.linkedin.com/in/..." style={inputStyle} />
+        </div>
+      </div>
+
       <button onClick={handleSave} disabled={saving} style={{ ...btnPrimary, alignSelf: 'flex-start', opacity: saving ? 0.6 : 1 }}>
         {saving ? 'Guardando...' : 'Guardar Todo'}
       </button>

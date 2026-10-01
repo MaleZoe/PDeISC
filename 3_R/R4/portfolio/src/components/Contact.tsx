@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { ArrowUpRight, GitFork } from 'lucide-react'
 import { EASE } from '../lib/constants'
@@ -6,6 +6,23 @@ import { EASE } from '../lib/constants'
 export default function Contact() {
   const ref = useRef<HTMLElement>(null)
   const isInView = useInView(ref as React.RefObject<Element>, { once: true, margin: '-80px' })
+
+  const [email, setEmail] = useState('salviamale08@gmail.com')
+  const [github, setGithub] = useState('https://github.com/MaleZoe')
+  const [linkedin, setLinkedin] = useState('https://www.linkedin.com/in/malena-salvia-4b718a289')
+
+  useEffect(() => {
+    fetch('/api/content')
+      .then(r => r.json())
+      .then(d => {
+        if (d.contact_email) setEmail(d.contact_email)
+        if (d.contact_github) setGithub(d.contact_github)
+        if (d.contact_linkedin) setLinkedin(d.contact_linkedin)
+      })
+      .catch(() => {})
+  }, [])
+
+  const githubUser = github.split('/').filter(Boolean).pop() || 'MaleZoe'
 
   return (
     <section
@@ -61,7 +78,7 @@ export default function Contact() {
           style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}
         >
           <a
-            href="mailto:salviamale08@gmail.com"
+            href={`mailto:${email}`}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -95,7 +112,7 @@ export default function Contact() {
           </a>
 
           <a
-            href="https://github.com/MaleZoe"
+            href={github}
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -122,7 +139,7 @@ export default function Contact() {
             }}
           >
             <GitFork size={14} />
-            @MaleZoe
+            @{githubUser}
           </a>
         </motion.div>
 
@@ -134,7 +151,6 @@ export default function Contact() {
           style={{
             marginTop: 'clamp(3rem, 6vw, 5rem)',
             paddingTop: '1.5rem',
-            
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -153,13 +169,13 @@ export default function Contact() {
           </span>
 
           <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
-            <a href="https://github.com/MaleZoe" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(237,234,219,0.45)', textDecoration: 'none', fontSize: '0.9375rem', transition: 'color 0.2s' }} onMouseEnter={e => e.currentTarget.style.color = '#edeadb'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(237,234,219,0.45)'}>
+            <a href={github} target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(237,234,219,0.45)', textDecoration: 'none', fontSize: '0.9375rem', transition: 'color 0.2s' }} onMouseEnter={e => e.currentTarget.style.color = '#edeadb'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(237,234,219,0.45)'}>
               GitHub
             </a>
-            <a href="https://www.linkedin.com/in/malena-salvia-4b718a289" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(237,234,219,0.45)', textDecoration: 'none', fontSize: '0.9375rem', transition: 'color 0.2s' }} onMouseEnter={e => e.currentTarget.style.color = '#edeadb'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(237,234,219,0.45)'}>
+            <a href={linkedin} target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(237,234,219,0.45)', textDecoration: 'none', fontSize: '0.9375rem', transition: 'color 0.2s' }} onMouseEnter={e => e.currentTarget.style.color = '#edeadb'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(237,234,219,0.45)'}>
               LinkedIn
             </a>
-            <a href="mailto:salviamale08@gmail.com" style={{ color: 'rgba(237,234,219,0.45)', textDecoration: 'none', fontSize: '0.9375rem', transition: 'color 0.2s' }} onMouseEnter={e => e.currentTarget.style.color = '#edeadb'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(237,234,219,0.45)'}>
+            <a href={`mailto:${email}`} style={{ color: 'rgba(237,234,219,0.45)', textDecoration: 'none', fontSize: '0.9375rem', transition: 'color 0.2s' }} onMouseEnter={e => e.currentTarget.style.color = '#edeadb'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(237,234,219,0.45)'}>
               Email
             </a>
           </div>
