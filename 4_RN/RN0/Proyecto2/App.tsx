@@ -17,10 +17,7 @@ import { CATALOG, type ComponentId } from './catalog';
 import { ComponentCard } from './ComponentCard';
 import { PhonePreview } from './PhonePreview';
 import { PlaygroundProvider } from './playground';
-import { Sidebar } from './Sidebar';
 import { darkTheme, lightTheme, type Theme } from './theme';
-
-type Page = 'home' | 'components' | 'about';
 
 export default function App() {
   const system = useColorScheme();
@@ -51,13 +48,9 @@ function AppShell({
   onToggleTheme: () => void;
 }) {
   const { width, height } = useWindowDimensions();
-  const canDockSidebar = width >= 800;
   const canDockPhone = width >= 980;
-  const [page, setPage] = useState<Page>('components');
   const [query, setQuery] = useState('');
   const [selectedId, setSelectedId] = useState<ComponentId>('text');
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [menuOpen, setMenuOpen] = useState(false);
   const [phoneOpen, setPhoneOpen] = useState(false);
 
   const selected = CATALOG.find((c) => c.id === selectedId) ?? CATALOG[0];
@@ -72,87 +65,41 @@ function AppShell({
     );
   }, [query]);
 
-  const dockedSidebar = canDockSidebar && sidebarOpen;
-  const showPhone = canDockPhone && page === 'components';
-  const mainWidth = width - (dockedSidebar ? 220 : canDockSidebar ? 52 : 0) - (showPhone ? 380 : 0);
+  const showPhone = canDockPhone;
+  const mainWidth = width - (showPhone ? 380 : 0);
   const columns = mainWidth >= 920 ? 3 : mainWidth >= 540 ? 2 : 1;
-
-  const toggleSidebar = () => {
-    if (canDockSidebar) setSidebarOpen((v) => !v);
-    else setMenuOpen((v) => !v);
-  };
 
   const tryComponent = (id: ComponentId) => {
     setSelectedId(id);
-    setPage('components');
     if (!canDockPhone) setPhoneOpen(true);
   };
 
   return (
     <View style={styles.shell}>
-      {dockedSidebar ? (
-        <Sidebar
-          theme={theme}
-          page={page}
-          onNavigate={setPage}
-          isDark={isDark}
-          onToggleTheme={onToggleTheme}
-          onToggleMenu={toggleSidebar}
-        />
-      ) : (
-        <View style={[styles.rail, { backgroundColor: theme.sidebar, borderColor: theme.border }]}>
-          <TouchableOpacity onPress={toggleSidebar} style={[styles.hamburger, { borderColor: theme.border }]} accessibilityLabel="Abrir menú">
-            <View style={[styles.bar, { backgroundColor: theme.text }]} />
-            <View style={[styles.bar, { backgroundColor: theme.text }]} />
-            <View style={[styles.bar, { backgroundColor: theme.text }]} />
-          </TouchableOpacity>
+      <View style={styles.main}>
+        <View style={[styles.topBar, { borderBottomColor: theme.border }]}>
+          <Text style={[styles.topTitle, { color: theme.text }]}>Catálogo Interactivo</Text>
           <TouchableOpacity onPress={onToggleTheme} style={styles.iconBtn}>
             <Text style={{ fontSize: 16 }}>{isDark ? '🌙' : '☀️'}</Text>
           </TouchableOpacity>
         </View>
-      )}
 
-      <View style={styles.main}>
         <ScrollView style={styles.mainScroll} contentContainerStyle={styles.mainContent}>
-          {page === 'home' ? <HomePage theme={theme} onExplore={() => setPage('components')} /> : null}
-          {page === 'about' ? <AboutPage theme={theme} /> : null}
-          {page === 'components' ? (
-            <ComponentsPage
-              theme={theme}
-              query={query}
-              onQuery={setQuery}
-              filtered={filtered}
-              columns={columns}
-              onTry={tryComponent}
-              showHint={showPhone}
-            />
-          ) : null}
+          <ComponentsPage
+            theme={theme}
+            query={query}
+            onQuery={setQuery}
+            filtered={filtered}
+            columns={columns}
+            onTry={tryComponent}
+            showHint={showPhone}
+          />
         </ScrollView>
       </View>
 
       {showPhone ? (
         <PhonePreview item={selected} theme={theme} height={Math.min(740, height - 24)} />
       ) : null}
-
-      <Modal visible={menuOpen} transparent animationType="fade" onRequestClose={() => setMenuOpen(false)}>
-        <View style={[styles.overlay, { backgroundColor: theme.overlay }]}>
-          <Pressable style={{ flex: 1 }} onPress={() => setMenuOpen(false)} />
-          <View style={[styles.drawer, { backgroundColor: theme.sidebar, height }]}>
-            <Sidebar
-              theme={theme}
-              page={page}
-              onNavigate={(next) => {
-                setPage(next);
-                setMenuOpen(false);
-              }}
-              isDark={isDark}
-              onToggleTheme={onToggleTheme}
-              onToggleMenu={() => setMenuOpen(false)}
-              fullWidth
-            />
-          </View>
-        </View>
-      </Modal>
 
       <Modal visible={phoneOpen && !canDockPhone} animationType="slide" onRequestClose={() => setPhoneOpen(false)}>
         <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
@@ -211,81 +158,6 @@ function ComponentsPage({
           No hay componentes para “{query}”.
         </Text>
       ) : null}
-    </View>
-  );
-}
-
-function HomePage({ theme, onExplore }: { theme: Theme; onExplore: () => void }) {
-  return (
-    <View style={[styles.infoCard, { backgroundColor: theme.card, borderColor: theme.border }]}>
-      <View style={[styles.homeIcon, { backgroundColor: theme.accentSoft }]}>
-        <Text style={{ fontSize: 22 }}>⚛</Text>
-      </View>
-      <Text style={[styles.h1, { color: theme.text }]}>Proyecto</Text>
-      <Text style={[styles.lead, { color: theme.muted }]}>
-        Creá un nuevo proyecto con TypeScript y explorá todos los componentes nativos de React Native.
-      </Text>
-      <View style={styles.featureList}>
-        <Feature theme={theme} badge="⚛" title="React Native" text="Framework para apps móviles." />
-        <Feature theme={theme} badge="TS" title="TypeScript" text="Tipado estático para un código más seguro y mantenible." />
-        <Feature
-          theme={theme}
-          badge="☰"
-          title="Componentes nativos"
-          text="Cada componente tiene un uso específico en la interfaz y la lógica de la app."
-        />
-      </View>
-      <TouchableOpacity onPress={onExplore} style={[styles.cta, { backgroundColor: theme.accent }]}>
-        <Text style={{ color: '#fff', fontWeight: '800' }}>Explorar componentes</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
-
-function AboutPage({ theme }: { theme: Theme }) {
-  return (
-    <View style={{ gap: 16 }}>
-      <View style={[styles.infoCard, { backgroundColor: theme.card, borderColor: theme.border }]}>
-        <Text style={[styles.kicker, { color: theme.accent }]}>SOBRE EL PROYECTO</Text>
-        <Text style={[styles.h1, { color: theme.text }]}>Laboratorio interactivo</Text>
-        <Text style={[styles.lead, { color: theme.muted }]}>
-          Este catálogo muestra cómo se ven y se comportan los componentes nativos de React Native.
-          Podés probarlos, cambiar propiedades y copiar el código de ejemplo.
-        </Text>
-      </View>
-      <View style={[styles.tip, { backgroundColor: theme.surface, borderColor: theme.border }]}>
-        <View style={{ flex: 1, gap: 8 }}>
-          <Text style={[styles.tipTitle, { color: theme.text }]}>💡  Tip extra</Text>
-          <Text style={{ color: theme.muted }}>Usar TypeScript en React Native te da:</Text>
-          <Text style={{ color: theme.text }}>✓  Autocompletado en tu editor</Text>
-          <Text style={{ color: theme.text }}>✓  Menos errores</Text>
-          <Text style={{ color: theme.text }}>✓  Código más limpio y mantenible</Text>
-        </View>
-      </View>
-    </View>
-  );
-}
-
-function Feature({
-  theme,
-  badge,
-  title,
-  text,
-}: {
-  theme: Theme;
-  badge: string;
-  title: string;
-  text: string;
-}) {
-  return (
-    <View style={{ flexDirection: 'row', gap: 10, alignItems: 'flex-start' }}>
-      <View style={[styles.miniBadge, { backgroundColor: theme.accentSoft }]}>
-        <Text style={{ color: theme.accent, fontWeight: '800', fontSize: 11 }}>{badge}</Text>
-      </View>
-      <View style={{ flex: 1 }}>
-        <Text style={{ color: theme.text, fontWeight: '800' }}>{title}</Text>
-        <Text style={{ color: theme.muted, fontSize: 13 }}>{text}</Text>
-      </View>
     </View>
   );
 }
