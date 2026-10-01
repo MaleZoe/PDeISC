@@ -6,7 +6,10 @@ async function getConnection() {
   if (!process.env.DATABASE_URL) {
     throw new Error('DATABASE_URL environment variable is missing');
   }
-  return mysql.createConnection(process.env.DATABASE_URL as string);
+  return mysql.createConnection({
+    uri: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: true }
+  });
 }
 
 function verifyToken(req: VercelRequest) {

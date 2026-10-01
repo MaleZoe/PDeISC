@@ -195,14 +195,38 @@ function ProjectsTab({ showNotification }: { showNotification: (t: string, ty: '
   );
 }
 
-// ── CONTENT TAB (Hero + About + Stats) ────────────────────────
+const DEFAULT_CONTENT: SiteContent = {
+  hero_tagline: 'Front-End Developer Jr. | AI-Assisted Development.',
+  hero_description: 'Estudiante de Informática. Especializada en Front-End con conocimientos en Back-End. Creo aplicaciones completas integrando herramientas de IA.',
+  about_name: 'Malena Salvia,',
+  about_subtitle: 'Estudiante de Informática.',
+  about_text: 'Este portfolio reúne mi recorrido académico y formativo, junto con una selección de proyectos. Mi especialidad y mayor interés es el Front-End, y cuento además con conocimientos en Back-End, combinando diseño, funcionalidad, bases de datos y herramientas de IA en cada desarrollo.',
+  stat_1_value: '15+',
+  stat_1_label: 'Proyectos',
+  stat_2_value: 'IA',
+  stat_2_label: 'Integrada',
+  stat_3_value: '+2',
+  stat_3_label: 'Años Exp.',
+  contact_email: 'salviamale08@gmail.com',
+  contact_github: 'https://github.com/MaleZoe',
+  contact_linkedin: 'https://www.linkedin.com/in/malena-salvia-4b718a289'
+};
+
 function ContentTab({ showNotification }: { showNotification: (t: string, ty: 'success' | 'error') => void }) {
-  const [content, setContent] = useState<SiteContent>({});
+  const [content, setContent] = useState<SiteContent>(DEFAULT_CONTENT);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    fetch('/api/content').then(r => r.json()).then(data => { setContent(data); setLoading(false); }).catch(() => setLoading(false));
+    fetch('/api/content')
+      .then(r => r.json())
+      .then(data => {
+        if (data && typeof data === 'object' && Object.keys(data).length > 0) {
+          setContent(prev => ({ ...DEFAULT_CONTENT, ...prev, ...data }));
+        }
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   const handleSave = async () => {
