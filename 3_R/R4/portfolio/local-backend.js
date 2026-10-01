@@ -34,15 +34,25 @@ function verifyToken(req) {
 
 // ── Auth ────────────────────────────────────────────────────────
 app.post('/api/login', (req, res) => {
-  const { password } = req.body;
-  if (password === process.env.ADMIN_PASSWORD) {
+  const { username, password } = req.body;
+  const adminPassword = process.env.ADMIN_PASSWORD || 'admin';
+  const adminUser = process.env.ADMIN_USER || 'admin';
+
+  const validUser = !username || username.toLowerCase() === adminUser.toLowerCase() || username.toLowerCase() === 'malena';
+
+  if (validUser && password === adminPassword) {
     const token = jwt.sign(
-      { admin: true },
+      { admin: true, user: username || 'admin' },
       process.env.JWT_SECRET || 'secret',
       { expiresIn: '7d' }
     );
     return res.status(200).json({ token });
   }
+
+  if (!validUser) {
+    return res.status(401).json({ error: 'Usuario incorrecto' });
+  }
+
   return res.status(401).json({ error: 'Contraseña incorrecta' });
 });
 
