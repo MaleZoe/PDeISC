@@ -309,15 +309,76 @@ function ContentTab({ showNotification }: { showNotification: (t: string, ty: 's
   );
 }
 
+const DEFAULT_CERTS: Certificate[] = [
+  {
+    id: '01',
+    year: '2020 - Presente',
+    platform: 'Escuela Técnica N.º 5',
+    platform_color: '#049fd9',
+    title: 'Estudiante en Informática Personal y Profesional',
+    description: 'Educación secundaria técnica en curso. Formación adicional: Diseño Web, Marketing Digital, Inteligencia Artificial. Idiomas: Inglés (C1 avanzado).',
+    url: '',
+    featured: 1,
+    sort_order: 0
+  },
+  {
+    id: '3',
+    year: '2026',
+    platform: 'Olimpiada Informática Argentina (OIA)',
+    platform_color: '#f0b323',
+    title: 'Participante',
+    description: 'Participación en el certamen nacional. La competencia se basó en el diseño de algoritmos, estructuras de datos y programación para la resolución eficiente de múltiples problemáticas algorítmicas.',
+    url: '',
+    featured: 0,
+    sort_order: 1
+  },
+  {
+    id: '4',
+    year: '2026',
+    platform: 'Prácticas Profesionalizantes (+200hs)',
+    platform_color: '#7d7568',
+    title: 'Desarrolladora Web',
+    description: 'Participación en dos proyectos principales: desarrollo del sitio institucional para la Técnica N.º 5; y la investigación, documentación arquitectónica y creación de tutoriales para el sitio web de la Escuela de Artes Visuales Martín A. Malharro.',
+    url: '',
+    featured: 0,
+    sort_order: 2
+  }
+];
+
+const DEFAULT_SKILLS: Skill[] = [
+  { id: 'html5', category: 'Frontend & Frameworks', name: 'HTML5', icon_key: 'siHtml5', sort_order: 0 },
+  { id: 'css', category: 'Frontend & Frameworks', name: 'CSS', icon_key: 'siCss', sort_order: 1 },
+  { id: 'js', category: 'Frontend & Frameworks', name: 'JavaScript', icon_key: 'siJavascript', sort_order: 2 },
+  { id: 'ts', category: 'Frontend & Frameworks', name: 'TypeScript', icon_key: 'siTypescript', sort_order: 3 },
+  { id: 'react', category: 'Frontend & Frameworks', name: 'React', icon_key: 'siReact', sort_order: 4 },
+  { id: 'php', category: 'Backend & Datos', name: 'PHP', icon_key: 'siPhp', sort_order: 0 },
+  { id: 'sql', category: 'Backend & Datos', name: 'SQL', icon_key: 'siMysql', sort_order: 1 },
+  { id: 'cpp', category: 'Backend & Datos', name: 'C++', icon_key: 'siCplusplus', sort_order: 2 },
+  { id: 'claude', category: 'IA & Desarrollo Asistido', name: 'Claude Code', icon_key: 'siAnthropic', sort_order: 0 },
+  { id: 'codex', category: 'IA & Desarrollo Asistido', name: 'Codex', icon_key: 'siChatbot', sort_order: 1 },
+  { id: 'opencode', category: 'IA & Desarrollo Asistido', name: 'OpenCode', icon_key: 'siOpencode', sort_order: 2 },
+  { id: 'sdd', category: 'IA & Desarrollo Asistido', name: 'SDD', icon_key: 'siChatbot', sort_order: 3 },
+  { id: 'git', category: 'Tools & Gestión', name: 'Git', icon_key: 'siGit', sort_order: 0 },
+  { id: 'github', category: 'Tools & Gestión', name: 'GitHub', icon_key: 'siGithub', sort_order: 1 },
+  { id: 'jira', category: 'Tools & Gestión', name: 'Jira', icon_key: 'siJira', sort_order: 2 }
+];
+
 // ── CERTIFICATES TAB ──────────────────────────────────────────
 function CertificatesTab({ showNotification }: { showNotification: (t: string, ty: 'success' | 'error') => void }) {
-  const [certs, setCerts] = useState<Certificate[]>([]);
+  const [certs, setCerts] = useState<Certificate[]>(DEFAULT_CERTS);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/certificates').then(r => r.json()).then(data => { setCerts(data); setLoading(false); }).catch(() => setLoading(false));
+    fetch('/api/certificates')
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) setCerts(data);
+        else setCerts(DEFAULT_CERTS);
+        setLoading(false);
+      })
+      .catch(() => { setCerts(DEFAULT_CERTS); setLoading(false); });
   }, []);
 
   const handleChange = (id: string, field: string, value: string | number) => {
@@ -421,13 +482,20 @@ function CertificatesTab({ showNotification }: { showNotification: (t: string, t
 
 // ── SKILLS TAB ────────────────────────────────────────────────
 function SkillsTab({ showNotification }: { showNotification: (t: string, ty: 'success' | 'error') => void }) {
-  const [skills, setSkills] = useState<Skill[]>([]);
+  const [skills, setSkills] = useState<Skill[]>(DEFAULT_SKILLS);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/skills').then(r => r.json()).then(data => { setSkills(data); setLoading(false); }).catch(() => setLoading(false));
+    fetch('/api/skills')
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) setSkills(data);
+        else setSkills(DEFAULT_SKILLS);
+        setLoading(false);
+      })
+      .catch(() => { setSkills(DEFAULT_SKILLS); setLoading(false); });
   }, []);
 
   const handleChange = (id: string, field: string, value: string | number) => {
