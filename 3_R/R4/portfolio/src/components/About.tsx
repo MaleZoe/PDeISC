@@ -104,7 +104,7 @@ export default function About() {
             }}
           />
           <WordsPullUp
-            text="Técnica en Informática Profesional."
+            text="Estudiante de Informática."
             as="h2"
             delay={0.2}
             style={{
