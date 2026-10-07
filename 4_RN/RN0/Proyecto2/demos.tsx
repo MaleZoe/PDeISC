@@ -60,19 +60,12 @@ export function ComponentDemo({
         <View>
           <Text
             style={{
-              color: theme.text,
+              color: state.textColor,
               fontSize: compact ? 18 : state.textSize + 4,
               fontWeight: state.textWeight,
-              marginBottom: 4,
             }}
           >
             Texto de ejemplo
-          </Text>
-          <Text style={{ color: theme.muted, fontSize: compact ? 13 : 14, marginBottom: 6 }}>
-            Texto secundario
-          </Text>
-          <Text style={{ color: state.textColor, fontWeight: '600', fontSize: compact ? 13 : 14 }}>
-            Texto en enlace
           </Text>
         </View>
       );

@@ -6,15 +6,16 @@ import {
   TouchableOpacity,
   View,
   useWindowDimensions,
+  Platform,
 } from 'react-native';
 import Colors from '@/constants/Colors';
 import { useAppTheme } from '@/context/ThemeContext';
 
 const FONTS = [
-  { label: 'Sans', value: 'System' },
-  { label: 'Serif', value: 'Georgia' },
-  { label: 'Mono', value: 'Courier New' },
-  { label: 'Clásica', value: 'Palatino' },
+  { label: 'Sans', value: Platform.OS === 'android' ? 'sans-serif' : 'System' },
+  { label: 'Serif', value: Platform.OS === 'android' ? 'serif' : 'Georgia' },
+  { label: 'Mono', value: Platform.OS === 'android' ? 'monospace' : 'Courier New' },
+  { label: 'Clásica', value: Platform.OS === 'android' ? 'sans-serif-condensed' : 'Palatino' },
 ];
 
 const SIZES = [
@@ -65,6 +66,8 @@ export default function TabTwoScreen() {
         style={[
           styles.hero,
           {
+            width: isNarrow ? '92%' : '60%',
+            paddingHorizontal: isNarrow ? 12 : 24,
             backgroundColor: cardBg,
             borderColor: theme.border,
             borderRadius: SHAPES[shapeIdx].value,
@@ -74,32 +77,19 @@ export default function TabTwoScreen() {
         <Text style={[styles.heroKicker, { color: theme.textSecondary }]}>
           TAB 2  -  ESTILOS
         </Text>
-        <View style={styles.heroTitleRow}>
-          <Text
-            style={[
-              styles.heroTitle,
-              {
-                fontFamily: FONTS[fontIdx].value,
-                fontSize: isNarrow ? Math.min(SIZES[sizeIdx].value, 34) : SIZES[sizeIdx].value,
-                color: theme.text,
-              },
-            ]}
-          >
-            Hola{' '}
-          </Text>
-          <Text
-            style={[
-              styles.heroTitle,
-              {
-                fontFamily: FONTS[fontIdx].value,
-                fontSize: isNarrow ? Math.min(SIZES[sizeIdx].value, 34) : SIZES[sizeIdx].value,
-                color: accent,
-              },
-            ]}
-          >
-            Mundo
-          </Text>
-        </View>
+        <Text
+          style={[
+            styles.heroTitle,
+            {
+              fontFamily: FONTS[fontIdx].value,
+              fontSize: SIZES[sizeIdx].value,
+              textAlign: 'center',
+            },
+          ]}
+        >
+          <Text style={{ color: theme.text }}>Hola </Text>
+          <Text style={{ color: accent }}>Mundo</Text>
+        </Text>
         <Text style={[styles.heroSubtitle, { color: theme.textSecondary }]}>
           Personaliza el estilo de tu texto y dale tu toque único.
         </Text>
