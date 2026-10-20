@@ -5,6 +5,31 @@ const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2/promise');
 const nodemailer = require('nodemailer');
+const os = require('os');
+
+// Función para obtener la IP de la red local (Wi-Fi/LAN) para que celulares puedan acceder
+function getLocalIp() {
+  const nets = os.networkInterfaces();
+  // 1. Prioridad: interfaz con nombre Wi-Fi o Wireless o WLAN
+  for (const name of Object.keys(nets)) {
+    if (/wi-?fi|wlan|wireless/i.test(name)) {
+      for (const net of nets[name]) {
+        if (net.family === 'IPv4' && !net.internal) return net.address;
+      }
+    }
+  }
+  // 2. Otras interfaces que no sean virtuales ni host-only
+  for (const name of Object.keys(nets)) {
+    if (!/vmware|virtual|loopback|pseudo/i.test(name)) {
+      for (const net of nets[name]) {
+        if (net.family === 'IPv4' && !net.internal && !net.address.startsWith('192.168.56.')) {
+          return net.address;
+        }
+      }
+    }
+  }
+  return 'localhost';
+}
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,6 +37,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 
 // Configuración de MySQL
 const dbConfig = {
@@ -267,8 +293,21 @@ app.post('/api/forgot-password', async (req, res) => {
       expires: Date.now() + 3600000,
     });
 
-    const clientBaseUrl = appUrl || 'http://localhost:8081';
-    const resetLink = `${clientBaseUrl}?resetToken=${token}&email=${encodeURIComponent(userFound.email)}`;
+    const localIp = getLocalIp();
+
+    // Detectar puerto del frontend web (por defecto 8082 si no se indica)
+    let clientPort = '8082';
+    if (appUrl) {
+      try {
+        const parsed = new URL(appUrl);
+        if (parsed.port) clientPort = parsed.port;
+      } catch (e) {}
+    }
+
+    // Enlace para celular (utiliza la IP LAN de la PC en la red Wi-Fi; funciona en celular y PC)
+    const mobileLink = `http://${localIp}:${clientPort}?resetToken=${token}&email=${encodeURIComponent(userFound.email)}`;
+    // Enlace para la computadora
+    const pcLink = `http://localhost:${clientPort}?resetToken=${token}&email=${encodeURIComponent(userFound.email)}`;
 
     const mailOptions = {
       from: '"SecureAuth Portal" <salviamale08@gmail.com>',
@@ -282,13 +321,18 @@ app.post('/api/forgot-password', async (req, res) => {
             Hemos recibido una solicitud para restablecer la contraseña de tu cuenta (<strong>${userFound.email}</strong>).
           </p>
           <div style="margin: 28px 0; text-align: center;">
-            <a href="${resetLink}" style="background-color: #4F46E5; color: #FFFFFF; padding: 14px 28px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 15px; display: inline-block;">
-              Restablecer mi Contraseña
+            <a href="${mobileLink}" style="background-color: #4F46E5; color: #FFFFFF; padding: 14px 28px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 15px; display: inline-block;">
+              📱 Restablecer desde mi Celular
             </a>
           </div>
-          <p style="font-size: 13px; color: #64748B;">
-            Si el botón no funciona, copia y pega este enlace en tu navegador:<br/>
-            <a href="${resetLink}" style="color: #818CF8;">${resetLink}</a>
+          <div style="margin: 12px 0 24px; text-align: center;">
+            <a href="${pcLink}" style="background-color: #1E293B; color: #CBD5E1; border: 1px solid #475569; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-size: 13px; display: inline-block;">
+              💻 O abrir desde la PC (localhost)
+            </a>
+          </div>
+          <p style="font-size: 13px; color: #94A3B8;">
+            <strong>Nota para celular:</strong> Tu teléfono debe estar conectado a la misma red Wi-Fi que tu PC para acceder al enlace.<br/>
+            Enlace directo: <a href="${mobileLink}" style="color: #818CF8;">${mobileLink}</a>
           </p>
           <hr style="border: 0; border-top: 1px solid #334155; margin: 24px 0;" />
           <p style="font-size: 12px; color: #64748B; margin-bottom: 0;">
@@ -306,7 +350,8 @@ app.post('/api/forgot-password', async (req, res) => {
       message: `¡Correo enviado exitosamente a ${userFound.email} desde salviamale08@gmail.com! Revisa tu bandeja de entrada o spam.`,
       email: userFound.email,
       token: token,
-      resetLink: resetLink,
+      resetLink: mobileLink,
+      pcLink: pcLink,
     });
   } catch (mailError) {
     console.error('❌ Error al enviar correo por Gmail SMTP:', mailError);

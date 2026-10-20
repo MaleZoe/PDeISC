@@ -184,7 +184,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
     setRegLoading(true);
 
     try {
-      const response = await fetch(API_ENDPOINTS.NODE_REGISTER, {
+      const registerUrl = API_ENDPOINTS.NODE_REGISTER;
+      console.log('Enviando registro a:', registerUrl);
+      const response = await fetch(registerUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -207,9 +209,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
       } else {
         setRegServerError(data.message || 'No se pudo crear la cuenta.');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error al registrar:', error);
-      setRegServerError('⚠️ Error de conexión con el backend al intentar registrar la cuenta.');
+      setRegServerError('⚠️ Error de conexión con el backend API. Verifica que el servidor esté activo.');
     } finally {
       setRegLoading(false);
     }

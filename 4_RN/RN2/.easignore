@@ -1,0 +1,11 @@
+# Exclude unnecessary files to reduce upload size
+node_modules/
+android/
+ios/
+dist/
+*.log
+*.tmp
+.expo/
+.expo-shared/
+metro-cache/
+web-build/
