@@ -1,80 +1,69 @@
 {
   "expo": {
-    "name": "RN2 - Multi Tools App",
+    "name": "Sonda",
     "slug": "rn2-tools-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "scheme": "sonda",
     "userInterfaceStyle": "light",
-    "splash": {
-      "backgroundColor": "#1E293B"
-    },
     "ios": {
       "supportsTablet": true,
+      "bundleIdentifier": "com.pdeisc.rn2toolsapp",
       "infoPlist": {
-        "NSCameraUsageDescription": "Esta aplicación necesita acceso a la cámara para capturar fotos y escanear códigos.",
-        "NSLocationWhenInUseUsageDescription": "Esta aplicación necesita acceso a tu ubicación para obtener tus coordenadas GPS.",
-        "NSFaceIDUsageDescription": "Esta aplicación requiere autenticación biométrica para verificar tu identidad."
+        "NSCameraUsageDescription": "Sonda usa la cámara para capturar fotos y leer códigos.",
+        "NSMicrophoneUsageDescription": "Sonda puede usar el micrófono junto con la cámara.",
+        "NSLocationWhenInUseUsageDescription": "Sonda usa GPS para fijar coordenadas y dirección.",
+        "NSFaceIDUsageDescription": "Sonda usa Face ID para el ensayo biométrico.",
+        "NSMotionUsageDescription": "Sonda lee el acelerómetro y el giroscopio."
       }
     },
     "android": {
       "package": "com.pdeisc.rn2toolsapp",
       "adaptiveIcon": {
-        "backgroundColor": "#1E293B",
+        "backgroundColor": "#EDE4D0",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
-      },
-      "permissions": [
-        "CAMERA",
-        "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION",
-        "USE_BIOMETRIC",
-        "USE_FINGERPRINT",
-        "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO",
-        "android.permission.ACCESS_COARSE_LOCATION",
-        "android.permission.ACCESS_FINE_LOCATION",
-        "android.permission.USE_BIOMETRIC",
-        "android.permission.USE_FINGERPRINT"
-      ]
+      }
     },
     "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#EDE4D0",
+          "image": "./assets/icon.png",
+          "imageWidth": 180
+        }
+      ],
       [
         "expo-camera",
         {
-          "cameraPermission": "Permite a la aplicación acceder a la cámara para tomar fotos y leer códigos."
+          "cameraPermission": "Sonda usa la cámara para fotos y códigos.",
+          "microphonePermission": "Sonda puede usar el micrófono junto con la cámara.",
+          "barcodeScannerEnabled": true
         }
       ],
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "Permite acceder a la ubicación y GPS de tu dispositivo."
+          "locationWhenInUsePermission": "Sonda usa GPS para coordenadas y dirección."
         }
       ],
       [
         "expo-local-authentication",
         {
-          "faceIDPermission": "Permite usar Face ID o lector de huellas para autenticarte."
-        }
-      ],
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "compileSdkVersion": 35,
-            "targetSdkVersion": 35,
-            "buildToolsVersion": "35.0.0"
-          },
-          "ios": {
-            "deploymentTarget": "16.4"
-          }
+          "faceIDPermission": "Sonda usa Face ID o huella para autenticarte."
         }
       ]
     ],
     "extra": {
       "eas": {
         "projectId": "aad3e6f2-b4e8-4154-a984-b48b0a2779f8"
+      },
+      "router": {
+        "origin": false
       }
     },
     "owner": "malesalvia"
