@@ -1,42 +1,50 @@
-# RN2 - Multi-Tools Hardware Hub (React Native + Expo)
+# Sonda — banco de pruebas de hardware (Expo SDK 58)
 
-Aplicación desarrollada con **React Native** y **Expo SDK 58** para interactuar con las capacidades de hardware de dispositivos móviles:
+App de la consigna RN2: cámara, lector de códigos, GPS, acelerómetro/giroscopio y biometría. Interfaz de cuaderno de campo, lista para generar un `.apk` con EAS.
 
-- 📷 **Cámara**: Vista previa, selector de cámara frontal/trasera y captura de fotografías.
-- 🔎 **Lector de Códigos**: Escaneo en tiempo real de códigos QR y códigos de barras (EAN-13, EAN-8, Code 128, etc.).
-- 📍 **Ubicación y GPS**: Coordenadas geográficas (latitud, longitud), margen de precisión, altitud y geocodificación inversa con dirección estimada.
-- 📐 **Acelerómetro y Giroscopio**: Monitoreo dinámico de aceleración en 3 ejes (X, Y, Z) y velocidad angular.
-- 🔐 **Biometría**: Autenticación nativa por huella dactilar o reconocimiento facial (Face ID / BiometricPrompt).
+## Qué cubre
 
----
+| Instrumento | Módulo |
+| --- | --- |
+| Cámara (foto, frontal/trasera, linterna) | `expo-camera` |
+| Lector QR / barras | `expo-camera` (`onBarcodeScanned`) |
+| Ubicación, precisión, altitud, dirección | `expo-location` |
+| Acelerómetro y giroscopio | `expo-sensors` |
+| Huella / Face ID | `expo-local-authentication` |
 
-## 🚀 Probar Localmente
+## Probar en desarrollo
 
-1. Iniciar el servidor de desarrollo:
 ```bash
 npx expo start
 ```
-2. Escanear el código QR con la app **Expo Go** en Android o usar un build de desarrollo.
 
----
+Estas APIs nativas hay que probarlas **en un teléfono físico**. Expo Go cubre los módulos de este proyecto en SDK 58; cámara, GPS y biometría no se validan bien en el simulador.
 
-## 📦 Generar APK con Expo EAS
+## Generar el APK (EAS)
 
-El archivo [`eas.json`](./eas.json) ya está configurado con el perfil `preview` para compilar directamente un archivo **`.apk`**:
+El perfil `preview` en `eas.json` ya produce un `.apk` de distribución interna.
 
-1. **Iniciar sesión en Expo** (si aún no lo hiciste):
+1. Instalar la CLI (o usar `npx` en cada comando):
+
 ```bash
-npx eas-cli login
+npm install -g eas-cli
+eas login
+eas whoami
 ```
 
-2. **Vincular el proyecto a EAS**:
+2. Desde esta carpeta (`4_RN/RN2`), lanzar el build:
+
 ```bash
-npx eas-cli project:init
+npx eas-cli@latest build -p android --profile preview
 ```
 
-3. **Lanzar la compilación del APK en la nube**:
-```bash
-npx eas-cli build -p android --profile preview
-```
+La primera vez EAS pide un keystore: elegí **Generate new keystore**.
 
-> EAS compilará el instalador `.apk` de manera remota y al finalizar te brindará un enlace directo y un código QR para descargarlo e instalarlo inmediatamente en tu dispositivo Android.
+3. Cuando termine, Expo muestra un enlace y un QR. En el teléfono Android:
+
+- Permití instalar apps de orígenes desconocidos si lo pide.
+- Descargá e instalá el APK.
+
+También podés listar builds con `npx eas-cli@latest build:list` e instalar en emulador con `npx eas-cli@latest build:run -p android --latest`.
+
+No uses el perfil `production` para esta entrega: genera `.aab` (Play Store), no un APK instalable a mano.
