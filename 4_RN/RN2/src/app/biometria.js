@@ -25,16 +25,23 @@ export default function BiometriaScreen() {
   const [result, setResult] = useState('Sin ensayo');
 
   const inspect = useCallback(async () => {
-    const [has, isEnrolled, supported, enrolledLevel] = await Promise.all([
-      LocalAuthentication.hasHardwareAsync(),
-      LocalAuthentication.isEnrolledAsync(),
-      LocalAuthentication.supportedAuthenticationTypesAsync(),
-      LocalAuthentication.getEnrolledLevelAsync(),
-    ]);
-    setHardware(has);
-    setEnrolled(isEnrolled);
-    setTypes(supported);
-    setLevel(enrolledLevel);
+    try {
+      const [has, isEnrolled, supported, enrolledLevel] = await Promise.all([
+        LocalAuthentication.hasHardwareAsync().catch(() => false),
+        LocalAuthentication.isEnrolledAsync().catch(() => false),
+        LocalAuthentication.supportedAuthenticationTypesAsync().catch(() => []),
+        LocalAuthentication.getEnrolledLevelAsync ? LocalAuthentication.getEnrolledLevelAsync().catch(() => 0) : Promise.resolve(0),
+      ]);
+      setHardware(Boolean(has));
+      setEnrolled(Boolean(isEnrolled));
+      setTypes(Array.isArray(supported) ? supported : []);
+      setLevel(enrolledLevel ?? LocalAuthentication.SecurityLevel.NONE);
+    } catch {
+      setHardware(false);
+      setEnrolled(false);
+      setTypes([]);
+      setLevel(LocalAuthentication.SecurityLevel.NONE);
+    }
   }, []);
 
   useEffect(() => {
