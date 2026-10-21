@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
-import { ScrollView, Text, useColorScheme } from 'react-native';
+import { ScrollView, Text } from 'react-native';
 import * as Location from 'expo-location';
 import { DataRow, Masthead, Panel, PrimaryButton, Screen } from '../components/Chrome';
+import { useTheme } from '../context/ThemeContext';
 import { makeColors } from '../theme';
 
 const fmt = (value, digits = 6, suffix = '') =>
   value == null || Number.isNaN(value) ? '—' : `${value.toFixed(digits)}${suffix}`;
 
 export default function UbicacionScreen() {
-  const scheme = useColorScheme();
-  const c = makeColors(scheme === 'dark');
+  const { dark } = useTheme();
+  const c = makeColors(dark);
 
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
