@@ -56,7 +56,9 @@
         {
           "faceIDPermission": "Sonda usa Face ID o huella para autenticarte."
         }
-      ]
+      ],
+      "expo-build-properties",
+      "expo-status-bar"
     ],
     "extra": {
       "eas": {
