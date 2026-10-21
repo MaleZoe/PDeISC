@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
-import { ScrollView, Text, useColorScheme } from 'react-native';
+import { ScrollView, Text } from 'react-native';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { DataRow, Masthead, Panel, PrimaryButton, Screen } from '../components/Chrome';
+import { useTheme } from '../context/ThemeContext';
 import { makeColors } from '../theme';
 
 const TYPE_LABEL = {
@@ -18,8 +19,8 @@ const LEVEL_LABEL = {
 };
 
 export default function BiometriaScreen() {
-  const scheme = useColorScheme();
-  const c = makeColors(scheme === 'dark');
+  const { dark } = useTheme();
+  const c = makeColors(dark);
 
   const [hardware, setHardware] = useState(false);
   const [enrolled, setEnrolled] = useState(false);
