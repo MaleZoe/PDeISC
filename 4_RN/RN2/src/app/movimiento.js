@@ -33,10 +33,7 @@ export default function MovimientoScreen() {
     Gyroscope.setUpdateInterval(rate);
     const a = Accelerometer.addListener(setAccel);
     const g = Gyroscope.addListener(setGyro);
-    return () => {
-      a.remove();
-      g.remove();
-    };
+    return () => { a.remove(); g.remove(); };
   }, [live, rate]);
 
   const mag = Math.sqrt(accel.x ** 2 + accel.y ** 2 + accel.z ** 2);
@@ -44,39 +41,60 @@ export default function MovimientoScreen() {
   return (
     <Screen>
       <Masthead back title="Inercia" />
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.list}>
-        <Text style={[styles.copy, { color: c.muted }]}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 32, gap: 12 }}>
+        <Text style={{ color: c.muted, fontSize: 15, lineHeight: 22 }}>
           Aceleración en g y rotación en rad/s. El disco sigue el vector del acelerómetro para leer
           la inclinación de un vistazo.
         </Text>
 
-        <View style={[styles.horizon, { borderColor: c.border, backgroundColor: c.surface }]}>
-          <View style={[styles.crossH, { backgroundColor: c.border }]} />
-          <View style={[styles.crossV, { backgroundColor: c.border }]} />
-          <View
-            style={[
-              styles.bead,
-              { backgroundColor: c.accent },
-              {
-                transform: [
-                  { translateX: Math.max(-54, Math.min(54, accel.x * 48)) },
-                  { translateY: Math.max(-54, Math.min(54, -accel.y * 48)) },
-                ],
-              },
-            ]}
-          />
-          <Text style={[styles.mag, { color: c.muted }]}>{fmt(mag)} g</Text>
+        {/* Horizonte artificial */}
+        <View style={{
+          height: 180,
+          borderWidth: 1,
+          borderColor: c.border,
+          backgroundColor: c.surface,
+          borderRadius: 12,
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
+        }}>
+          <View style={{
+            position: 'absolute', left: 16, right: 16,
+            height: StyleSheet.hairlineWidth, backgroundColor: c.border,
+          }} />
+          <View style={{
+            position: 'absolute', top: 16, bottom: 16,
+            width: StyleSheet.hairlineWidth, backgroundColor: c.border,
+          }} />
+          <View style={{
+            width: 18, height: 18, borderRadius: 9,
+            backgroundColor: c.accent,
+            transform: [
+              { translateX: Math.max(-54, Math.min(54, accel.x * 48)) },
+              { translateY: Math.max(-54, Math.min(54, -accel.y * 48)) },
+            ],
+          }} />
+          <Text style={{
+            position: 'absolute', bottom: 10, right: 12,
+            fontFamily: type.data, fontSize: 12, color: c.muted,
+          }}>
+            {fmt(mag)} g
+          </Text>
         </View>
 
         <Panel>
-          <Text style={[styles.section, { color: c.ink }]}>Acelerómetro</Text>
+          <Text style={{ fontFamily: type.display, fontSize: 18, color: c.ink, marginBottom: 6 }}>
+            Acelerómetro
+          </Text>
           <DataRow label="X" value={available.accel ? fmt(accel.x) : 'no disponible'} />
           <DataRow label="Y" value={available.accel ? fmt(accel.y) : 'no disponible'} />
           <DataRow label="Z" value={available.accel ? fmt(accel.z) : 'no disponible'} />
         </Panel>
 
         <Panel>
-          <Text style={[styles.section, { color: c.ink }]}>Giroscopio</Text>
+          <Text style={{ fontFamily: type.display, fontSize: 18, color: c.ink, marginBottom: 6 }}>
+            Giroscopio
+          </Text>
           <DataRow label="ω X" value={available.gyro ? fmt(gyro.x) : 'no disponible'} />
           <DataRow label="ω Y" value={available.gyro ? fmt(gyro.y) : 'no disponible'} />
           <DataRow label="ω Z" value={available.gyro ? fmt(gyro.z) : 'no disponible'} />
@@ -89,60 +107,18 @@ export default function MovimientoScreen() {
               await Accelerometer.requestPermissionsAsync();
               await Gyroscope.requestPermissionsAsync();
             }
-            setLive((value) => !value);
+            setLive((v) => !v);
           }}
         />
-        <View style={styles.rates}>
+        <View style={{ flexDirection: 'row', gap: 8 }}>
           <GhostButton flex label="16 ms" onPress={() => setRate(16)} />
           <GhostButton flex label="80 ms" onPress={() => setRate(80)} />
           <GhostButton flex label="200 ms" onPress={() => setRate(200)} />
         </View>
-        <Text style={[styles.meta, { color: c.muted }]}>Intervalo actual: {rate} ms</Text>
+        <Text style={{ color: c.muted, fontFamily: type.data, fontSize: 12 }}>
+          Intervalo actual: {rate} ms
+        </Text>
       </ScrollView>
     </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  list: { paddingBottom: 32, gap: 12 },
-  copy: { fontSize: 16, lineHeight: 24 },
-  horizon: {
-    height: 180,
-    borderWidth: 1,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden',
-  },
-  crossH: {
-    position: 'absolute',
-    left: 16,
-    right: 16,
-    height: StyleSheet.hairlineWidth,
-  },
-  crossV: {
-    position: 'absolute',
-    top: 16,
-    bottom: 16,
-    width: StyleSheet.hairlineWidth,
-  },
-  bead: {
-    width: 18,
-    height: 18,
-    borderRadius: 9,
-  },
-  mag: {
-    position: 'absolute',
-    bottom: 10,
-    right: 12,
-    fontFamily: type.data,
-    fontSize: 12,
-  },
-  section: {
-    fontFamily: type.display,
-    fontSize: 18,
-    marginBottom: 6,
-  },
-  rates: { flexDirection: 'row', gap: 8 },
-  meta: { fontFamily: type.data, fontSize: 12 },
-});

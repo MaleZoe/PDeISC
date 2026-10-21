@@ -28,7 +28,7 @@ export default function CamaraScreen() {
     return (
       <Screen>
         <Masthead back title="Obturador" />
-        <Text style={[styles.copy, { color: c.muted }]}>
+        <Text style={{ color: c.muted, fontSize: 16, lineHeight: 24, marginBottom: 24 }}>
           La cámara se usa para capturar una placa fotográfica del ejercicio. Sin el permiso no hay
           vista previa.
         </Text>
@@ -44,11 +44,18 @@ export default function CamaraScreen() {
 
   return (
     <Screen padded={false} dark>
-      <View style={styles.top}>
+      <View style={{ paddingHorizontal: 24 }}>
         <Masthead back light title="Obturador" />
       </View>
 
-      <View style={styles.stage}>
+      <View style={{
+        flex: 1,
+        marginHorizontal: 24,
+        marginVertical: 12,
+        borderRadius: 12,
+        overflow: 'hidden',
+        backgroundColor: '#000',
+      }}>
         {focused ? (
           <CameraView
             ref={cameraRef}
@@ -58,25 +65,30 @@ export default function CamaraScreen() {
             active={focused}
           />
         ) : null}
-        <View style={styles.frame} pointerEvents="none" />
+        <View style={{
+          ...StyleSheet.absoluteFillObject,
+          borderWidth: 1,
+          borderColor: 'rgba(255,255,255,0.2)',
+          borderRadius: 12,
+        }} pointerEvents="none" />
       </View>
 
-      <View style={styles.bottom}>
+      <View style={{ paddingHorizontal: 24, paddingBottom: 16, gap: 12 }}>
         {photo ? (
-          <View style={styles.plate}>
-            <Image source={{ uri: photo }} style={styles.thumb} />
-            <Text style={[styles.meta, { fontFamily: type.data }]}>Última placa</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+            <Image source={{ uri: photo }} style={{ width: 56, height: 56, borderRadius: 8, backgroundColor: '#333' }} />
+            <Text style={{ flex: 1, color: '#F0F6FC', fontFamily: type.data, fontSize: 12 }}>Última placa</Text>
             <GhostButton inverted label="Descartar" onPress={() => setPhoto(null)} />
           </View>
         ) : null}
-        <View style={styles.controls}>
+        <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
           <GhostButton
             inverted
             flex
             label={facing === 'back' ? 'Frente' : 'Atrás'}
             onPress={() => {
               setTorch(false);
-              setFacing((current) => (current === 'back' ? 'front' : 'back'));
+              setFacing((cur) => (cur === 'back' ? 'front' : 'back'));
             }}
           />
           <PrimaryButton flex label="Disparar" onPress={shoot} />
@@ -84,32 +96,10 @@ export default function CamaraScreen() {
             inverted
             flex
             label={torch ? 'Flash off' : 'Flash'}
-            onPress={() => setTorch((value) => !value)}
+            onPress={() => setTorch((v) => !v)}
           />
         </View>
       </View>
     </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  top: { paddingHorizontal: '10%' },
-  copy: { fontSize: 16, lineHeight: 24, marginBottom: 24 },
-  stage: {
-    flex: 1,
-    marginHorizontal: '10%',
-    marginVertical: 12,
-    overflow: 'hidden',
-    backgroundColor: '#000',
-  },
-  frame: {
-    ...StyleSheet.absoluteFillObject,
-    borderWidth: 1,
-    borderColor: 'rgba(247,241,227,0.35)',
-  },
-  bottom: { paddingHorizontal: '10%', paddingBottom: 16, gap: 12 },
-  plate: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  thumb: { width: 56, height: 56, backgroundColor: '#333' },
-  meta: { flex: 1, color: '#F0F6FC', fontSize: 12 },
-  controls: { flexDirection: 'row', gap: 8, alignItems: 'center' },
-});

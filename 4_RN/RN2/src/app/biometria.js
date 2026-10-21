@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, useColorScheme } from 'react-native';
+import { ScrollView, Text, useColorScheme } from 'react-native';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { DataRow, Masthead, Panel, PrimaryButton, Screen } from '../components/Chrome';
 import { makeColors } from '../theme';
@@ -49,9 +49,7 @@ export default function BiometriaScreen() {
     }
   }, []);
 
-  useEffect(() => {
-    inspect();
-  }, [inspect]);
+  useEffect(() => { inspect(); }, [inspect]);
 
   const authenticate = async () => {
     const attempt = await LocalAuthentication.authenticateAsync({
@@ -67,8 +65,8 @@ export default function BiometriaScreen() {
   return (
     <Screen>
       <Masthead back title="Biometría" />
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.list}>
-        <Text style={[styles.copy, { color: c.muted }]}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 32, gap: 16 }}>
+        <Text style={{ color: c.muted, fontSize: 15, lineHeight: 22 }}>
           Detección del hardware biométrico del dispositivo y prueba en vivo del prompt nativo
           (Huella dactilar, Face ID / Reconocimiento facial o clave de seguridad).
         </Text>
@@ -89,8 +87,3 @@ export default function BiometriaScreen() {
     </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  list: { paddingBottom: 32, gap: 16 },
-  copy: { fontSize: 16, lineHeight: 24 },
-});

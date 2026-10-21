@@ -1,75 +1,92 @@
-import { Pressable, StyleSheet, Text, View, useColorScheme } from 'react-native';
+import { Pressable, StyleSheet, Text, View, useColorScheme, Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { makeColors, type } from '../theme';
 
-// ─── Screen ────────────────────────────────────────────────────────────────────
-// dark prop: force dark bg (for camera/scanner full-screen views)
+/* ───────────────────────── Screen ───────────────────────── */
 export function Screen({ children, padded = true, dark: forceDark }) {
   const scheme = useColorScheme();
   const dark = forceDark !== undefined ? forceDark : scheme === 'dark';
   const c = makeColors(dark);
   const insets = useSafeAreaInsets();
+
   return (
     <View
-      style={[
-        styles.screen,
-        {
-          backgroundColor: c.bg,
-          paddingTop: insets.top,
-          paddingBottom: insets.bottom,
-          paddingLeft: insets.left,
-          paddingRight: insets.right,
-        },
-      ]}
+      style={{
+        flex: 1,
+        backgroundColor: c.bg,
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+        paddingLeft: insets.left,
+        paddingRight: insets.right,
+      }}
     >
       {padded ? <View style={styles.pad}>{children}</View> : children}
     </View>
   );
 }
 
-// ─── Masthead ──────────────────────────────────────────────────────────────────
+/* ───────────────────────── Masthead ───────────────────────── */
 export function Masthead({ kicker, title, back = false, light = false }) {
   const scheme = useColorScheme();
-  const dark = light ? true : scheme === 'dark';
+  const dark = light || scheme === 'dark';
   const c = makeColors(dark);
-
-  const ink = c.ink;
-  const muted = c.muted;
-  const rule = c.border;
 
   return (
     <View style={styles.masthead}>
       <View style={styles.mastheadRow}>
         {back ? (
           <Pressable
-            onPress={() => {
-              Haptics.selectionAsync();
-              router.back();
-            }}
-            hitSlop={12}
+            onPress={() => { Haptics.selectionAsync(); router.back(); }}
+            hitSlop={16}
             style={styles.back}
           >
-            <Text style={[styles.backMark, { color: ink }]}>←</Text>
-            <Text style={[styles.backLabel, { color: ink }]}>Índice</Text>
+            <Text style={{ color: c.ink, fontSize: 20, lineHeight: 22 }}>‹</Text>
+            <Text style={{ color: c.ink, fontFamily: type.ui, fontSize: 14 }}>Volver</Text>
           </Pressable>
         ) : (
-          <Text style={[styles.kicker, { color: muted }]}>{kicker}</Text>
+          <Text style={{
+            color: c.muted,
+            fontFamily: type.ui,
+            fontSize: 11,
+            letterSpacing: 2,
+            textTransform: 'uppercase',
+          }}>
+            {kicker}
+          </Text>
         )}
-        <Text style={[styles.mark, { color: c.accent }]}>SONDA</Text>
+        <Text style={{
+          color: c.accent,
+          fontFamily: type.ui,
+          fontSize: 11,
+          letterSpacing: 2.4,
+          fontWeight: '700',
+        }}>
+          SONDA
+        </Text>
       </View>
-      <Text style={[styles.title, { color: ink }]}>{title}</Text>
-      <View style={[styles.rule, { backgroundColor: rule }]} />
+      <Text style={{
+        fontFamily: type.display,
+        fontSize: 32,
+        lineHeight: 40,
+        marginTop: 12,
+        color: c.ink,
+        letterSpacing: -0.5,
+      }}>
+        {title}
+      </Text>
+      <View style={{ height: 1, backgroundColor: c.border, marginTop: 14 }} />
     </View>
   );
 }
 
-// ─── PrimaryButton ─────────────────────────────────────────────────────────────
+/* ───────────────────────── PrimaryButton ───────────────────────── */
 export function PrimaryButton({ label, onPress, tone = 'accent', disabled, flex }) {
   const scheme = useColorScheme();
   const c = makeColors(scheme === 'dark');
   const bg = tone === 'forest' ? c.forest : c.accent;
+
   return (
     <Pressable
       disabled={disabled}
@@ -78,56 +95,94 @@ export function PrimaryButton({ label, onPress, tone = 'accent', disabled, flex 
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
         onPress?.();
       }}
-      style={({ pressed }) => [
-        styles.primary,
-        {
-          backgroundColor: bg,
-          opacity: disabled ? 0.4 : pressed ? 0.82 : 1,
-          flex: flex ? 1 : undefined,
-        },
-      ]}
+      style={({ pressed }) => ({
+        minHeight: 52,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: 20,
+        borderRadius: 10,
+        backgroundColor: bg,
+        opacity: disabled ? 0.4 : pressed ? 0.8 : 1,
+        flex: flex ? 1 : undefined,
+      })}
     >
-      <Text style={styles.primaryLabel}>{label}</Text>
+      <Text style={{
+        color: '#FFF',
+        fontFamily: type.ui,
+        fontSize: 15,
+        fontWeight: '600',
+        letterSpacing: 0.3,
+      }}>
+        {label}
+      </Text>
     </Pressable>
   );
 }
 
-// ─── GhostButton ──────────────────────────────────────────────────────────────
+/* ───────────────────────── GhostButton ───────────────────────── */
 export function GhostButton({ label, onPress, inverted = false, flex }) {
   const scheme = useColorScheme();
-  const dark = inverted ? true : scheme === 'dark';
+  const dark = inverted || scheme === 'dark';
   const c = makeColors(dark);
-  const border = c.border;
-  const text = c.ink;
+
   return (
     <Pressable
-      onPress={() => {
-        Haptics.selectionAsync();
-        onPress?.();
-      }}
-      style={({ pressed }) => [
-        styles.ghost,
-        {
-          borderColor: border,
-          opacity: pressed ? 0.7 : 1,
-          flex: flex ? 1 : undefined,
-        },
-      ]}
+      onPress={() => { Haptics.selectionAsync(); onPress?.(); }}
+      style={({ pressed }) => ({
+        minHeight: 48,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: inverted ? 'rgba(255,255,255,0.3)' : c.border,
+        paddingHorizontal: 16,
+        opacity: pressed ? 0.65 : 1,
+        flex: flex ? 1 : undefined,
+      })}
     >
-      <Text style={[styles.ghostLabel, { color: text }]}>{label}</Text>
+      <Text style={{
+        fontFamily: type.ui,
+        fontSize: 14,
+        color: inverted ? '#FFF' : c.ink,
+        letterSpacing: 0.3,
+      }}>
+        {label}
+      </Text>
     </Pressable>
   );
 }
 
-// ─── DataRow ──────────────────────────────────────────────────────────────────
+/* ───────────────────────── DataRow ───────────────────────── */
 export function DataRow({ label, value, accent = false }) {
   const scheme = useColorScheme();
   const c = makeColors(scheme === 'dark');
+
   return (
-    <View style={[styles.row, { borderBottomColor: c.border }]}>
-      <Text style={[styles.rowLabel, { color: c.muted }]}>{label}</Text>
+    <View style={{
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'flex-start',
+      gap: 16,
+      paddingVertical: 11,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: c.border,
+    }}>
+      <Text style={{
+        color: c.muted,
+        fontSize: 13,
+        fontFamily: type.ui,
+        flexShrink: 0,
+      }}>
+        {label}
+      </Text>
       <Text
-        style={[styles.rowValue, { color: accent ? c.accent : c.ink }]}
+        style={{
+          color: accent ? c.accent : c.ink,
+          fontFamily: type.data,
+          fontSize: 13,
+          flex: 1,
+          textAlign: 'right',
+        }}
         selectable
       >
         {value}
@@ -136,109 +191,43 @@ export function DataRow({ label, value, accent = false }) {
   );
 }
 
-// ─── Panel ────────────────────────────────────────────────────────────────────
+/* ───────────────────────── Panel ───────────────────────── */
 export function Panel({ children }) {
   const scheme = useColorScheme();
   const c = makeColors(scheme === 'dark');
+
   return (
-    <View style={[styles.panel, { backgroundColor: c.surface, borderColor: c.border }]}>
+    <View style={{
+      backgroundColor: c.surface,
+      borderWidth: 1,
+      borderColor: c.border,
+      borderRadius: 12,
+      padding: 16,
+      gap: 0,
+    }}>
       {children}
     </View>
   );
 }
 
-// ─── Styles ───────────────────────────────────────────────────────────────────
+/* ───────────────────────── Styles ───────────────────────── */
 const styles = StyleSheet.create({
-  screen: { flex: 1 },
-  // 80% of available width, not centered via maxWidth
-  pad: { flex: 1, paddingHorizontal: '10%' },
-
-  masthead: { paddingTop: 10, paddingBottom: 8 },
+  pad: {
+    flex: 1,
+    paddingHorizontal: 24,
+  },
+  masthead: {
+    paddingTop: 10,
+    paddingBottom: 8,
+  },
   mastheadRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  kicker: {
-    fontFamily: type.ui,
-    fontSize: 12,
-    letterSpacing: 1.6,
-    textTransform: 'uppercase',
-  },
-  mark: {
-    fontFamily: type.ui,
-    fontSize: 11,
-    letterSpacing: 2.4,
-    fontWeight: '700',
-  },
-  back: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  backMark: { fontSize: 18, lineHeight: 20 },
-  backLabel: {
-    fontFamily: type.ui,
-    fontSize: 13,
-    letterSpacing: 0.4,
-  },
-  title: {
-    fontFamily: type.display,
-    fontSize: 34,
-    lineHeight: 38,
-    marginTop: 14,
-    letterSpacing: -0.6,
-  },
-  rule: { height: 1, marginTop: 16 },
-
-  primary: {
-    minHeight: 54,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 18,
-    borderRadius: 4,
-  },
-  primaryLabel: {
-    color: '#FFFFFF',
-    fontFamily: type.ui,
-    fontSize: 15,
-    letterSpacing: 0.8,
-    fontWeight: '600',
-  },
-
-  ghost: {
-    minHeight: 48,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    paddingHorizontal: 16,
-    borderRadius: 4,
-  },
-  ghostLabel: {
-    fontFamily: type.ui,
-    fontSize: 14,
-    letterSpacing: 0.6,
-  },
-
-  panel: {
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 16,
-    gap: 2,
-  },
-  row: {
+  back: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 12,
-    paddingVertical: 10,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  rowLabel: {
-    fontSize: 13,
-    letterSpacing: 0.4,
-    fontFamily: type.ui,
-    flexShrink: 0,
-  },
-  rowValue: {
-    fontFamily: type.data,
-    fontSize: 13,
-    flex: 1,
-    textAlign: 'right',
+    alignItems: 'center',
+    gap: 6,
   },
 });

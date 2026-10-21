@@ -12,11 +12,18 @@ export default function Index() {
   return (
     <Screen>
       <Masthead kicker="Laboratorio PDeISC · RN2" title="Banco de pruebas" />
+
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.list}
+        contentContainerStyle={{ paddingBottom: 40, gap: 10, paddingTop: 4 }}
       >
-        <Text style={[styles.lede, { color: c.muted }]}>
+        <Text style={{
+          color: c.muted,
+          fontSize: 15,
+          lineHeight: 22,
+          marginBottom: 12,
+          fontFamily: type.ui,
+        }}>
           Cinco instrumentos del teléfono, medidos como en un cuaderno de campo: cámara, códigos,
           GPS, inercia y biometría.
         </Text>
@@ -25,104 +32,81 @@ export default function Index() {
           <Link key={tool.href} href={tool.href} asChild>
             <Pressable
               onPressIn={() => Haptics.selectionAsync()}
-              style={({ pressed }) => [
-                styles.item,
-                {
-                  backgroundColor: pressed ? c.card : c.surface,
-                  borderColor: c.border,
-                },
-              ]}
             >
-              {/* Left: icon + index */}
-              <View style={[styles.iconWrap, { backgroundColor: c.accentGlow }]}>
-                <Text style={styles.icon}>{tool.icon}</Text>
-                <Text style={[styles.index, { color: c.accent }]}>{tool.index}</Text>
-              </View>
+              {({ pressed }) => (
+                <View style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  backgroundColor: pressed ? c.card : c.surface,
+                  borderWidth: 1,
+                  borderColor: c.border,
+                  borderRadius: 12,
+                  padding: 16,
+                  gap: 14,
+                }}>
+                  {/* Icono */}
+                  <View style={{
+                    width: 48,
+                    height: 48,
+                    borderRadius: 12,
+                    backgroundColor: c.accentGlow,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <Text style={{ fontSize: 22 }}>{tool.icon}</Text>
+                  </View>
 
-              {/* Center: title + subtitle + note */}
-              <View style={styles.body}>
-                <View style={styles.titleRow}>
-                  <Text style={[styles.title, { color: c.ink }]}>{tool.title}</Text>
-                  <Text style={[styles.subtitle, { color: c.muted }]}>{tool.subtitle}</Text>
+                  {/* Texto */}
+                  <View style={{ flex: 1 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 8 }}>
+                      <Text style={{
+                        fontFamily: type.display,
+                        fontSize: 20,
+                        color: c.ink,
+                        letterSpacing: -0.3,
+                      }}>
+                        {tool.title}
+                      </Text>
+                      <Text style={{
+                        fontSize: 10,
+                        letterSpacing: 1.4,
+                        textTransform: 'uppercase',
+                        color: c.muted,
+                        fontFamily: type.ui,
+                      }}>
+                        {tool.subtitle}
+                      </Text>
+                    </View>
+                    <Text style={{
+                      fontSize: 13,
+                      lineHeight: 18,
+                      color: c.muted,
+                      marginTop: 2,
+                      fontFamily: type.ui,
+                    }}>
+                      {tool.note}
+                    </Text>
+                  </View>
+
+                  {/* Flecha */}
+                  <Text style={{ fontSize: 18, color: c.accent }}>›</Text>
                 </View>
-                <Text style={[styles.note, { color: c.muted }]}>{tool.note}</Text>
-              </View>
-
-              {/* Right: arrow */}
-              <Text style={[styles.arrow, { color: c.accent }]}>→</Text>
+              )}
             </Pressable>
           </Link>
         ))}
 
-        <Text style={[styles.colophon, { color: c.muted }]}>
-          Expo SDK 57 · APK disponible vía EAS Build (perfil preview)
+        <Text style={{
+          marginTop: 16,
+          color: c.muted,
+          fontFamily: type.data,
+          fontSize: 11,
+          lineHeight: 16,
+          textAlign: 'center',
+        }}>
+          Expo SDK 57 · APK disponible vía EAS Build
         </Text>
       </ScrollView>
     </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  list: { paddingBottom: 40, gap: 10 },
-  lede: {
-    fontSize: 15,
-    lineHeight: 23,
-    marginBottom: 16,
-  },
-  item: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 14,
-    padding: 16,
-    borderWidth: 1,
-    borderRadius: 10,
-  },
-  iconWrap: {
-    width: 52,
-    height: 52,
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 2,
-    flexShrink: 0,
-  },
-  icon: { fontSize: 22 },
-  index: {
-    fontFamily: type.data,
-    fontSize: 10,
-    letterSpacing: 0.5,
-    fontWeight: '700',
-  },
-  body: { flex: 1 },
-  titleRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    gap: 8,
-    flexWrap: 'wrap',
-  },
-  title: {
-    fontFamily: type.display,
-    fontSize: 22,
-    letterSpacing: -0.3,
-  },
-  subtitle: {
-    fontSize: 11,
-    letterSpacing: 1.4,
-    textTransform: 'uppercase',
-  },
-  note: {
-    fontSize: 13,
-    lineHeight: 19,
-    marginTop: 3,
-  },
-  arrow: {
-    fontSize: 18,
-    flexShrink: 0,
-  },
-  colophon: {
-    marginTop: 20,
-    fontFamily: type.data,
-    fontSize: 11,
-    lineHeight: 16,
-  },
-});
