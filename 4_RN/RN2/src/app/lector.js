@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, useColorScheme } from 'react-native';
 import { useIsFocused } from 'expo-router';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { GhostButton, Masthead, PrimaryButton, Screen } from '../components/Chrome';
-import { colors, type } from '../theme';
-
-const TYPES = ['qr', 'ean13', 'ean8', 'code128', 'code39', 'upc_a', 'upc_e', 'pdf417', 'aztec'];
+import { makeColors, type } from '../theme';
 
 export default function LectorScreen() {
+  const scheme = useColorScheme();
+  const c = makeColors(scheme === 'dark');
+
   const focused = useIsFocused();
   const [permission, requestPermission] = useCameraPermissions();
   const [lock, setLock] = useState(null);
@@ -24,7 +25,7 @@ export default function LectorScreen() {
     return (
       <Screen>
         <Masthead back title="Lectura" />
-        <Text style={styles.copy}>
+        <Text style={[styles.copy, { color: c.muted }]}>
           El visor necesita cámara para decodificar QR y códigos de barras. El permiso es el mismo
           que usa el obturador.
         </Text>
@@ -69,21 +70,21 @@ export default function LectorScreen() {
         ) : null}
         <View style={styles.reticle} pointerEvents="none">
           <View style={styles.box} />
-          <Text style={styles.hint}>Alinear el código al recuadro</Text>
+          <Text style={[styles.hint, { fontFamily: type.data }]}>Alinear el código al recuadro</Text>
         </View>
       </View>
 
-      <View style={styles.sheet}>
+      <View style={[styles.sheet, { backgroundColor: c.surface }]}>
         {lock ? (
           <>
-            <Text style={styles.kind}>{lock.type}</Text>
-            <Text style={styles.payload} selectable>
+            <Text style={[styles.kind, { color: c.accent, fontFamily: type.data }]}>{lock.type}</Text>
+            <Text style={[styles.payload, { color: c.ink, fontFamily: type.data }]} selectable>
               {lock.data}
             </Text>
-            <GhostButton inverted label="Leer otro" onPress={() => setLock(null)} />
+            <GhostButton label="Leer otro" onPress={() => setLock(null)} />
           </>
         ) : (
-          <Text style={styles.wait}>Esperando señal…</Text>
+          <Text style={[styles.wait, { color: c.muted, fontFamily: type.data }]}>Esperando señal…</Text>
         )}
       </View>
     </Screen>
@@ -91,37 +92,34 @@ export default function LectorScreen() {
 }
 
 const styles = StyleSheet.create({
-  top: { paddingHorizontal: 22 },
-  copy: { color: colors.muted, fontSize: 16, lineHeight: 24, marginBottom: 24 },
-  stage: { flex: 1, marginHorizontal: 22, overflow: 'hidden', backgroundColor: '#000' },
+  top: { paddingHorizontal: '10%' },
+  copy: { fontSize: 16, lineHeight: 24, marginBottom: 24 },
+  stage: { flex: 1, marginHorizontal: '10%', overflow: 'hidden', backgroundColor: '#000' },
   reticle: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center' },
   box: {
     width: 228,
     height: 228,
     borderWidth: 1.5,
-    borderColor: colors.cream,
+    borderColor: 'rgba(247,241,227,0.85)',
   },
   hint: {
     marginTop: 14,
-    color: colors.cream,
-    fontFamily: type.data,
+    color: 'rgba(247,241,227,0.75)',
     fontSize: 12,
     letterSpacing: 0.4,
   },
   sheet: {
-    paddingHorizontal: 22,
+    paddingHorizontal: '10%',
     paddingVertical: 18,
     gap: 10,
     minHeight: 140,
     justifyContent: 'center',
   },
   kind: {
-    color: colors.oxide,
-    fontFamily: type.data,
     fontSize: 12,
     letterSpacing: 1.2,
     textTransform: 'uppercase',
   },
-  payload: { color: colors.cream, fontFamily: type.data, fontSize: 15, lineHeight: 22 },
-  wait: { color: 'rgba(247,241,227,0.55)', fontFamily: type.data, fontSize: 13 },
+  payload: { fontSize: 15, lineHeight: 22 },
+  wait: { fontSize: 13 },
 });

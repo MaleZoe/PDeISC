@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, useColorScheme } from 'react-native';
 import { Accelerometer, Gyroscope } from 'expo-sensors';
 import { DataRow, GhostButton, Masthead, Panel, PrimaryButton, Screen } from '../components/Chrome';
-import { colors, type } from '../theme';
+import { makeColors, type } from '../theme';
 
 const ZERO = { x: 0, y: 0, z: 0 };
 const fmt = (n) => (Number.isFinite(n) ? n.toFixed(3) : '—');
 
 export default function MovimientoScreen() {
+  const scheme = useColorScheme();
+  const c = makeColors(scheme === 'dark');
+
   const [accel, setAccel] = useState(ZERO);
   const [gyro, setGyro] = useState(ZERO);
   const [live, setLive] = useState(false);
@@ -42,17 +45,18 @@ export default function MovimientoScreen() {
     <Screen>
       <Masthead back title="Inercia" />
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.list}>
-        <Text style={styles.copy}>
+        <Text style={[styles.copy, { color: c.muted }]}>
           Aceleración en g y rotación en rad/s. El disco sigue el vector del acelerómetro para leer
           la inclinación de un vistazo.
         </Text>
 
-        <View style={styles.horizon}>
-          <View style={styles.crossH} />
-          <View style={styles.crossV} />
+        <View style={[styles.horizon, { borderColor: c.border, backgroundColor: c.surface }]}>
+          <View style={[styles.crossH, { backgroundColor: c.border }]} />
+          <View style={[styles.crossV, { backgroundColor: c.border }]} />
           <View
             style={[
               styles.bead,
+              { backgroundColor: c.accent },
               {
                 transform: [
                   { translateX: Math.max(-54, Math.min(54, accel.x * 48)) },
@@ -61,18 +65,18 @@ export default function MovimientoScreen() {
               },
             ]}
           />
-          <Text style={styles.mag}>{fmt(mag)} g</Text>
+          <Text style={[styles.mag, { color: c.muted }]}>{fmt(mag)} g</Text>
         </View>
 
         <Panel>
-          <Text style={styles.section}>Acelerómetro</Text>
+          <Text style={[styles.section, { color: c.ink }]}>Acelerómetro</Text>
           <DataRow label="X" value={available.accel ? fmt(accel.x) : 'no disponible'} />
           <DataRow label="Y" value={available.accel ? fmt(accel.y) : 'no disponible'} />
           <DataRow label="Z" value={available.accel ? fmt(accel.z) : 'no disponible'} />
         </Panel>
 
         <Panel>
-          <Text style={styles.section}>Giroscopio</Text>
+          <Text style={[styles.section, { color: c.ink }]}>Giroscopio</Text>
           <DataRow label="ω X" value={available.gyro ? fmt(gyro.x) : 'no disponible'} />
           <DataRow label="ω Y" value={available.gyro ? fmt(gyro.y) : 'no disponible'} />
           <DataRow label="ω Z" value={available.gyro ? fmt(gyro.z) : 'no disponible'} />
@@ -93,7 +97,7 @@ export default function MovimientoScreen() {
           <GhostButton flex label="80 ms" onPress={() => setRate(80)} />
           <GhostButton flex label="200 ms" onPress={() => setRate(200)} />
         </View>
-        <Text style={styles.meta}>Intervalo actual: {rate} ms</Text>
+        <Text style={[styles.meta, { color: c.muted }]}>Intervalo actual: {rate} ms</Text>
       </ScrollView>
     </Screen>
   );
@@ -101,12 +105,11 @@ export default function MovimientoScreen() {
 
 const styles = StyleSheet.create({
   list: { paddingBottom: 32, gap: 12 },
-  copy: { color: colors.muted, fontSize: 16, lineHeight: 24 },
+  copy: { fontSize: 16, lineHeight: 24 },
   horizon: {
     height: 180,
     borderWidth: 1,
-    borderColor: colors.ink,
-    backgroundColor: colors.cream,
+    borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
@@ -116,20 +119,17 @@ const styles = StyleSheet.create({
     left: 16,
     right: 16,
     height: StyleSheet.hairlineWidth,
-    backgroundColor: colors.line,
   },
   crossV: {
     position: 'absolute',
     top: 16,
     bottom: 16,
     width: StyleSheet.hairlineWidth,
-    backgroundColor: colors.line,
   },
   bead: {
     width: 18,
     height: 18,
     borderRadius: 9,
-    backgroundColor: colors.oxide,
   },
   mag: {
     position: 'absolute',
@@ -137,14 +137,12 @@ const styles = StyleSheet.create({
     right: 12,
     fontFamily: type.data,
     fontSize: 12,
-    color: colors.muted,
   },
   section: {
     fontFamily: type.display,
     fontSize: 18,
-    color: colors.ink,
     marginBottom: 6,
   },
   rates: { flexDirection: 'row', gap: 8 },
-  meta: { color: colors.muted, fontFamily: type.data, fontSize: 12 },
+  meta: { fontFamily: type.data, fontSize: 12 },
 });

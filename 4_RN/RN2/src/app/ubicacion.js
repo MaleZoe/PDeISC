@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet, Text, useColorScheme } from 'react-native';
 import * as Location from 'expo-location';
 import { DataRow, Masthead, Panel, PrimaryButton, Screen } from '../components/Chrome';
-import { colors } from '../theme';
+import { makeColors } from '../theme';
 
 const fmt = (value, digits = 6, suffix = '') =>
   value == null || Number.isNaN(value) ? '—' : `${value.toFixed(digits)}${suffix}`;
 
 export default function UbicacionScreen() {
+  const scheme = useColorScheme();
+  const c = makeColors(scheme === 'dark');
+
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
   const [fix, setFix] = useState(null);
@@ -61,7 +64,7 @@ export default function UbicacionScreen() {
     <Screen>
       <Masthead back title="Fijación" />
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.list}>
-        <Text style={styles.copy}>
+        <Text style={[styles.copy, { color: c.muted }]}>
           Un disparo de alta precisión y, si hace falta, seguimiento continuo. La dirección sale de
           geocodificación inversa.
         </Text>
@@ -88,7 +91,7 @@ export default function UbicacionScreen() {
           }}
         />
 
-        {error ? <Text style={styles.error}>{error}</Text> : null}
+        {error ? <Text style={[styles.error, { color: c.accent }]}>{error}</Text> : null}
 
         <Panel>
           <DataRow label="Latitud" value={fmt(fix?.latitude)} accent />
@@ -106,6 +109,6 @@ export default function UbicacionScreen() {
 
 const styles = StyleSheet.create({
   list: { paddingBottom: 32, gap: 12 },
-  copy: { color: colors.muted, fontSize: 16, lineHeight: 24, marginBottom: 8 },
-  error: { color: colors.oxide, fontSize: 14, lineHeight: 20 },
+  copy: { fontSize: 16, lineHeight: 24, marginBottom: 8 },
+  error: { fontSize: 14, lineHeight: 20 },
 });

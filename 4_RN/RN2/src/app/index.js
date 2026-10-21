@@ -1,15 +1,22 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View, useColorScheme } from 'react-native';
 import { Link } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { Masthead, Screen } from '../components/Chrome';
-import { colors, tools, type } from '../theme';
+import { makeColors, tools, type } from '../theme';
 
 export default function Index() {
+  const scheme = useColorScheme();
+  const dark = scheme === 'dark';
+  const c = makeColors(dark);
+
   return (
     <Screen>
       <Masthead kicker="Laboratorio PDeISC · RN2" title="Banco de pruebas" />
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.list}>
-        <Text style={styles.lede}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.list}
+      >
+        <Text style={[styles.lede, { color: c.muted }]}>
           Cinco instrumentos del teléfono, medidos como en un cuaderno de campo: cámara, códigos,
           GPS, inercia y biometría.
         </Text>
@@ -18,23 +25,37 @@ export default function Index() {
           <Link key={tool.href} href={tool.href} asChild>
             <Pressable
               onPressIn={() => Haptics.selectionAsync()}
-              style={({ pressed }) => [styles.item, pressed && styles.itemPressed]}
+              style={({ pressed }) => [
+                styles.item,
+                {
+                  backgroundColor: pressed ? c.card : c.surface,
+                  borderColor: c.border,
+                },
+              ]}
             >
-              <Text style={styles.index}>{tool.index}</Text>
+              {/* Left: icon + index */}
+              <View style={[styles.iconWrap, { backgroundColor: c.accentGlow }]}>
+                <Text style={styles.icon}>{tool.icon}</Text>
+                <Text style={[styles.index, { color: c.accent }]}>{tool.index}</Text>
+              </View>
+
+              {/* Center: title + subtitle + note */}
               <View style={styles.body}>
                 <View style={styles.titleRow}>
-                  <Text style={styles.title}>{tool.title}</Text>
-                  <Text style={styles.subtitle}>{tool.subtitle}</Text>
+                  <Text style={[styles.title, { color: c.ink }]}>{tool.title}</Text>
+                  <Text style={[styles.subtitle, { color: c.muted }]}>{tool.subtitle}</Text>
                 </View>
-                <Text style={styles.note}>{tool.note}</Text>
+                <Text style={[styles.note, { color: c.muted }]}>{tool.note}</Text>
               </View>
-              <Text style={styles.arrow}>→</Text>
+
+              {/* Right: arrow */}
+              <Text style={[styles.arrow, { color: c.accent }]}>→</Text>
             </Pressable>
           </Link>
         ))}
 
-        <Text style={styles.colophon}>
-          Expo SDK 58 · listo para APK con EAS Build (perfil preview)
+        <Text style={[styles.colophon, { color: c.muted }]}>
+          Expo SDK 57 · APK disponible vía EAS Build (perfil preview)
         </Text>
       </ScrollView>
     </Screen>
@@ -42,63 +63,64 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
-  list: { paddingBottom: 36, gap: 0 },
+  list: { paddingBottom: 40, gap: 10 },
   lede: {
-    color: colors.muted,
-    fontSize: 16,
-    lineHeight: 24,
-    marginBottom: 10,
-    maxWidth: 340,
+    fontSize: 15,
+    lineHeight: 23,
+    marginBottom: 16,
   },
   item: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     gap: 14,
-    paddingVertical: 18,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.line,
+    padding: 16,
+    borderWidth: 1,
+    borderRadius: 10,
   },
-  itemPressed: { backgroundColor: colors.paperDeep, marginHorizontal: -8, paddingHorizontal: 8 },
+  iconWrap: {
+    width: 52,
+    height: 52,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 2,
+    flexShrink: 0,
+  },
+  icon: { fontSize: 22 },
   index: {
     fontFamily: type.data,
-    color: colors.oxide,
-    fontSize: 13,
-    width: 28,
-    marginTop: 6,
+    fontSize: 10,
+    letterSpacing: 0.5,
+    fontWeight: '700',
   },
   body: { flex: 1 },
   titleRow: {
     flexDirection: 'row',
     alignItems: 'baseline',
-    gap: 10,
+    gap: 8,
     flexWrap: 'wrap',
   },
   title: {
     fontFamily: type.display,
-    fontSize: 26,
-    color: colors.ink,
-    letterSpacing: -0.4,
+    fontSize: 22,
+    letterSpacing: -0.3,
   },
   subtitle: {
-    color: colors.muted,
-    fontSize: 12,
+    fontSize: 11,
     letterSpacing: 1.4,
     textTransform: 'uppercase',
   },
   note: {
-    color: colors.muted,
-    fontSize: 14,
-    lineHeight: 20,
-    marginTop: 4,
+    fontSize: 13,
+    lineHeight: 19,
+    marginTop: 3,
   },
   arrow: {
-    color: colors.ink,
     fontSize: 18,
-    marginTop: 8,
+    flexShrink: 0,
   },
   colophon: {
-    marginTop: 28,
-    color: colors.muted,
+    marginTop: 20,
     fontFamily: type.data,
     fontSize: 11,
     lineHeight: 16,

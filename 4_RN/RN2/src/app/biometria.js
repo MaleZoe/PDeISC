@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet, Text, useColorScheme } from 'react-native';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { DataRow, Masthead, Panel, PrimaryButton, Screen } from '../components/Chrome';
-import { colors } from '../theme';
+import { makeColors } from '../theme';
 
 const TYPE_LABEL = {
   [LocalAuthentication.AuthenticationType.FINGERPRINT]: 'Huella dactilar',
@@ -18,6 +18,9 @@ const LEVEL_LABEL = {
 };
 
 export default function BiometriaScreen() {
+  const scheme = useColorScheme();
+  const c = makeColors(scheme === 'dark');
+
   const [hardware, setHardware] = useState(false);
   const [enrolled, setEnrolled] = useState(false);
   const [types, setTypes] = useState([]);
@@ -30,7 +33,9 @@ export default function BiometriaScreen() {
         LocalAuthentication.hasHardwareAsync().catch(() => false),
         LocalAuthentication.isEnrolledAsync().catch(() => false),
         LocalAuthentication.supportedAuthenticationTypesAsync().catch(() => []),
-        LocalAuthentication.getEnrolledLevelAsync ? LocalAuthentication.getEnrolledLevelAsync().catch(() => 0) : Promise.resolve(0),
+        LocalAuthentication.getEnrolledLevelAsync
+          ? LocalAuthentication.getEnrolledLevelAsync().catch(() => 0)
+          : Promise.resolve(0),
       ]);
       setHardware(Boolean(has));
       setEnrolled(Boolean(isEnrolled));
@@ -63,8 +68,9 @@ export default function BiometriaScreen() {
     <Screen>
       <Masthead back title="Biometría" />
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.list}>
-        <Text style={styles.copy}>
-          Detección del hardware biométrico del dispositivo y prueba en vivo del prompt nativo (Huella dactilar, Face ID / Reconocimiento facial o clave de seguridad).
+        <Text style={[styles.copy, { color: c.muted }]}>
+          Detección del hardware biométrico del dispositivo y prueba en vivo del prompt nativo
+          (Huella dactilar, Face ID / Reconocimiento facial o clave de seguridad).
         </Text>
 
         <Panel>
@@ -86,5 +92,5 @@ export default function BiometriaScreen() {
 
 const styles = StyleSheet.create({
   list: { paddingBottom: 32, gap: 16 },
-  copy: { color: colors.muted, fontSize: 16, lineHeight: 24 },
+  copy: { fontSize: 16, lineHeight: 24 },
 });

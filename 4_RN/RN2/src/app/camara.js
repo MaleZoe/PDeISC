@@ -1,11 +1,14 @@
 import { useRef, useState } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View, useColorScheme } from 'react-native';
 import { useIsFocused } from 'expo-router';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { GhostButton, Masthead, PrimaryButton, Screen } from '../components/Chrome';
-import { colors, type } from '../theme';
+import { makeColors, type } from '../theme';
 
 export default function CamaraScreen() {
+  const scheme = useColorScheme();
+  const c = makeColors(scheme === 'dark');
+
   const cameraRef = useRef(null);
   const focused = useIsFocused();
   const [permission, requestPermission] = useCameraPermissions();
@@ -25,7 +28,7 @@ export default function CamaraScreen() {
     return (
       <Screen>
         <Masthead back title="Obturador" />
-        <Text style={styles.copy}>
+        <Text style={[styles.copy, { color: c.muted }]}>
           La cámara se usa para capturar una placa fotográfica del ejercicio. Sin el permiso no hay
           vista previa.
         </Text>
@@ -62,7 +65,7 @@ export default function CamaraScreen() {
         {photo ? (
           <View style={styles.plate}>
             <Image source={{ uri: photo }} style={styles.thumb} />
-            <Text style={styles.meta}>Última placa</Text>
+            <Text style={[styles.meta, { fontFamily: type.data }]}>Última placa</Text>
             <GhostButton inverted label="Descartar" onPress={() => setPhoto(null)} />
           </View>
         ) : null}
@@ -90,11 +93,11 @@ export default function CamaraScreen() {
 }
 
 const styles = StyleSheet.create({
-  top: { paddingHorizontal: 22 },
-  copy: { color: colors.muted, fontSize: 16, lineHeight: 24, marginBottom: 24 },
+  top: { paddingHorizontal: '10%' },
+  copy: { fontSize: 16, lineHeight: 24, marginBottom: 24 },
   stage: {
     flex: 1,
-    marginHorizontal: 22,
+    marginHorizontal: '10%',
     marginVertical: 12,
     overflow: 'hidden',
     backgroundColor: '#000',
@@ -104,9 +107,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(247,241,227,0.35)',
   },
-  bottom: { paddingHorizontal: 22, paddingBottom: 16, gap: 12 },
+  bottom: { paddingHorizontal: '10%', paddingBottom: 16, gap: 12 },
   plate: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  thumb: { width: 56, height: 56, backgroundColor: colors.paperDeep },
-  meta: { flex: 1, color: colors.cream, fontFamily: type.data, fontSize: 12 },
+  thumb: { width: 56, height: 56, backgroundColor: '#333' },
+  meta: { flex: 1, color: '#F0F6FC', fontSize: 12 },
   controls: { flexDirection: 'row', gap: 8, alignItems: 'center' },
 });
