@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View, useColorScheme } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Accelerometer, Gyroscope } from 'expo-sensors';
 import { DataRow, GhostButton, Masthead, Panel, PrimaryButton, Screen } from '../components/Chrome';
+import { useTheme } from '../context/ThemeContext';
 import { makeColors, type } from '../theme';
 
 const ZERO = { x: 0, y: 0, z: 0 };
 const fmt = (n) => (Number.isFinite(n) ? n.toFixed(3) : '—');
 
 export default function MovimientoScreen() {
-  const scheme = useColorScheme();
-  const c = makeColors(scheme === 'dark');
+  const { dark } = useTheme();
+  const c = makeColors(dark);
 
   const [accel, setAccel] = useState(ZERO);
   const [gyro, setGyro] = useState(ZERO);
@@ -53,7 +54,7 @@ export default function MovimientoScreen() {
           borderWidth: 1,
           borderColor: c.border,
           backgroundColor: c.surface,
-          borderRadius: 12,
+          borderRadius: 8,
           alignItems: 'center',
           justifyContent: 'center',
           overflow: 'hidden',
