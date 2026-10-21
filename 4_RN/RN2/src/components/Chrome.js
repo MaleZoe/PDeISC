@@ -1,27 +1,32 @@
-import { Pressable, StyleSheet, Text, View, useColorScheme, Platform } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
+import { useTheme } from '../context/ThemeContext';
 import { makeColors, type } from '../theme';
+
+/* ─── helper: get dynamic colors ─── */
+function useC(forceDark) {
+  const { dark } = useTheme();
+  return makeColors(forceDark !== undefined ? forceDark : dark);
+}
 
 /* ───────────────────────── Screen ───────────────────────── */
 export function Screen({ children, padded = true, dark: forceDark }) {
-  const scheme = useColorScheme();
-  const dark = forceDark !== undefined ? forceDark : scheme === 'dark';
-  const c = makeColors(dark);
+  const { dark: themeDark } = useTheme();
+  const effectiveDark = forceDark !== undefined ? forceDark : themeDark;
+  const c = makeColors(effectiveDark);
   const insets = useSafeAreaInsets();
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: c.bg,
-        paddingTop: insets.top,
-        paddingBottom: insets.bottom,
-        paddingLeft: insets.left,
-        paddingRight: insets.right,
-      }}
-    >
+    <View style={{
+      flex: 1,
+      backgroundColor: c.bg,
+      paddingTop: insets.top,
+      paddingBottom: insets.bottom,
+      paddingLeft: insets.left,
+      paddingRight: insets.right,
+    }}>
       {padded ? <View style={styles.pad}>{children}</View> : children}
     </View>
   );
@@ -29,9 +34,8 @@ export function Screen({ children, padded = true, dark: forceDark }) {
 
 /* ───────────────────────── Masthead ───────────────────────── */
 export function Masthead({ kicker, title, back = false, light = false }) {
-  const scheme = useColorScheme();
-  const dark = light || scheme === 'dark';
-  const c = makeColors(dark);
+  const { dark: themeDark } = useTheme();
+  const c = makeColors(light || themeDark);
 
   return (
     <View style={styles.masthead}>
@@ -83,8 +87,7 @@ export function Masthead({ kicker, title, back = false, light = false }) {
 
 /* ───────────────────────── PrimaryButton ───────────────────────── */
 export function PrimaryButton({ label, onPress, tone = 'accent', disabled, flex }) {
-  const scheme = useColorScheme();
-  const c = makeColors(scheme === 'dark');
+  const c = useC();
   const bg = tone === 'forest' ? c.forest : c.accent;
 
   return (
@@ -100,7 +103,7 @@ export function PrimaryButton({ label, onPress, tone = 'accent', disabled, flex 
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 20,
-        borderRadius: 10,
+        borderRadius: 6,
         backgroundColor: bg,
         opacity: disabled ? 0.4 : pressed ? 0.8 : 1,
         flex: flex ? 1 : undefined,
@@ -121,9 +124,7 @@ export function PrimaryButton({ label, onPress, tone = 'accent', disabled, flex 
 
 /* ───────────────────────── GhostButton ───────────────────────── */
 export function GhostButton({ label, onPress, inverted = false, flex }) {
-  const scheme = useColorScheme();
-  const dark = inverted || scheme === 'dark';
-  const c = makeColors(dark);
+  const c = useC(inverted ? true : undefined);
 
   return (
     <Pressable
@@ -133,7 +134,7 @@ export function GhostButton({ label, onPress, inverted = false, flex }) {
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderRadius: 10,
+        borderRadius: 6,
         borderColor: inverted ? 'rgba(255,255,255,0.3)' : c.border,
         paddingHorizontal: 16,
         opacity: pressed ? 0.65 : 1,
@@ -154,9 +155,7 @@ export function GhostButton({ label, onPress, inverted = false, flex }) {
 
 /* ───────────────────────── DataRow ───────────────────────── */
 export function DataRow({ label, value, accent = false }) {
-  const scheme = useColorScheme();
-  const c = makeColors(scheme === 'dark');
-
+  const c = useC();
   return (
     <View style={{
       flexDirection: 'row',
@@ -167,22 +166,11 @@ export function DataRow({ label, value, accent = false }) {
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: c.border,
     }}>
-      <Text style={{
-        color: c.muted,
-        fontSize: 13,
-        fontFamily: type.ui,
-        flexShrink: 0,
-      }}>
+      <Text style={{ color: c.muted, fontSize: 13, fontFamily: type.ui, flexShrink: 0 }}>
         {label}
       </Text>
       <Text
-        style={{
-          color: accent ? c.accent : c.ink,
-          fontFamily: type.data,
-          fontSize: 13,
-          flex: 1,
-          textAlign: 'right',
-        }}
+        style={{ color: accent ? c.accent : c.ink, fontFamily: type.data, fontSize: 13, flex: 1, textAlign: 'right' }}
         selectable
       >
         {value}
@@ -193,41 +181,28 @@ export function DataRow({ label, value, accent = false }) {
 
 /* ───────────────────────── Panel ───────────────────────── */
 export function Panel({ children }) {
-  const scheme = useColorScheme();
-  const c = makeColors(scheme === 'dark');
-
+  const c = useC();
   return (
     <View style={{
       backgroundColor: c.surface,
       borderWidth: 1,
       borderColor: c.border,
-      borderRadius: 12,
+      borderRadius: 8,
       padding: 16,
-      gap: 0,
     }}>
       {children}
     </View>
   );
 }
 
-/* ───────────────────────── Styles ───────────────────────── */
+/* ─── Styles ─── */
 const styles = StyleSheet.create({
-  pad: {
-    flex: 1,
-    paddingHorizontal: 24,
-  },
-  masthead: {
-    paddingTop: 10,
-    paddingBottom: 8,
-  },
+  pad: { flex: 1, paddingHorizontal: 24 },
+  masthead: { paddingTop: 10, paddingBottom: 8 },
   mastheadRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  back: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
+  back: { flexDirection: 'row', alignItems: 'center', gap: 6 },
 });

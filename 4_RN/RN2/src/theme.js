@@ -2,7 +2,6 @@ import { Platform } from 'react-native';
 
 // ─── Paleta base ───────────────────────────────────────────────────────────────
 export const palette = {
-  // Claros
   snow:       '#FAFAFA',
   white:      '#FFFFFF',
   grayLight:  '#F3F4F6',
@@ -11,7 +10,6 @@ export const palette = {
   grayText:   '#6B7280',
   inkLight:   '#111827',
 
-  // Oscuros
   obsidian:   '#0D1117',
   darkSurface:'#161B22',
   darkCard:   '#21262D',
@@ -20,11 +18,10 @@ export const palette = {
   darkText:   '#C9D1D9',
   inkDark:    '#F0F6FC',
 
-  // Marca
-  accent:     '#E84545',   // rojo sonda
+  accent:     '#E84545',
   accentDark: '#FF6B6B',
-  accentGlow: 'rgba(232,69,69,0.15)',
-  accentGlowDark: 'rgba(255,107,107,0.18)',
+  accentGlow: 'rgba(232,69,69,0.10)',
+  accentGlowDark: 'rgba(255,107,107,0.14)',
   success:    '#238636',
   successDark:'#3FB950',
   forest:     '#0D6E4E',
@@ -43,15 +40,7 @@ export const makeColors = (dark) => ({
   accentGlow: dark ? palette.accentGlowDark : palette.accentGlow,
   success:    dark ? palette.successDark : palette.success,
   forest:     dark ? palette.forestDark  : palette.forest,
-  // Legacy compat
-  paper:      dark ? palette.obsidian    : palette.snow,
-  oxide:      dark ? palette.accentDark  : palette.accent,
-  line:       dark ? palette.darkBorder  : palette.grayBorder,
-  cream:      dark ? palette.inkDark     : palette.white,
 });
-
-// Fallback estático (para estilos que no pueden usar hook)
-export const colors = makeColors(false);
 
 // ─── Tipografía ────────────────────────────────────────────────────────────────
 export const type = {
@@ -60,46 +49,46 @@ export const type = {
   ui:      Platform.select({ ios: 'System',  android: 'sans-serif', default: 'Inter, system-ui, sans-serif' }),
 };
 
-// ─── Definición de herramientas ─────────────────────────────────────────────
+// ─── Herramientas ──────────────────────────────────────────────────────────────
 export const tools = [
   {
     href: '/camara',
     index: '01',
-    title: 'Obturador',
-    subtitle: 'Cámara',
-    note: 'Foto frontal o trasera, linterna y vista previa.',
-    icon: '📷',
+    title: 'Cámara',
+    subtitle: 'Obturador',
+    note: 'Foto frontal / trasera y linterna.',
+    ionicon: 'camera-outline',
   },
   {
     href: '/lector',
     index: '02',
-    title: 'Lectura',
-    subtitle: 'Códigos',
-    note: 'QR, EAN y barras en tiempo real.',
-    icon: '🔲',
+    title: 'Códigos',
+    subtitle: 'Lectura',
+    note: 'QR, EAN y barras en vivo.',
+    ionicon: 'scan-outline',
   },
   {
     href: '/ubicacion',
     index: '03',
-    title: 'Fijación',
-    subtitle: 'GPS',
-    note: 'Coordenadas, precisión y dirección.',
-    icon: '📍',
+    title: 'GPS',
+    subtitle: 'Fijación',
+    note: 'Coordenadas y dirección.',
+    ionicon: 'locate-outline',
   },
   {
     href: '/movimiento',
     index: '04',
-    title: 'Inercia',
-    subtitle: 'Sensores',
-    note: 'Acelerómetro y giroscopio en tres ejes.',
-    icon: '📐',
+    title: 'Sensores',
+    subtitle: 'Inercia',
+    note: 'Acelerómetro y giroscopio.',
+    ionicon: 'pulse-outline',
   },
   {
     href: '/biometria',
     index: '05',
     title: 'Biometría',
     subtitle: 'Seguridad',
-    note: 'Sensor de huella dactilar, Face ID o PIN.',
-    icon: '🔐',
+    note: 'Huella, Face ID o PIN.',
+    ionicon: 'finger-print-outline',
   },
 ];

@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, useColorScheme } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useIsFocused } from 'expo-router';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { GhostButton, Masthead, PrimaryButton, Screen } from '../components/Chrome';
+import { useTheme } from '../context/ThemeContext';
 import { makeColors, type } from '../theme';
 
 export default function LectorScreen() {
-  const scheme = useColorScheme();
-  const c = makeColors(scheme === 'dark');
+  const { dark } = useTheme();
+  const c = makeColors(dark);
 
   const focused = useIsFocused();
   const [permission, requestPermission] = useCameraPermissions();
@@ -25,7 +26,7 @@ export default function LectorScreen() {
     return (
       <Screen>
         <Masthead back title="Lectura" />
-        <Text style={{ color: c.muted, fontSize: 16, lineHeight: 24, marginBottom: 24 }}>
+        <Text style={{ color: c.muted, fontSize: 15, lineHeight: 22, marginBottom: 24 }}>
           El visor necesita cámara para decodificar QR y códigos de barras. El permiso es el mismo
           que usa el obturador.
         </Text>
@@ -43,7 +44,7 @@ export default function LectorScreen() {
       <View style={{
         flex: 1,
         marginHorizontal: 24,
-        borderRadius: 12,
+        borderRadius: 8,
         overflow: 'hidden',
         backgroundColor: '#000',
       }}>
@@ -74,7 +75,7 @@ export default function LectorScreen() {
             height: 220,
             borderWidth: 1.5,
             borderColor: 'rgba(255,255,255,0.7)',
-            borderRadius: 16,
+            borderRadius: 12,
           }} />
           <Text style={{
             marginTop: 14,

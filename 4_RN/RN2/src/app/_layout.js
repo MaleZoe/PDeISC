@@ -1,11 +1,10 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useColorScheme } from 'react-native';
+import { ThemeProvider, useTheme } from '../context/ThemeContext';
 import { makeColors } from '../theme';
 
-export default function RootLayout() {
-  const scheme = useColorScheme();
-  const dark = scheme === 'dark';
+function Inner() {
+  const { dark } = useTheme();
   const c = makeColors(dark);
   return (
     <>
@@ -18,5 +17,13 @@ export default function RootLayout() {
         }}
       />
     </>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <ThemeProvider>
+      <Inner />
+    </ThemeProvider>
   );
 }
